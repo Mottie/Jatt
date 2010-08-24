@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+
+<title>Tooltips</title>
+ <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.js"></script>
+ <script type="text/javascript" src="js/jatt.js"></script>
+ <script type="text/javascript" src="js/jatt-demo.js"></script>
+ <link type="text/css" href="css/jatt-demo.css" rel="stylesheet">
+ <style type="text/css">
+ .tooltip, .preview, .screenshot { cursor: pointer; }
+ #tooltip { width: 250px; }
+ #tooltip, #preview {
+  color: #dddddd;
+  background: #444;
+  border: 1px solid #777;
+   padding: 8px;
+  display: none;
+  opacity: 0.9;
+  filter: alpha(opacity=90);
+  text-align: left;
+  border-radius: 1em;
+  -moz-border-radius: 1em;
+  -webkit-border-radius: 1em;
+ }
+ </style>
+</head><body class="meta">
+
+ <h2>Just Another Tooltip (Jatt)<br>Dynamic Metadata Demo</h2>
+
+<div id="left">
+ (hover over the star)
+ <div class="spacer"></div>
+ <span><img src="images/star.png" id="test" class="tooltip { background: #444444; color: #dddddd; width: 150px; border: #777 1px solid; direction: n; followMouse: true; content: title; speed: 300; local: true; xOffset: 20; yOffset: 20; zIndex: 1000; }" title="Some message" alt="star"></span>
+ <div class="spacer"></div>
+ Jatt Demo HTML<br>
+ <textarea id="code" rows="7" cols="50"></textarea>
+</div>
+
+<div id="right">
+ <h3>Tooltip position</h3>
+ <input name="dir" type="radio" id="dnw" value="nw" >
+ <input name="dir" type="radio" id="dn" value="n" checked >
+ <input name="dir" type="radio" id="dne" value="ne" ><br>
+
+ <input name="dir" type="radio" id="dw" value="w" >
+ Object
+ <input name="dir" type="radio" id="de" value="e" ><br>
+
+ <input name="dir" type="radio" id="dsw" value="sw" >
+ <input name="dir" type="radio" id="ds" value="s" >
+ <input name="dir" type="radio" id="dse" value="se" >
+
+ <br><br>
+
+ <table class="meta">
+  <tr><td class="label"><label for="fm">Follow Mouse:</label></td><td><input name="follow" type="checkbox" id="fm" value="true" checked ></td></tr>
+  <tr><td class="label">Speed:</td><td><input class="val" type="text" id="sp" value="300"></td></tr>
+  <tr><td class="label"><label for="lo">Local:</label></td><td><input name="local" type="checkbox" id="lo" value="true" checked ></td></tr>
+  <tr><td class="label">xOffset:</td><td><input class="val" type="text" id="xo" value="20"></td></tr>
+  <tr><td class="label">yOffset:</td><td><input class="val" type="text" id="yo" value="20"></td></tr>
+  <tr><td class="label">zIndex:</td><td><input class="val" type="text" id="zi" value="1000"></td></tr>
+  <tr><td class="label"><br>Content:</td><td><br><select class="val" id="co"><option value="title">title</option><option value="alt">alt</option></select></td></tr>
+  <tr><td class="label">Title:</td><td><input class="val" type="text" id="ti" value="Some message"></td></tr>
+  <tr><td class="label">Alt:</td><td><input class="val" type="text" id="al" value="star"></td></tr>
+  <tr><td class="label"><br>Width:</td><td><br><input class="val" type="text" id="wi" value="150"></td></tr>
+  <tr><td class="label">Background:</td><td><input class="val2" type="text" id="bk" value="#444444"></td></tr>
+  <tr><td class="label">Text Color:</td><td><input class="val2" type="text" id="tc" value="#dddddd"></td></tr>
+  <tr><td class="label">Border:</td><td><input class="val2" type="text" id="bo" value="#777 1px solid"></td></tr>
+ </table>
+
+</div>
+
+</body></html>

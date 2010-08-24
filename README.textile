@@ -13,35 +13,31 @@ h2. Usage & Options (defaults)
 
 Script:
 <pre>$.jatt({
-  // options that can be modified by metadata
-  direction   : 'n',     // direction of tooltip
-  followMouse : true,    // tooltip follows mouse movement
-  content     : 'title', // attribute containing tooltip text
-  speed       : 300,     // tooltip fadein speed
-  local       : false,   // if true, the script attachs the tooltip locally; if false, the tooltip is added to the body
-  xOffset     : 20,      // x distance from mouse (no negative values)
-  yOffset     : 20,      // y distance from mouse (no negative values)
-  zIndex      : 1000,    // z-index of tooltip
-
-  // options not supported by metadata
-  live        : false,                 // use live event support?
-  metadata    : 'class',               // attribute that contains the metadata, use "false" (no quotes) to disable the metadata.
-  activate    : 'mouseenter focusin',  // how tooltip is activated
-  deactivate  : 'mouseleave focusout', // how tooltip is deactivated
-
-  // change tooltip, screenshot and preview
-  tooltip     : 'tooltip',             // class & id used for tooltip
-  screenshot  : 'screenshot',          // class & id used for screenshot and preview
-  preview     : 'preview'              // class used for preview
- });</pre>
+ // options that can be modified by metadata
+ direction   : 'n',     // direction of tooltip
+ followMouse : true,    // tooltip follows mouse movement
+ content     : 'title', // attribute containing tooltip text
+ speed       : 300,     // tooltip fadein speed
+ local       : false,   // if true, the script attachs the tooltip locally; if false, the tooltip is added to the body
+ xOffset     : 20,      // x distance from mouse (no negative values)
+ yOffset     : 20,      // y distance from mouse (no negative values)
+ zIndex      : 1000,    // z-index of tooltip
+ // options not supported by metadata
+ live        : false,                 // use live event support?
+ metadata    : 'class',               // attribute that contains the metadata, use "false" (no quotes) to disable the metadata.
+ activate    : 'mouseenter focusin',  // how tooltip is activated
+ deactivate  : 'mouseleave focusout', // how tooltip is deactivated
+ // change tooltip, screenshot and preview
+ tooltip     : 'tooltip',             // class & id used for tooltip
+ screenshot  : 'screenshot',          // class & id used for screenshot and preview
+ preview     : 'preview'              // class used for preview
+});
+</pre>
 
 HTML examples (see more in the provided demo pages):
-<pre>
-  &lt;a class="tooltip {direction:n; width:100px;}" href="http://www.url.com" title="Tooltip Content"&gt;Displayed text&lt;/a&gt;
-
-  &lt;a class="preview {direction:e; text-align:center;}" href="google2.jpg" title="Google's Logo"&gt;&lt;img src="google1.jpg" /&gt;&lt;/a&gt;
-
-  &lt;a class="screenshot {direction:e;}" href="http://www.google.com/" rel="#" title="&lt;center&gt;Google&lt;/center&gt;"&gt;Google&lt;/a&gt;
+<pre> &lt;a class="tooltip {direction:n; width:100px;}" href="http://www.url.com" title="Tooltip Content"&gt;Displayed text&lt;/a&gt;
+ &lt;a class="preview {direction:e; text-align:center;}" href="google2.jpg" title="Google's Logo"&gt;&lt;img src="google1.jpg" /&gt;&lt;/a&gt;
+ &lt;a class="screenshot {direction:e;}" href="http://www.google.com/" rel="#" title="&lt;center&gt;Google&lt;/center&gt;"&gt;Google&lt;/a&gt;
 </pre>
 
 h2. Changelog

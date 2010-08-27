@@ -2,7 +2,7 @@
 <html><head>
 <title>Tooltips</title>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.js"></script>
-<script type="text/javascript" src="js/jatt.min.js"></script>
+<script type="text/javascript" src="js/jatt.js"></script>
 <link type="text/css" href="css/jatt-demo.css" rel="stylesheet">
 
 <style type="text/css">
@@ -21,6 +21,7 @@
  -moz-border-radius: 1em;
  -webkit-border-radius: 1em;
 }
+.spacer { height: 20px; }
 </style>
 
 <script type="text/javascript">
@@ -30,7 +31,9 @@ $(document).ready(function(){
 </script>
 
 </head><body class="meta">
-<br><br><br><br><br>
+
+<div class="spacer"></div>
+
 <span class="tooltip" title="Tesing1">span (no width set) - normal tooltip</span>
 <br><br>
 <span class="tooltip {width:100px;background:#0080ff;color:#ddd;}" title="Tesing2">span ( width = 100 ) - normal tooltip</span>
@@ -48,7 +51,7 @@ Image tooltip (img.tooltip): <img class="tooltip" src="images/popup.gif" title="
 <br><br>
 Image in link (a.preview): <a class="preview" href="images/google2.png" title="<center>Google logo</center>"><img src="images/popup.gif"></a>
 <br><br>
-Link w/ wide image (a.screenshot): <a class="screenshot" href="#" title="<center>my background</center>" rel="images/wide.gif">URL screenshot---------------------------------------------------------------------------------------------------------------------xxx</a>
+Link w/ wide image (a.screenshot): <a class="screenshot { direction: e }" href="#" title="<center>my background</center>" rel="images/wide.gif">URL screenshot---------------------------------------------------------------------------------------------------------------------xxx</a>
 <br><br>
 Screenshot with web generated preview (a.screenshot): <a class="screenshot" href="http://www.google.com" title="<center>Google</center>" rel="#">URL screenshot 2</a>
 <br><br>
@@ -61,9 +64,7 @@ Screenshot with web generated preview (a.screenshot): <a class="screenshot" href
 <a class="tooltip {direction:ne;width:200px;background:#9bff8f;color:#333333;}" href="javascript:void(0);" title="Tooltip testing">Link</a>
 <br><br>
 <img class="tooltip {width:300px;background:#008080;color:#dddddd;}" title="This is a test of using &quot;quotes&quot; and apostrophe's in the text.<br>As well as images <img src='images/popup.gif'>" src="images/popup.gif">
-<br><br>
 
-
-<br><br><br><br><br><br><br><br><br>
+<div class="spacer"></div>
 
 </body></html>

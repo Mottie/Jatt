@@ -52,12 +52,9 @@ function objClone(obj) {
       } else if (url !== '') {
        tt = 'Loading...';
        // Load tooltip from external page
-       $('body').append('<div id="ttloader"></div>');
-       var ttloader = $('#ttloader');
+       var ttloader = $('<div />');
        ttloader.load(url, function(){
         $('#' + o.tooltip).html( ttloader.html() );
-        obj.data('tooltip', ttloader.html()); // save tooltip content
-        ttloader.remove();
        });
       }
      }
@@ -153,23 +150,27 @@ function objClone(obj) {
        tttop = curY + dir[1];
 
    // some basic repositioning if the tooltip is out of the viewport
-   // works best for tooltips in the n,s,e,w position
    if ( curX + dir[2] > wscrX + $(window).width() - opt.xOffset ) { ttleft = $(window).width() - ttw - opt.xOffset; }
    if ( curY + dir[3] > wscrY + $(window).height() - opt.yOffset ) { tttop = curY - tth - opt.yOffset; }
    if ( ttleft < wscrX + opt.xOffset ) { ttleft = wscrX + opt.xOffset; }
    if ( tttop < wscrY + opt.yOffset ) {  tttop = curY + opt.yOffset; }
+
+   // prevent mouse from being inside tooltip & causes a flicker on mouse move
+   if ( curX > ttleft && curX < ttleft + ttw && curY > tttop && curY < tttop + tth ) {
+    tttop += ( (tttop - tth/2 - opt.yOffset) < wscrY + opt.yOffset ) ? tth/2 + opt.yOffset : -tth/2 - opt.yOffset;
+   }
 
    $(ttid).css({ left : ttleft + 'px', top : tttop + 'px' });
   };
 
   $.jatt.getMeta = function(el){
    opt = objClone(o);
-   var t, m = '',
-    opts = 'direction|followMouse|content|speed|local|xOffset|yOffset|zIndex',
-    meta = el.attr(o.metadata).match(/(\{.*\})/g) || '';
+   var meta = el.attr(o.metadata).match(/(\{.*\})/g) || '';
    if (meta !== '') {
+    var t, m = '', opts = 'direction|followMouse|content|speed|local|xOffset|yOffset|zIndex';
     meta = meta[0].replace(/(\{|\'|\"|\})/g,''); // remove curly brackets, spaces, apostrophes and quotes
     if (meta.match(opts)) {
+     // split out tooltip options, assume everything else is css
      $.each( meta.split(';'), function(i,val){
       t = val.split(':');
       if (t[0].match(opts)) {

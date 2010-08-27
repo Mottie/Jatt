@@ -36,7 +36,7 @@ function objClone(obj) {
    // Tooltips
    $('.' + o.tooltip)
     [evt](o.activate,function(e){
-     var d, obj = $(this),
+     var obj = $(this),
          meta = (o.metadata.toString() == 'false') ? [o, ''] : $.jatt.getMeta(obj);
      opt = meta[0]; // meta options
      var tt = (obj.attr(opt.content) === '') ? obj.data('tooltip') || '' : obj.attr(opt.content) || '',
@@ -51,19 +51,13 @@ function objClone(obj) {
        tt = $(rel).html() || 'No tooltip found';
       } else if (url !== '') {
        tt = 'Loading...';
-        // Load tooltip from external page
-       $.get(url, function(data){
-        url = url.split(' ');
-        url.shift(); // get selectors
-        var filt = url.shift() || ''; // '#target'
-        url = url.join(' '); // 'span' + any other selectors
-        if (filt.match(/\#|\./)) {
-         d = (url === '') ? $(data).filter(filt).html() : $(data).filter(filt).find(url).html();
-        } else {
-         d = data;
-        }
-        $('#' + o.tooltip).html(d);
-        obj.data('tooltip', d); // save tooltip content
+       // Load tooltip from external page
+       $('body').append('<div id="ttloader"></div>');
+       var ttloader = $('#ttloader');
+       ttloader.load(url, function(){
+        $('#' + o.tooltip).html( ttloader.html() );
+        obj.data('tooltip', ttloader.html()); // save tooltip content
+        ttloader.remove();
        });
       }
      }

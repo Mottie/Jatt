@@ -2,7 +2,7 @@
 <html><head>
 <title>Tooltips</title>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.js"></script>
-<script type="text/javascript" src="js/jatt.min.js"></script>
+<script type="text/javascript" src="js/jatt.js"></script>
 <script type="text/javascript" src="js/jquery.xdomainajax.js"></script>
 <link type="text/css" href="css/jatt-demo.css" rel="stylesheet">
 
@@ -80,7 +80,7 @@ $(document).ready(function(){
    <li>class="tooltip { metadata }" (optional) - Add any of the predefined options (listed below) or any css style to apply to the tooltip.</li>
    <li>title="<span style="color: teal;">Tooltip content</span>" (optional) - The title attribute should contain whatever you want to display inside the tooltip. This can include HTML but Do NOT use quotes in the content. If you are using HTML tags, replace the quotes with single quotes, e.g. &lt;img src='popup.gif'&gt;. If you must use quotes to surround some text, use the HTML escape code <span style="color: teal;">&amp;quot;</span> - this text has <span style="color: teal;">&amp;quot;</span>quotes<span style="color: teal;">&amp;quot;</span> around it.</li>
    <li>rel="<span style="color: orange;">selector</span>" (optional) - If the "title" attribute is empty, the script will look in the "rel" attribute for a selector that points to an object containing the tooltip content (see the "External object (div)" example above).</li>
-   <li>href="<span style="color: orange;">page.htm #target span:first</span>" (optional) - If the "title" and "rel" attributes are both empty, the script will look in the "href" attribute for a URL to an external page. The URL can be followed by an id or class selectors pointing to the tooltip contents (see the "External page (a)" example above).</li>
+   <li>href="<span style="color: orange;">page.htm #target span</span>" (optional) - If the "title" and "rel" attributes are both empty, the script will look in the "href" attribute for a URL to an external page. The URL can be followed by an id or class selectors pointing to the tooltip contents (see the "External page (a)" example above).</li>
   </ul>
  </li><br>
  <li>

@@ -34,7 +34,7 @@ function objClone(obj) {
    var evt = (o.live) ? 'live' : 'bind';
 
    // Tooltips
-   $('.' + o.tooltip)
+   $(o.tooltip)
     [evt](o.activate,function(e){
      var obj = $(this),
          meta = (o.metadata.toString() == 'false') ? [o, ''] : $.jatt.getMeta(obj);
@@ -54,29 +54,29 @@ function objClone(obj) {
        // Load tooltip from external page
        var ttloader = $('<div />');
        ttloader.load(url, function(){
-        $('#' + o.tooltip).html( ttloader.html() );
+        $('#' + o.tooltipId).html( ttloader.html() );
        });
       }
      }
      // build tooltip & styling from metadata
-     var tmp = '<div id="' + o.tooltip + '" style="position:absolute;z-index:' + opt.zIndex + ';' + meta[1] + '">' + tt + '</div>';
+     var tmp = '<div id="' + o.tooltipId + '" style="position:absolute;z-index:' + opt.zIndex + ';' + meta[1] + '">' + tt + '</div>';
      if (opt.local){
       obj.before(tmp);
      } else {
       $('body').append(tmp);
      }
-     $.jatt.ttrelocate(e, '#' + o.tooltip);
-     $('#' + o.tooltip).fadeIn(opt.speed);
+     $.jatt.ttrelocate(e, '#' + o.tooltipId);
+     $('#' + o.tooltipId).fadeIn(opt.speed);
     })
     [evt](o.deactivate,function(e) {
-     $('#' + o.tooltip).remove();
+     $('#' + o.tooltipId).remove();
     })
     [evt]('mousemove',function(e) {
-     if (opt.followMouse) { $.jatt.ttrelocate(e, '#' + o.tooltip); }
+     if (opt.followMouse) { $.jatt.ttrelocate(e, '#' + o.tooltipId); }
     });
 
    // Image & URL screenshot preview
-   $('a.' + o.preview + ', a.' + o.screenshot)
+   $(o.preview + ',' + o.screenshot)
     [evt](o.activate,function(e){
      var obj = $(this),
          meta = (o.metadata.toString() == 'false') ? [o, ''] : $.jatt.getMeta(obj);
@@ -84,26 +84,26 @@ function objClone(obj) {
      var tt = (obj.attr(opt.content) === '') ? obj.data('tooltip') || '' : obj.attr(opt.content) || '';
      obj.data('tooltip', tt);
      if (opt.content == 'title') { obj.attr(opt.content, ''); } // leave title attr empty
-     var tmp = '<div id="' + o.preview + '" style="position:absolute;z-index:' + opt.zIndex + ';' + meta[1] + '"><img src="';
+     var tmp = '<div id="' + o.previewId + '" style="position:absolute;z-index:' + opt.zIndex + ';' + meta[1] + '"><img src="';
      var c = (tt !== '') ? '<br/>' + tt : '';
      /* use websnapr.com to get website thumbnail preview if rel="#" */
-     var ss = (obj.is('.' + o.screenshot) && this.rel == '#') ? 'http://images.websnapr.com/?url=' + this.href : this.rel;
-     tmp += (obj.is('.' + o.preview)) ? this.href + '" alt="Image preview" />' : ss + '" alt="URL preview: ' + this.href + '" />';
+     var ss = (obj.is(o.screenshot) && this.rel == '#') ? 'http://images.websnapr.com/?url=' + this.href : this.rel;
+     tmp += (obj.is(o.preview)) ? this.href + '" alt="Image preview" />' : ss + '" alt="URL preview: ' + this.href + '" />';
      tmp += c + '</div>';
      if (opt.local){
       obj.before(tmp);
      } else {
       $('body').append(tmp);
      }
-     $('#' + o.preview).data('options',opt);
-     $.jatt.ttrelocate(e, '#' + o.preview);
-     $('#' + o.preview).fadeIn(opt.speed);
+     $('#' + o.previewId).data('options',opt);
+     $.jatt.ttrelocate(e, '#' + o.previewId);
+     $('#' + o.previewId).fadeIn(opt.speed);
     })
     [evt](o.deactivate,function(e){
-     $('#' + o.preview).remove();
+     $('#' + o.previewId).remove();
     })
     [evt]('mousemove',function(e){
-     if (opt.followMouse) { $.jatt.ttrelocate(e, '#' + o.preview); }
+     if (opt.followMouse) { $.jatt.ttrelocate(e, '#' + o.previewId); }
     });
 
   }; // end init
@@ -210,10 +210,14 @@ function objClone(obj) {
   activate       : 'mouseenter focusin',  // how tooltip is activated
   deactivate     : 'mouseleave focusout', // how tooltip is deactivated
 
-  // change tooltip, screenshot and preview
-  tooltip        : 'tooltip',             // class & id used for tooltip
-  screenshot     : 'screenshot',          // class & id used for screenshot and preview
-  preview        : 'preview'              // class used for preview
+  // change tooltip, screenshot and preview class
+  tooltip        : '.tooltip',            // tooltip class 
+  screenshot     : 'a.screenshot',        // screenshot class
+  preview        : 'a.preview',           // preview class
+  
+  // tooltip & preview ID (div that contains the tooltip)
+  tooltipId      : 'tooltip',             // ID of actual tooltip
+  previewId      : 'preview'              // ID of screenshot/preview tooltip 
  };
 
 })(jQuery);

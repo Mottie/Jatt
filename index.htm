@@ -125,25 +125,29 @@ $(document).ready(function(){
  <pre class="brush: css">$(document).ready(function(){
  $.jatt({
   // options that can be modified by metadata
-  direction      : 'n',     // direction of tooltip
-  followMouse    : true,    // tooltip follows mouse movement
-  content        : 'title', // attribute containing tooltip text
-  speed          : 300,     // tooltip fadein speed
-  local          : false,   // if true, the script attachs the tooltip locally; if false, the tooltip is added to the body
-  xOffset        : 20,      // x distance from mouse (no negative values)
-  yOffset        : 20,      // y distance from mouse (no negative values)
-  zIndex         : 1000,    // z-index of tooltip
+  direction   : 'n',     // direction of tooltip
+  followMouse : true,    // tooltip follows mouse movement
+  content     : 'title', // attribute containing tooltip text
+  speed       : 300,     // tooltip fadein speed
+  local       : false,   // if true, the script attachs the tooltip locally; if false, the tooltip is added to the body
+  xOffset     : 20,      // x distance from mouse (no negative values)
+  yOffset     : 20,      // y distance from mouse (no negative values)
+  zIndex      : 1000,    // z-index of tooltip
 
   // options not supported by metadata
-  live           : false,                 // use live event support?
-  metadata       : 'class',               // attribute that contains the metadata, use "false" (no quotes) to disable the metadata.
-  activate       : 'mouseenter focusin',  // how tooltip is activated
-  deactivate     : 'mouseleave focusout', // how tooltip is deactivated
+  live        : false,                 // use live event support?
+  metadata    : 'class',               // attribute that contains the metadata, use "false" (no quotes) to disable the metadata.
+  activate    : 'mouseenter focusin',  // how tooltip is activated
+  deactivate  : 'mouseleave focusout', // how tooltip is deactivated
 
-  // change tooltip, screenshot and preview
-  tooltip        : 'tooltip',             // class & id used for tooltip
-  screenshot     : 'screenshot',          // class & id used for screenshot and preview
-  preview        : 'preview'              // class used for preview
+  // change tooltip, screenshot and preview class
+  tooltip     : '.tooltip',            // tooltip class 
+  screenshot  : 'a.screenshot',        // screenshot class
+  preview     : 'a.preview',           // preview class
+  
+  // tooltip & preview ID (div that contains the tooltip)
+  tooltipId   : 'tooltip',             // ID of actual tooltip
+  previewId   : 'preview'              // ID of screenshot/preview tooltip 
  });
 });</pre>
  </li>
@@ -168,9 +172,11 @@ $(document).ready(function(){
     <tr><td>metadata</td><td>'class'</td><td>Location of the tooltip metadata. By default it will look in the class attribute. If set to "false" it will disable the metadata.</td></tr>
     <tr><td>activate</td><td>'mouseenter focusin'</td><td>The event that causes the tooltip to display information.</td></tr>
     <tr><td>deactivate</td><td>'mouseleave focusout'</td><td>The event that causes the tooltip to be removed.</td></tr>
-    <tr><td>tooltip</td><td>'tooltip'</td><td>The class used to activate the tooltip. And the ID of the actual tooltip.</td></tr>
-    <tr><td>screenshot</td><td>'screenshot'</td><td>The class used to activate the screenshot script which shows an image associated with the URL. And this is the ID of both the screenshot & preview tooltips.</td></tr>
-    <tr><td>preview</td><td>'preview'</td><td>The class used to activate the preview script which shows the an image in the tooltip from the href.</td></tr>
+    <tr><td>tooltip</td><td>'.tooltip'</td><td>The class used to activate the tooltip. And the ID of the actual tooltip.</td></tr>
+    <tr><td>screenshot</td><td>'a.screenshot'</td><td>The class used to activate the screenshot script which shows an image associated with the URL. And this is the ID of both the screenshot & preview tooltips.</td></tr>
+    <tr><td>preview</td><td>'a.preview'</td><td>The class used to activate the preview script which shows the an image in the tooltip from the href.</td></tr>
+    <tr><td>tooltipId</td><td>'tooltip'</td><td>The ID of the actual tooltip.</td></tr>
+    <tr><td>previewId</td><td>'preview'</td><td>The ID of the actual preview/screenshot tooltip (the share the same one).</td></tr>
    </tbody>
   </table>
 
@@ -179,7 +185,7 @@ $(document).ready(function(){
 
 <span style="font-size: 130%;">Known Issues</span><br>
 <ul>
- <li>If the tooltip contents go out of the viewport, the script attempt to adjust the tooltip to make it visible. If it moves the tooltip under the mouse, the tooltip will flicker and become unreadable. This occurs when the east or west direction is used, so limit use of 'east' when the tooltip is near the right side and 'west' when it is near the left. I'll look into fixing this problem in future versions.</li>
+ <li>Fixed: <del>If the tooltip contents go out of the viewport, the script attempt to adjust the tooltip to make it visible. If it moves the tooltip under the mouse, the tooltip will flicker and become unreadable. This occurs when the east or west direction is used, so limit use of 'east' when the tooltip is near the right side and 'west' when it is near the left. I'll look into fixing this problem in future versions.</del></li>
 <li>The tooltip script won't obtain cross-domain ajax requests by default, but I have included James Padolsey's <a href="http://github.com/jamespadolsey/jQuery-Plugins/tree/master/cross-domain-ajax/">cross-domain ajax</a> script (jquery.xdomainajax.js) which should enable it. Just include the script in the head of your document.</li>
  <li>If you find any other issues, please submit an issue to <a href="http://github.com/Mottie/Jatt/issues">Jatt's github repository</a>.
 </ul>

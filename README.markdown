@@ -28,10 +28,14 @@ Script:
      activate    : 'mouseenter focusin',  // how tooltip is activated
      deactivate  : 'mouseleave focusout', // how tooltip is deactivated
 
-     // change tooltip, screenshot and preview
-     tooltip     : 'tooltip',             // class & id used for tooltip
-     screenshot  : 'screenshot',          // class & id used for screenshot and preview
-     preview     : 'preview'              // class used for preview
+     // change tooltip, screenshot and preview class
+     tooltip     : '.tooltip',            // tooltip class 
+     screenshot  : 'a.screenshot',        // screenshot class
+     preview     : 'a.preview',           // preview class
+
+     // tooltip & preview ID (div that contains the tooltip)
+     tooltipId   : 'tooltip',             // ID of actual tooltip
+     previewId   : 'preview'              // ID of screenshot/preview tooltip 
     });
 
 HTML examples (see more in the provided demo pages):

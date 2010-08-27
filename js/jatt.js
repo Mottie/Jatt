@@ -43,7 +43,7 @@ function objClone(obj) {
          rel = obj.attr('rel') || '',
          url = obj.attr('href') || '';
      obj.data('tooltip', tt);
-     if (opt.content == 'title') { obj.attr(opt.content, ''); }
+     obj.attr('title', ''); // clear title to stop default tooltip
 
      // Load tooltip content from an object on the page
      if (tt === ''){

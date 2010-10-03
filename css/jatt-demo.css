@@ -9,12 +9,12 @@
 body {
  background: #222;
  color: #ddd;
+ width: 900px;
+ margin: 0 auto;
 }
 
-body.meta {
+.center {
  text-align: center;
- width: 800px;
- margin: 0 auto;
 }
 
 a:link { color: #fc0; text-decoration: none; }
@@ -33,6 +33,10 @@ h3 {
 
 .spacer {
  height: 120px;
+}
+
+.examples div.tooltip {
+ border: #444 1px solid;
 }
 
 .meta {

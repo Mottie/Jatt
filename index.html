@@ -2,7 +2,7 @@
 <html><head>
 <title>Tooltips</title>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.js"></script>
-<script type="text/javascript" src="js/jatt.js"></script>
+<script type="text/javascript" src="js/jquery.jatt.js"></script>
 <script type="text/javascript" src="js/jquery.xdomainajax.js"></script>
 <link type="text/css" href="css/jatt-demo.css" rel="stylesheet">
 
@@ -31,12 +31,16 @@ $(document).ready(function(){
 </script>
 
 </head><body>
+<div class="center">
+Demos: <a href="index.html">Documents</a> | <a href="demo-metadata.htm">Dynamic metadata</a> | <a href="demo-more-examples.htm">Examples</a><br>
+<h2>Documents</h2>
+</div>
 
-<span class="style1" style="font-size: 130%;">Adding the Tooltips</span>
-<br><br>
+<h2>Adding the Tooltips</h2>
+
 First make sure you have jQuery installed on your site, download the latest version from <a href="http://jquery.com/">jQuery</a>. Then add the following CSS and script to your site, or you can <a href="http://github.com/Mottie/Jatt">download the script here</a>.<br>
 <br>
-Basic setup
+<h3>Basic setup</h3>
 <blockquote class="pre">
 <pre class="brush: js; html-script: true">&lt;style type="text/css"&gt;
 .tooltip, .preview, .screenshot { cursor:pointer; }
@@ -55,18 +59,17 @@ Basic setup
  display:none;
 }
 &lt;/style&gt;
-&lt;script src="jatt.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="jquery.jatt.js" type="text/javascript"&gt;&lt;/script&gt;
 &lt;script type="text/javascript"&gt;
 $(document).ready(function(){
  $.jatt();
 });
 &lt;/script&gt;</pre>
 </blockquote>
-<span style="font-size: 130%;">Using the Tooltips</span>
+<h2>Using the Tooltips</h2>
 <ul>
  <li>
-  <b>Basic Tooltip</b><br>
-  <br>
+  <h3>Basic Tooltip</h3>
   <table class="keytable"><tbody>
    <tr><td align="center" width="130"><a class="tooltip {direction:n;width:100px;background:#222;color:#ddd;}" href="http://www.url.com" title="Tooltip (a) Content">basic tip (a)</a></td><td>&lt;a class="<span style="color: #0080ff;">tooltip</span> { direction: n; width: 100px; background: #222; color: #ddd; }" href="<span style="color: orange;">#</span>" title="<span style="color: teal;">Tooltip (a) Content</span>"&gt;basic tip (a))&lt;/a&gt;</td></tr>
    <tr><td align="center"><a class="tooltip {direction:ne;width:200px;}" href="demo-external-content.htm #target span">External page (a)</a></td><td>&lt;a class="<span style="color: #0080ff;">tooltip</span> { direction: ne; width: 200px; }" href="<span style="color: orange;">demo-external-content.htm #target span</span>"&gt;External page (a)&lt;/span&gt;</td></tr>
@@ -84,8 +87,7 @@ $(document).ready(function(){
   </ul>
  </li><br>
  <li>
-  <b><span style="font-size: 100%;">Preview Tooltips</span></b><br>
-  <br>
+  <h3>Preview Tooltips</h3>
   <table class="keytable"><tbody>
    <tr><td align="center"><a class="preview {direction:e;opacity:1;text-align:center;}" href="images/google2.png" title="Google's Logo"><img src="images/google1.png" /></a></td><td>&lt;a class="<span style="color: #0080ff;">preview</span> { direction: e; opacity: 1; text-align: center; }" href="<span style="color: orange;">URL to full size image</span>" title="<span style="color: teal;">Google's Logo</span>"&gt;<span style="color: darkgrey;">&lt;img src="</span><span style="color: darkgrey;">URL to image thumbnail"&gt;</span>&lt;/a&gt; </td></tr>
   </tbody></table>
@@ -99,8 +101,7 @@ $(document).ready(function(){
   <br>
  </li>
 
- <li><b><span style="font-size: 100%;">Screenshot Tooltips</span></b><br>
-  <br>
+ <li><h3>Screenshot Tooltips</h3>
   <table class="keytable"><tbody>
    <tr><td align="center"><a class="screenshot {direction:e;opacity:1;text-align:center;}" href="http://www.guildportal.com/Guild.aspx?GuildID=194525&amp;TabID=1643295" rel="images/site.jpg" title="Loch Modan Yacht Club">LMYC</a></td><td>&lt;a class="<span style="color: #0080ff;">screenshot</span> { direction: e; opacity: 1; text-align: center; } " href="<span style="color: orange;">http://www.guildportal.com/Guild.aspx?GuildID=194525&amp;TabID=1643295</span>" title="<span style="color: teal;">&lt;center&gt;Loch Modan Yacht Club&lt;/center&gt;</span>" rel="<span style="color: skyblue;">Website_Screenshot.jpg</span>"&gt;<span style="color: darkgrey;">LMYC</span>&lt;/a&gt;</td></tr>
    <tr><td><a class="screenshot {direction:e;}" href="http://www.google.com/" rel="#" title="<center>Google</center>">Google</a></td><td>&lt;a class="<span style="color: #0080ff;">screenshot</span> { direction: e; }" href="<span style="color: orange;">http://www.google.com</span>" title="<span style="color: teal;">&lt;center&gt;Google&lt;/center&gt;</span>" rel="<span style="color: skyblue;">#</span>"&gt;<span style="color: darkgrey;">Google</span>&lt;/a&gt;</td></tr>
@@ -118,9 +119,10 @@ $(document).ready(function(){
 </li>
 </ul>
 
-<span style="font-size: 130%;">Customizing</span><br>
+<h2>Customizing</h2>
 <ul>
- <li>Initializing the script (showing all default settings)<br>
+ <li><h3>Initializing the script (showing all default settings)</h3></li>
+</ul>
  <blockquote class="pre">
  <pre class="brush: css">$(document).ready(function(){
  $.jatt({
@@ -129,14 +131,14 @@ $(document).ready(function(){
   followMouse : true,    // tooltip follows mouse movement
   content     : 'title', // attribute containing tooltip text
   speed       : 300,     // tooltip fadein speed
-  local       : false,   // if true, the script attachs the tooltip locally; if false, the tooltip is added to the body
+  local       : false,   // if true, the script attachs the tooltip locally & to the body if false
   xOffset     : 20,      // x distance from mouse (no negative values)
   yOffset     : 20,      // y distance from mouse (no negative values)
   zIndex      : 1000,    // z-index of tooltip
 
   // options not supported by metadata
   live        : false,                 // use live event support?
-  metadata    : 'class',               // attribute that contains the metadata, use "false" (no quotes) to disable the metadata.
+  metadata    : 'class',               // attribute containing the metadata, use "false" (no quotes) to disable.
   activate    : 'mouseenter focusin',  // how tooltip is activated
   deactivate  : 'mouseleave focusout', // how tooltip is deactivated
 
@@ -150,9 +152,9 @@ $(document).ready(function(){
   previewId   : 'preview'              // ID of screenshot/preview tooltip 
  });
 });</pre>
- </li>
- <li>List of Options<br>
- <br>
+</blockquote>
+<ul>
+ <li><h3>List of Options</h3>
   <table class="keytable">
    <tbody>
     <tr style="background-color: #555555; color: #dddddd;">
@@ -183,7 +185,7 @@ $(document).ready(function(){
  </li>
 </ul>
 
-<span style="font-size: 130%;">Known Issues</span><br>
+<h2>Known Issues</h2>
 <ul>
  <li>Fixed: <del>If the tooltip contents go out of the viewport, the script attempt to adjust the tooltip to make it visible. If it moves the tooltip under the mouse, the tooltip will flicker and become unreadable. This occurs when the east or west direction is used, so limit use of 'east' when the tooltip is near the right side and 'west' when it is near the left. I'll look into fixing this problem in future versions.</del></li>
 <li>The tooltip script won't obtain cross-domain ajax requests by default, but I have included James Padolsey's <a href="http://github.com/jamespadolsey/jQuery-Plugins/tree/master/cross-domain-ajax/">cross-domain ajax</a> script (jquery.xdomainajax.js) which should enable it. Just include the script in the head of your document.</li>

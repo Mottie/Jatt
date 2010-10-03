@@ -2,7 +2,7 @@
 <html><head>
 <title>Tooltips</title>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.js"></script>
-<script type="text/javascript" src="js/jatt.js"></script>
+<script type="text/javascript" src="js/jquery.jatt.js"></script>
 <link type="text/css" href="css/jatt-demo.css" rel="stylesheet">
 
 <style type="text/css">
@@ -30,40 +30,44 @@ $(document).ready(function(){
 });
 </script>
 
-</head><body class="meta">
+</head><body class="center examples">
+
+Demos: <a href="index.html">Documents</a> | <a href="demo-metadata.htm">Dynamic metadata</a> | <a href="demo-more-examples.htm">Examples</a><br>
+<h2>Examples</h2>
+
 
 <div class="spacer"></div>
 
-<span class="tooltip" title="Tesing1">span (no width set) - normal tooltip</span>
+<span class="tooltip" title="Tesing1">span {} - normal tooltip, no metadata</span>
 <br><br>
-<span class="tooltip {width:100px;background:#0080ff;color:#ddd;}" title="Tesing2">span ( width = 100 ) - normal tooltip</span>
+<span class="tooltip {width:100px;background:#0080ff;color:#ddd;}" title="Tesing2">span {width:100px;background:#0080ff;color:#ddd;} - normal tooltip</span>
 <br><br>
-<div class="tooltip {width: 600px;}" title="1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 xx">div ( width = 600 ) -  big tooltip</div>
-<br><br>
-<div class="tooltip {width: 250px;}" rel="#test" title=""><div id="test" class="hidden">1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890</div>div (width 250) - tooltip from external div inside</div>
-<br><br>
-<a href="#" class="tooltip {width: 250px;}" rel="#test2">a (width 250) - tooltip from external div outside link</a>
+<div class="tooltip {width: 600px;}" title="1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 xx">div {width: 600px;} -  big tooltip</div>
+<br>
+<div class="tooltip {width: 250px;}" rel="#test" title=""><div id="test" class="hidden">1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890</div>div {width: 250px;} - tooltip from external div inside the div</div>
+<br>
+<a href="#" class="tooltip {width: 250px;}" rel="#test2">a {width: 250px;} - tooltip from external div outside link</a>
 <div id="test2" class="hidden">1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890</div>
 <br><br>
-<a class="tooltip" href="demo-external-content.htm #target span">a - tooltip from ajax</a>
+<a class="tooltip" href="demo-external-content.htm #target span">a {} - tooltip from ajax</a>
 <br><br>
-Image tooltip (img.tooltip): <img class="tooltip" src="images/popup.gif" title="cool icon!">
+Image tooltip (img.tooltip, no metadata): <img class="tooltip" src="images/popup.gif" title="cool icon!">
 <br><br>
-Image in link (a.preview): <a class="preview" href="images/google2.png" title="<center>Google logo</center>"><img src="images/popup.gif"></a>
+Image tooltip {width:300px;background:#008080;color:#dddddd;} <img class="tooltip {width:300px;background:#008080;color:#dddddd;}" title="This is a test of using &quot;quotes&quot; and apostrophe's in the text.<br>As well as images <img src='images/popup.gif'>" src="images/popup.gif">
 <br><br>
-Link w/ wide image (a.screenshot): <a class="screenshot { direction: e }" href="#" title="<center>my background</center>" rel="images/wide.gif">URL screenshot---------------------------------------------------------------------------------------------------------------------xxx</a>
+Image in link (a.preview {color:#080;font-weight:bold;font-size:120%;}): <a class="preview {color:#080;font-weight:bold;font-size:120%;}" href="images/google2.png" title="<center>Google logo</center>"><img src="images/popup.gif"></a>
 <br><br>
-Screenshot with web generated preview (a.screenshot): <a class="screenshot" href="http://www.google.com" title="<center>Google</center>" rel="#">URL screenshot 2</a>
+Link w/ wide image (a.screenshot {direction:e}): <a class="screenshot {direction: e}" href="#" title="<center>my background</center>" rel="images/wide.gif">URL screenshot---------------------------------------------------------------------------------------------------------------------xxx</a>
 <br><br>
-<a class="tooltip {width:300px;background:#000080;color:orange;}" href="http://www.google.com" title="This is a test of using 'quotes' and apostrophe's in the text.<br>As well as images <img src='images/popup.gif'>"><img src="images/popup.gif"></a>
+Screenshot with web generated preview (a.screenshot, no metadata): <a class="screenshot" href="http://www.google.com" title="<center>Google</center>" rel="#">URL screenshot 2</a>
 <br><br>
-<a class="tooltip {direction:e;width:400px;background:#777;color:#fff;}" href="javascript:void(0);" title="<div><span>Sun, 24 May 2009 18:16:00 GMT</span> by Mottie<div>Lorem ipsum,<br><br>dolor sit amet, consectetur adipiscing elit. Proin rutrum varius felis sit amet ultricies. Pellentesque ut ligula mi. Suspendisse potenti. Mauris vitae velit odio (<img src='images/popup.gif'>). Nulla vehicula sollicitudin feugiat. Aliquam erat volutpat. Nulla ut tortor turpis. Nullam pellentesque eros at justo ultricies lobortis.<br><br> Curabitur pulvinar mi vel leo fermentum porttitor. Duis eget dui non lacus egestas suscipit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras rhoncus nunc et sapien condimentum mattis. Cras malesuada, sapien eu venenatis consectetur, eros nunc imperdiet ipsum, eget congue lectus eros eu nibh. <a href='http://google.com'>Google</a> aliquam vulputate sagittis orci adipiscing viverra. Nullam turpis orci, viverra sed feugiat vel, fringilla id diam. Maecenas vel massa non magna luctus interdum. Donec et ante et nibh fringilla iaculis sed a nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae...<br><br><div align=right>More Info</div></div></div>"><img src="images/popup.gif"></a>
+Link around image {width:300px;background:#000080;color:orange;} <a class="tooltip {width:300px;background:#000080;color:orange;}" href="http://www.google.com" title="This is a test of using 'quotes' and apostrophe's in the text.<br>As well as images <img src='images/popup.gif'>"><img src="images/popup.gif"></a>
 <br><br>
-<a class="tooltip {direction:s;width:400px;background:#800;color:#fff;}" href="javascript:void(0);" title="test">hover</a>
+Link around image {direction:e;width:400px;background:#777;color:#fff;} <a class="tooltip {direction:e;width:400px;background:#777;color:#fff;}" href="javascript:void(0);" title="<div><span>Sun, 24 May 2009 18:16:00 GMT</span> by Mottie<div>Lorem ipsum,<br><br>dolor sit amet, consectetur adipiscing elit. Proin rutrum varius felis sit amet ultricies. Pellentesque ut ligula mi. Suspendisse potenti. Mauris vitae velit odio (<img src='images/popup.gif'>). Nulla vehicula sollicitudin feugiat. Aliquam erat volutpat. Nulla ut tortor turpis. Nullam pellentesque eros at justo ultricies lobortis.<br><br> Curabitur pulvinar mi vel leo fermentum porttitor. Duis eget dui non lacus egestas suscipit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras rhoncus nunc et sapien condimentum mattis. Cras malesuada, sapien eu venenatis consectetur, eros nunc imperdiet ipsum, eget congue lectus eros eu nibh. <a href='http://google.com'>Google</a> aliquam vulputate sagittis orci adipiscing viverra. Nullam turpis orci, viverra sed feugiat vel, fringilla id diam. Maecenas vel massa non magna luctus interdum. Donec et ante et nibh fringilla iaculis sed a nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae...<br><br><div align=right>More Info</div></div></div>"><img src="images/popup.gif"></a>
 <br><br>
-<a class="tooltip {direction:ne;width:200px;background:#9bff8f;color:#333333;}" href="javascript:void(0);" title="Tooltip testing">Link</a>
+Link {direction:s;width:400px;background:#800;color:#fff;} <a class="tooltip {direction:s;width:400px;background:#800;color:#fff;}" href="javascript:void(0);" title="test">hover over me</a>
 <br><br>
-<img class="tooltip {width:300px;background:#008080;color:#dddddd;}" title="This is a test of using &quot;quotes&quot; and apostrophe's in the text.<br>As well as images <img src='images/popup.gif'>" src="images/popup.gif">
+Link {direction:ne;width:200px;background:#9bff8f;color:#333333;} <a class="tooltip {direction:ne;width:200px;background:#9bff8f;color:#333333;}" href="javascript:void(0);" title="Tooltip testing">Test</a>
 
 <div class="spacer"></div>
 

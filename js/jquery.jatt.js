@@ -5,6 +5,7 @@
  * based on tooltip by Alen Grakalic (http://cssglobe.com/post/1695/easiest-tooltip-and-image-preview-using-jquery)
  * tooltip modification by Rob G, aka Mottie (http://wowmotty.blogspot.com/)
  *
+ * v2.2  10/3/2010 Added support for old tooltip script (css contained in rel attribute)
  * v2.1  8/22/2010 Converted to a plugin, added enhancements & commented out dhtmltooltip script
  * v2.01 8/29/2009 Added Websnapr.com site screenshot option
  * v2.0  6/10/2009 Combined scripts, added support for dhtmltooltip
@@ -165,9 +166,9 @@ function objClone(obj) {
 
   $.jatt.getMeta = function(el){
    opt = objClone(o);
-   var meta = el.attr(o.metadata).match(/(\{.*\})/g) || '';
+   var t, m = [], meta = el.attr(o.metadata).match(/(\{.*\})/g) || '';
    if (meta !== '') {
-    var t, m = '', opts = 'direction|followMouse|content|speed|local|xOffset|yOffset|zIndex';
+    var opts = 'direction|followMouse|content|speed|local|xOffset|yOffset|zIndex';
     meta = meta[0].replace(/(\{|\'|\"|\})/g,''); // remove curly brackets, spaces, apostrophes and quotes
     if (meta.match(opts)) {
      // split out tooltip options, assume everything else is css
@@ -181,11 +182,23 @@ function objClone(obj) {
         opt[k] = (isNaN(v)) ? v : parseFloat(v);
        }
       } else {
-       m += val + ';';
+       m.push(val);
       }
      });
-     meta = m;
+     meta = m.join(';');
     }
+   }
+   // ***** remove once transition is complete *****
+   // Check & add retro tooltip settings (contained in the "rel" attribute)
+   // rel="100,#222;color:#ddd;" => "width,background:#222,color:#ddd;etc"
+   // Not going to bother with the tooltip external object flag "###"
+   t = el.attr('rel') || '';
+   // ignore rel contents if it starts with a "#" or "." (external content), or contains a "/" (screenshot tooltips)
+   if (t !== '' && !/^[#|\.]|[\/]/.test(t)) {
+    t = t.split(',');
+    meta += ';width:' + t[0] + 'px;';
+    if (typeof(t[1]) != 'undefined') { meta += 'background:' + t[1]; }
+    // ***** end retro tooltip code *****
    }
    return [opt, meta];
   };

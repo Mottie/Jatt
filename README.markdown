@@ -1,11 +1,10 @@
 **Features**
 
-* Dynamic tooltip modifications can be done using metadata (see the demo-metadata.htm file).
+* Dynamic tooltip modifications can be done using metadata (see this demo: https://dl.dropbox.com/u/1510510/jquery-jatt/demo-metadata.htm).
 * Choose the tooltip direction (8 directions: n, ne, e, se, s, sw, w & nw).
 * Tooltip content obtained from selected object attribute, a different object on the same page, or via ajax.
 * Ajax calls can include jquery selectors to target specific page content.
 * Screenshots of webpages can be obtained through Websnapr.com or from your own image.
-
 
 **Usage & Options (defaults)**
 
@@ -45,6 +44,10 @@ HTML examples (see more in the provided demo pages):
     <a class="screenshot {direction:e;}" href="http://www.google.com/" rel="#" title="<center>Google</center>">Google</a>
 
 **Changelog**
+
+Version 2.2 (10/3/2010)
+
+* Added support for old tooltip script (css contained in rel attribute)
 
 Version 2.1 (8/24/2010)
 

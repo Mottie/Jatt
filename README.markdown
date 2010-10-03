@@ -1,6 +1,6 @@
 **Features**
 
-* Dynamic tooltip modifications can be done using metadata (see this demo: https://dl.dropbox.com/u/1510510/jquery-jatt/demo-metadata.htm).
+* Dynamic tooltip modifications can be done using metadata (see this [demo][1]).
 * Choose the tooltip direction (8 directions: n, ne, e, se, s, sw, w & nw).
 * Tooltip content obtained from selected object attribute, a different object on the same page, or via ajax.
 * Ajax calls can include jquery selectors to target specific page content.
@@ -69,3 +69,5 @@ Version 2.0 (6/10/2009)
 Version 1.0 (5/8/2008)
 
 * Original tooltip script by Alen Grakalic.
+
+  [1]: https://dl.dropbox.com/u/1510510/jquery-jatt/demo-metadata.htm

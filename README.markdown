@@ -48,6 +48,7 @@ HTML examples (see more in the provided [demo pages][3]):
 **Changelog**
 
 Version 2.3 (10/12/2010)
+
 * Added github pages
 * Changed object cloning method - now using jQuery method
 

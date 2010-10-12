@@ -1,26 +1,12 @@
 /*
- * Jatt - just another tooltip
+ * Jatt - just another tooltip v2.3 (10/10/2010)
+ * http://github.com/Mottie/Jatt
  * by Rob Garrison (aka Mottie)
  *
  * based on tooltip by Alen Grakalic (http://cssglobe.com/post/1695/easiest-tooltip-and-image-preview-using-jquery)
  * tooltip modification by Rob G, aka Mottie (http://wowmotty.blogspot.com/)
  *
- * v2.2  10/3/2010 Added support for old tooltip script (css contained in rel attribute)
- * v2.1  8/22/2010 Converted to a plugin, added enhancements & commented out dhtmltooltip script
- * v2.01 8/29/2009 Added Websnapr.com site screenshot option
- * v2.0  6/10/2009 Combined scripts, added support for dhtmltooltip
- * v1.0  5/8/2008  Original tooltip script by Alen Grakalic
  */
-
-// clone object:  http://stackoverflow.com/questions/728360/copying-an-object-in-javascript/728694#728694
-function objClone(obj) {
- if (null === obj || "object" != typeof obj) { return obj; }
- var copy = obj.constructor();
- for (var attr in obj) {
-  if (obj.hasOwnProperty(attr)) { copy[attr] = obj[attr]; }
- }
- return copy;
-}
 
 (function($){
 
@@ -32,7 +18,7 @@ function objClone(obj) {
   var init = function(){
 
    // event type
-   var evt = (o.live) ? 'live' : 'bind';
+   var evt = (o.live) ? 'live' : 'bind'; // will look into using delegate in the next version
 
    // Tooltips
    $(o.tooltip)
@@ -165,7 +151,7 @@ function objClone(obj) {
   };
 
   $.jatt.getMeta = function(el){
-   opt = objClone(o);
+   opt = $.extend({}, o);
    var t, m = [], meta = el.attr(o.metadata).match(/(\{.*\})/g) || '';
    if (meta !== '') {
     var opts = 'direction|followMouse|content|speed|local|xOffset|yOffset|zIndex';

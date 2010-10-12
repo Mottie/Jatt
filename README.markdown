@@ -8,6 +8,8 @@
 
 **Usage & Options (defaults)**
 
+[See more detailed documentation][2].
+
 Script:
 
     $.jatt({
@@ -37,13 +39,17 @@ Script:
      previewId   : 'preview'              // ID of screenshot/preview tooltip 
     });
 
-HTML examples (see more in the provided demo pages):
+HTML examples (see more in the provided [demo pages][3]):
 
     <a class="tooltip {direction:n; width:100px;}" href="http://www.url.com" title="Tooltip Content">Displayed text</a>
     <a class="preview {direction:e; text-align:center;}" href="google2.jpg" title="Google's Logo"><img src="google1.jpg" /></a>
     <a class="screenshot {direction:e;}" href="http://www.google.com/" rel="#" title="<center>Google</center>">Google</a>
 
 **Changelog**
+
+Version 2.3 (10/12/2010)
+* Added github pages
+* Changed object cloning method - now using jQuery method
 
 Version 2.2 (10/3/2010)
 
@@ -70,4 +76,6 @@ Version 1.0 (5/8/2008)
 
 * Original tooltip script by Alen Grakalic.
 
-  [1]: https://dl.dropbox.com/u/1510510/jquery-jatt/demo-metadata.htm
+  [1]: http://mottie.github.com/Jatt/demo-metadata.htm
+  [2]: http://mottie.github.com/Jatt/index.html
+  [3]: http://mottie.github.com/Jatt/demo-more-examples.htm

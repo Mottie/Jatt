@@ -47,6 +47,11 @@ HTML examples (see more in the provided [demo pages][3]):
 
 **Changelog**
 
+Version 2.4 (11/7/2010)
+
+* Fixed a problem that was only occuring in IE - undefined variable error.
+* Cleaned up the code a bit and tried to fix other potential problems.
+
 Version 2.3 (10/12/2010)
 
 * Added github pages

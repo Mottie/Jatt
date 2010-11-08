@@ -16,21 +16,28 @@
   var opt, o = $.extend({},$.jatt.defaultOptions, options);
 
   var init = function(){
-
    // event type
-   var evt = (o.live) ? 'live' : 'bind'; // will look into using delegate in the next version
+   var evt = (o.live) ? 'live' : 'bind';
 
    // Tooltips
    $(o.tooltip)
     [evt](o.activate,function(e){
-     var obj = $(this),
-         meta = (o.metadata.toString() == 'false') ? [o, ''] : $.jatt.getMeta(obj);
+     var $obj = $(this),
+         meta = (o.metadata.toString() == 'false') ? [o, ''] : $.jatt.getMeta($obj);
      opt = meta[0]; // meta options
-     var tt = (obj.attr(opt.content) === '') ? obj.data('tooltip') || '' : obj.attr(opt.content) || '',
-         rel = obj.attr('rel') || '',
-         url = obj.attr('href') || '';
-     obj.data('tooltip', tt);
-     obj.attr('title', ''); // clear title to stop default tooltip
+     var tt = ($obj.attr(opt.content) === '') ? $obj.data('tooltip') || '' : $obj.attr(opt.content) || '',
+         rel = $obj.attr('rel') || '',
+         url = $obj.attr('href') || '';
+     $obj.data('tooltip', tt);
+     $obj.attr('title', ''); // clear title to stop default tooltip
+
+     // build tooltip & styling from metadata
+     var tmp = '<div id="' + o.tooltipId + '" style="position:absolute;z-index:' + opt.zIndex + ';' + meta[1] + '"></div>';
+     if (opt.local){
+      $obj.before(tmp);
+     } else {
+      $('body').append(tmp);
+     }
 
      // Load tooltip content from an object on the page
      if (tt === ''){
@@ -45,59 +52,57 @@
        });
       }
      }
-     // build tooltip & styling from metadata
-     var tmp = '<div id="' + o.tooltipId + '" style="position:absolute;z-index:' + opt.zIndex + ';' + meta[1] + '">' + tt + '</div>';
-     if (opt.local){
-      obj.before(tmp);
-     } else {
-      $('body').append(tmp);
-     }
-     $.jatt.ttrelocate(e, '#' + o.tooltipId);
+
+     $('#' + o.tooltipId).html(tt).data('options', opt);
+     $.jatt.ttrelocate(e, o.tooltipId);
      $('#' + o.tooltipId).fadeIn(opt.speed);
     })
     [evt](o.deactivate,function(e) {
      $('#' + o.tooltipId).remove();
     })
     [evt]('mousemove',function(e) {
-     if (opt.followMouse) { $.jatt.ttrelocate(e, '#' + o.tooltipId); }
+     if ($('#' + o.tooltipId).length && opt.followMouse) { $.jatt.ttrelocate(e, o.tooltipId); }
     });
 
    // Image & URL screenshot preview
    $(o.preview + ',' + o.screenshot)
     [evt](o.activate,function(e){
-     var obj = $(this),
-         meta = (o.metadata.toString() == 'false') ? [o, ''] : $.jatt.getMeta(obj);
+     var $obj = $(this),
+      meta = (o.metadata.toString() == 'false') ? [o, ''] : $.jatt.getMeta($obj);
      opt = meta[0];
-     var tt = (obj.attr(opt.content) === '') ? obj.data('tooltip') || '' : obj.attr(opt.content) || '';
-     obj.data('tooltip', tt);
-     if (opt.content == 'title') { obj.attr(opt.content, ''); } // leave title attr empty
-     var tmp = '<div id="' + o.previewId + '" style="position:absolute;z-index:' + opt.zIndex + ';' + meta[1] + '"><img src="';
-     var c = (tt !== '') ? '<br/>' + tt : '';
-     /* use websnapr.com to get website thumbnail preview if rel="#" */
-     var ss = (obj.is(o.screenshot) && this.rel == '#') ? 'http://images.websnapr.com/?url=' + this.href : this.rel;
-     tmp += (obj.is(o.preview)) ? this.href + '" alt="Image preview" />' : ss + '" alt="URL preview: ' + this.href + '" />';
+     var tt = ($obj.attr(opt.content) === '') ? $obj.data('tooltip') || '' : $obj.attr(opt.content) || '';
+     $obj.data('tooltip', tt);
+     if (opt.content == 'title') { $obj.attr(opt.content, ''); } // leave title attr empty
+     var tmp = '<div id="' + o.previewId + '" style="position:absolute;z-index:' + opt.zIndex + ';' + meta[1] + '"><img src="',
+      c = (tt !== '') ? '<br/>' + tt : '',
+      /* use websnapr.com to get website thumbnail preview if rel="#" */
+      ss = ($obj.is(o.screenshot) && $obj.attr('rel') == '#') ? 'http://images.websnapr.com/?url=' + $obj.attr('href') : $obj.attr('rel');
+     tmp += ($obj.is(o.preview)) ? $obj.attr('href') + '" alt="Image preview" />' : ss + '" alt="URL preview: ' + $obj.attr('href') + '" />';
      tmp += c + '</div>';
      if (opt.local){
-      obj.before(tmp);
+      $obj.before(tmp);
      } else {
       $('body').append(tmp);
      }
-     $('#' + o.previewId).data('options',opt);
-     $.jatt.ttrelocate(e, '#' + o.previewId);
+     $('#' + o.previewId).data('options', opt);
+     $.jatt.ttrelocate(e, o.previewId);
      $('#' + o.previewId).fadeIn(opt.speed);
     })
     [evt](o.deactivate,function(e){
      $('#' + o.previewId).remove();
     })
     [evt]('mousemove',function(e){
-     if (opt.followMouse) { $.jatt.ttrelocate(e, '#' + o.previewId); }
+     if ($('#' + o.previewId).length && opt.followMouse) { $.jatt.ttrelocate(e, o.previewId); }
     });
 
   }; // end init
 
   $.jatt.ttrelocate = function(e, ttid){
-   var ttw = $(ttid).outerWidth(),
-    tth = $(ttid).outerHeight(),
+   var win = $(window),
+    tt = $('#' + ttid),
+    ttw = tt.outerWidth(),
+    tth = tt.outerHeight(),
+    opt = tt.data('options'),
     // [ top left x, top left y, bottom right x, bottom right y ]
     tip = {
      e  : [ opt.xOffset, -tth/2, ttw+opt.xOffset, tth/2 ],
@@ -110,8 +115,8 @@
      ne : [ opt.xOffset, -tth-opt.yOffset, ttw+opt.xOffset, -opt.yOffset ]
     },
     dir = tip[opt.direction],
-    wscrY = $(window).scrollTop(),
-    wscrX = $(window).scrollLeft(),
+    wscrY = win.scrollTop(),
+    wscrX = win.scrollLeft(),
     curX = e.pageX,
     curY = e.pageY;
 
@@ -137,17 +142,17 @@
        tttop = curY + dir[1];
 
    // some basic repositioning if the tooltip is out of the viewport
-   if ( curX + dir[2] > wscrX + $(window).width() - opt.xOffset ) { ttleft = $(window).width() - ttw - opt.xOffset; }
-   if ( curY + dir[3] > wscrY + $(window).height() - opt.yOffset ) { tttop = curY - tth - opt.yOffset; }
+   if ( curX + dir[2] > wscrX + win.width() - opt.xOffset ) { ttleft = win.width() - ttw - opt.xOffset; }
+   if ( curY + dir[3] > wscrY + win.height() - opt.yOffset ) { tttop = curY - tth - opt.yOffset; }
    if ( ttleft < wscrX + opt.xOffset ) { ttleft = wscrX + opt.xOffset; }
    if ( tttop < wscrY + opt.yOffset ) {  tttop = curY + opt.yOffset; }
 
-   // prevent mouse from being inside tooltip & causes a flicker on mouse move
+   // prevent mouse from being inside tooltip & cause a flicker on mouse move
    if ( curX > ttleft && curX < ttleft + ttw && curY > tttop && curY < tttop + tth ) {
     tttop += ( (tttop - tth/2 - opt.yOffset) < wscrY + opt.yOffset ) ? tth/2 + opt.yOffset : -tth/2 - opt.yOffset;
    }
 
-   $(ttid).css({ left : ttleft + 'px', top : tttop + 'px' });
+   tt.css({ left : ttleft + 'px', top : tttop + 'px' });
   };
 
   $.jatt.getMeta = function(el){
@@ -235,7 +240,7 @@
   jQuery('#tooltip2').remove();
  }
  function positiontip(e){
-  if (document.getElementById('tooltip2') !== null) { jQuery.jatt.ttrelocate(e,'#tooltip2'); }
+  if (document.getElementById('tooltip2') !== null) { jQuery.jatt.ttrelocate(e,'tooltip2'); }
  }
  document.onmousemove = positiontip;
  */

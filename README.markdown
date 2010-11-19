@@ -30,6 +30,12 @@ Script:
      activate    : 'mouseenter focusin',  // how tooltip is activated
      deactivate  : 'mouseleave focusout', // how tooltip is deactivated
 
+     // Messages
+     loading        : 'Loading...',       // Message shown while content is loading
+     notFound       : 'No tooltip found', // Message shown when no tooltip content is found
+     imagePreview   : 'Image preview',    // image alt message for the image shown in the preview tooltip
+     siteScreenshot : 'URL preview: ',    // image alt message for site screenshots, this message is followed by the URL
+
      // change tooltip, screenshot and preview class
      tooltip     : '.tooltip',            // tooltip class 
      screenshot  : 'a.screenshot',        // screenshot class
@@ -48,9 +54,15 @@ HTML examples (see more in the provided [demo pages][3]):
 
 **Changelog**
 
+Version 2.6 (11/19/2010)
+
+* Added content preload (for external pages) for tooltips.
+* Added more options to allow modification of messages - in case you want to use a different language ;)
+* Separated image preview and screenshot scripts to work properly if the `screenshot` or `preview` class is made to target tags without the class (e.g. '.previews a')
+
 Version 2.5 (11/19/2010)
 
-* Added image preload for preview and screenshot tooltips to fix tooltip positioning issues.
+* Added image preload for preview and screenshot tooltips to fix tooltip positioning issues, but this doesn't seem to work for Websnapr images.
 
 Version 2.4 (11/7/2010)
 

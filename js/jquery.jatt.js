@@ -1,5 +1,5 @@
 /*
- * Jatt - just another tooltip v2.5 (11/19/2010)
+ * Jatt - just another tooltip v2.6 (11/19/2010)
  * http://github.com/Mottie/Jatt
  * by Rob Garrison (aka Mottie)
  *
@@ -9,18 +9,19 @@
  */
 
 (function($){
-
  $.jatt = function(options){
 
   // options
-  var opt, cache = [], o = $.extend({},$.jatt.defaultOptions, options);
+  var opt, cache = [],
+   pageBody = $('body'),
+   o = $.extend({},$.jatt.defaultOptions, options);
 
   var init = function(){
    // event type
    var evt = (o.live) ? 'live' : 'bind',
     preloads = [];
 
-   // Tooltips
+   // *** Tooltips ***
    $(o.tooltip)
     [evt](o.activate,function(e){
      var $obj = $(this),
@@ -37,19 +38,26 @@
      if (opt.local){
       $obj.before(tmp);
      } else {
-      $('body').append(tmp);
+      pageBody.append(tmp);
      }
 
      // Load tooltip content from an object on the page
      if (tt === ''){
       if (rel !== '') {
-       tt = $(rel).html() || 'No tooltip found';
+       tt = $(rel).html() || o.notFound;
       } else if (url !== '') {
-       tt = 'Loading...';
+       tt = o.loading;
        // Load tooltip from external page
        var ttloader = $('<div />');
        ttloader.load(url, function(){
-        $('#' + o.tooltipId).html( ttloader.html() );
+        var tt = ttloader.html(),
+         cache = (o.cacheData) ? tt : '';
+        $('#' + o.tooltipId)
+         .hide() // hiding to prevent contents popping up under the mouse and triggering a close event, or it should o.O
+         .html( tt );
+        $obj.data('tooltip', cache ); // save data for next load
+        $.jatt.ttrelocate(e, o.tooltipId);
+        $('#' + o.tooltipId).show();
        });
       }
      }
@@ -59,49 +67,68 @@
      $('#' + o.tooltipId).fadeIn(opt.speed);
     })
     [evt](o.deactivate,function(e) {
-     $('#' + o.tooltipId).remove();
+     $.jatt.removeTooltips();
     })
     [evt]('mousemove',function(e) {
      if ($('#' + o.tooltipId).length && opt.followMouse) { $.jatt.ttrelocate(e, o.tooltipId); }
     });
 
-   // Image & URL screenshot preview
-   $(o.preview + ',' + o.screenshot)
-    [evt](o.activate,function(e){
-     var $obj = $(this),
-      meta = (o.metadata.toString() == 'false') ? [o, ''] : $.jatt.getMeta($obj);
+   // *** Process image & URL screenshot previews ***
+   var process = function(e, $obj, content){
+     var meta = (o.metadata.toString() == 'false') ? [o, ''] : $.jatt.getMeta($obj);
      opt = meta[0];
      var tt = ($obj.attr(opt.content) === '') ? $obj.data('tooltip') || '' : $obj.attr(opt.content) || '';
      $obj.data('tooltip', tt);
      if (opt.content == 'title') { $obj.attr(opt.content, ''); } // leave title attr empty
-     var tmp = '<div id="' + o.previewId + '" style="position:absolute;z-index:' + opt.zIndex + ';' + meta[1] + '"><img src="',
-      c = (tt !== '') ? '<br/>' + tt : '',
-      /* use websnapr.com to get website thumbnail preview if rel="#" */
-      ss = ($obj.is(o.screenshot) && $obj.attr('rel') == '#') ? 'http://images.websnapr.com/?url=' + $obj.attr('href') : $obj.attr('rel');
-     tmp += ($obj.is(o.preview)) ? $obj.attr('href') + '" alt="Image preview" />' : ss + '" alt="URL preview: ' + $obj.attr('href') + '" />';
-     tmp += c + '</div>';
+     var tmp = '<div id="' + o.previewId + '" style="position:absolute;z-index:' + opt.zIndex + ';' + meta[1] + '"><img src="' + content;
+     tmp += (tt !== '') ? '<br/>' + tt + '</div>' : '</div>';
      if (opt.local){
       $obj.before(tmp);
      } else {
-      $('body').append(tmp);
+      pageBody.append(tmp);
      }
-     $('#' + o.previewId).data('options', opt);
+     $('#' + o.previewId)
+      .hide()
+      .data('options', opt)
+      .fadeIn(opt.speed);
      $.jatt.ttrelocate(e, o.previewId);
-     $('#' + o.previewId).fadeIn(opt.speed);
-    })
-    [evt](o.deactivate,function(e){
-     $('#' + o.previewId).remove();
-    })
-    [evt]('mousemove',function(e){
-     if ($('#' + o.previewId).length && opt.followMouse) { $.jatt.ttrelocate(e, o.previewId); }
+    };
+
+   // *** Image preview ***
+   $(o.preview)
+    [evt](o.activate,function(e){
+     process( e, $(this), $(this).attr('href') + '" alt="' + o.imagePreview +'" />');
     })
     // preload images/screenshots
     .each(function(){
-     var $obj = $(this),
-     imgSrc = ($obj.is(o.screenshot) && $obj.attr('rel') == '#') ? 'http://images.websnapr.com/?url=' + $obj.attr('href') : $obj.attr('rel');
-     preloads.push(imgSrc);
+     preloads.push( $(this).attr('href') );
     });
-    $.jatt.preloadImages(preloads);
+    
+   // *** Screenshot preview ***
+   $(o.screenshot)
+    [evt](o.activate,function(e){
+     var $obj = $(this),
+      /* use websnapr.com to get website thumbnail preview if rel="#" */
+      ss = ($obj.attr('rel') == '#') ? 'http://images.websnapr.com/?url=' + $obj.attr('href') : $obj.attr('rel');
+     ss += '" alt="' + o.siteScreenshot + $obj.attr('href') + '" />';
+     process( e, $obj, ss );
+    })
+    // preload screenshots
+    .each(function(){
+     var $obj = $(this);
+     preloads.push( ($obj.attr('rel') == '#') ? 'http://images.websnapr.com/?url=' + $obj.attr('href') : $obj.attr('rel') );
+    });
+
+    // *** combined preview & screenshot ***
+    $(o.preview + ',' + o.screenshot)
+    [evt](o.deactivate,function(e){
+     $.jatt.removeTooltips();
+    })
+    [evt]('mousemove',function(e){
+     if ($('#' + o.previewId).length && opt.followMouse) { $.jatt.ttrelocate(e, o.previewId); }
+    });
+
+    $.jatt.preloadContent(preloads);
 
   }; // end init
 
@@ -110,7 +137,7 @@
     tt = $('#' + ttid),
     ttw = tt.outerWidth(),
     tth = tt.outerHeight(),
-    opt = tt.data('options'),
+    opt = tt.data('options') || o,
     // [ top left x, top left y, bottom right x, bottom right y ]
     tip = {
      e  : [ opt.xOffset, -tth/2, ttw+opt.xOffset, tth/2 ],
@@ -125,13 +152,14 @@
     dir = tip[opt.direction],
     wscrY = win.scrollTop(),
     wscrX = win.scrollLeft(),
-    curX = e.pageX,
-    curY = e.pageY;
+    // use $(e.target).position() if the link gets focus.
+    tar = $(e.target),
+    curX = e.pageX || tar.position().left + tar.width()/2,
+    curY = e.pageY || tar.position().top + tar.height()/2;
 
    // if not following mouse, then find sides of the object
    if (!opt.followMouse) {
-    var tar = $(e.target),
-     objw = tar.outerWidth(),
+    var objw = tar.outerWidth(),
      objh = tar.outerHeight(),
      obj = {
       e  : [ objw, objh/2 ],
@@ -202,21 +230,46 @@
    return [opt, meta];
   };
 
-  // preload code from http://engineeredweb.com/blog/09/12/preloading-images-jquery-and-javascript
-  $.jatt.preloadImages = function() {
+  // Remove all tooltips, and any extras that might appear
+  // (focusout doesn't seem to work)
+  $.jatt.removeTooltips = function(){
+   $('#' + o.previewId + ', #' + o.tooltipId).remove();
+   while ($('#' + o.previewId + ', #' + o.tooltipId).length > 0) {
+    $('#' + o.previewId + ', #' + o.tooltipId).remove();
+   }
+  };
+
+  // Preload Content
+  $.jatt.preloadContent = function() {
+    // preload images code from http://engineeredweb.com/blog/09/12/preloading-images-jquery-and-javascript
     var args_len = arguments.length;
     for (var i = args_len; i--;) {
       var cacheImage = document.createElement('img');
       cacheImage.src = arguments[i];
       cache.push(cacheImage);
     }
-  };
+
+    // preload external content
+    var $tt = $(o.tooltip), divs = [];
+    $tt.each(function(i){
+     var url = (this.tagName == 'A') ? $(this).attr('href') : '';
+     if ( url !== '' && !url.match(/^#/) ) {
+      // Load tooltip from external page
+      var $div = $('<div rel="' + i + '" />');
+      divs.push($div);
+      $div.load(url, function(){
+       $tt.eq( $div.attr('rel') ).data('tooltip', $div.html() );
+      });
+     }
+    });
+  }
 
   // Run initializer
   init();
  };
 
  $.jatt.defaultOptions = {
+  // options that can be modified by metadata
   direction      : 'n',     // direction of tooltip
   followMouse    : true,    // tooltip follows mouse movement
   content        : 'title', // attribute containing tooltip text
@@ -231,6 +284,13 @@
   metadata       : 'class',               // attribute that contains the metadata, use "false" (no quotes) to disable the metadata.
   activate       : 'mouseenter focusin',  // how tooltip is activated
   deactivate     : 'mouseleave focusout', // how tooltip is deactivated
+  cacheData      : true,                  // Cache data obtained from external pages, set to false if the data is dynamic.
+
+  // Messages
+  loading        : 'Loading...',          // Message shown while content is loading
+  notFound       : 'No tooltip found',    // Message shown when no tooltip content is found
+  imagePreview   : 'Image preview',       // image alt message for the image shown in the preview tooltip
+  siteScreenshot : 'URL preview: ',       // image alt message for site screenshots, this message is followed by the URL
 
   // change tooltip, screenshot and preview class
   tooltip        : '.tooltip',            // tooltip class 

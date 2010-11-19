@@ -5,6 +5,7 @@
 * Tooltip content obtained from selected object attribute, a different object on the same page, or via ajax.
 * Ajax calls can include jquery selectors to target specific page content.
 * Screenshots of webpages can be obtained through Websnapr.com or from your own image.
+* Preview & Screenshot images are preloaded.
 
 **Usage & Options (defaults)**
 
@@ -46,6 +47,10 @@ HTML examples (see more in the provided [demo pages][3]):
     <a class="screenshot {direction:e;}" href="http://www.google.com/" rel="#" title="<center>Google</center>">Google</a>
 
 **Changelog**
+
+Version 2.5 (11/19/2010)
+
+* Added image preload for preview and screenshot tooltips to fix tooltip positioning issues.
 
 Version 2.4 (11/7/2010)
 

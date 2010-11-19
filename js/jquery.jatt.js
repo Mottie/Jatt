@@ -1,5 +1,5 @@
 /*
- * Jatt - just another tooltip v2.3 (10/10/2010)
+ * Jatt - just another tooltip v2.5 (11/19/2010)
  * http://github.com/Mottie/Jatt
  * by Rob Garrison (aka Mottie)
  *
@@ -13,11 +13,12 @@
  $.jatt = function(options){
 
   // options
-  var opt, o = $.extend({},$.jatt.defaultOptions, options);
+  var opt, cache = [], o = $.extend({},$.jatt.defaultOptions, options);
 
   var init = function(){
    // event type
-   var evt = (o.live) ? 'live' : 'bind';
+   var evt = (o.live) ? 'live' : 'bind',
+    preloads = [];
 
    // Tooltips
    $(o.tooltip)
@@ -93,7 +94,14 @@
     })
     [evt]('mousemove',function(e){
      if ($('#' + o.previewId).length && opt.followMouse) { $.jatt.ttrelocate(e, o.previewId); }
+    })
+    // preload images/screenshots
+    .each(function(){
+     var $obj = $(this),
+     imgSrc = ($obj.is(o.screenshot) && $obj.attr('rel') == '#') ? 'http://images.websnapr.com/?url=' + $obj.attr('href') : $obj.attr('rel');
+     preloads.push(imgSrc);
     });
+    $.jatt.preloadImages(preloads);
 
   }; // end init
 
@@ -192,6 +200,16 @@
     // ***** end retro tooltip code *****
    }
    return [opt, meta];
+  };
+
+  // preload code from http://engineeredweb.com/blog/09/12/preloading-images-jquery-and-javascript
+  $.jatt.preloadImages = function() {
+    var args_len = arguments.length;
+    for (var i = args_len; i--;) {
+      var cacheImage = document.createElement('img');
+      cacheImage.src = arguments[i];
+      cache.push(cacheImage);
+    }
   };
 
   // Run initializer

@@ -1,5 +1,5 @@
 /*
- * Jatt - just another tooltip v2.6 (11/19/2010)
+ * Jatt - just another tooltip v2.7
  * http://github.com/Mottie/Jatt
  * by Rob Garrison (aka Mottie)
  *
@@ -12,11 +12,11 @@
  $.jatt = function(options){
 
   // options
-  var opt, cache = [],
+  var opt, process, cache = [],
    pageBody = $('body'),
-   o = $.extend({},$.jatt.defaultOptions, options);
+   o = $.extend({},$.jatt.defaultOptions, options),
 
-  var init = function(){
+  init = function(){
    // event type
    var evt = (o.live) ? 'live' : 'bind',
     preloads = [];
@@ -24,17 +24,19 @@
    // *** Tooltips ***
    $(o.tooltip)
     [evt](o.activate,function(e){
-     var $obj = $(this),
-         meta = (o.metadata.toString() == 'false') ? [o, ''] : $.jatt.getMeta($obj);
+     var tmp, tt, rel,
+      url, ttloader, ttl,
+      $obj = $(this),
+      meta = (o.metadata.toString() == 'false') ? [o, ''] : $.jatt.getMeta($obj);
      opt = meta[0]; // meta options
-     var tt = ($obj.attr(opt.content) === '') ? $obj.data('tooltip') || '' : $obj.attr(opt.content) || '',
-         rel = $obj.attr('rel') || '',
-         url = $obj.attr('href') || '';
+     tt = ($obj.attr(opt.content) === '') ? $obj.data('tooltip') || '' : $obj.attr(opt.content) || '';
+     rel = $obj.attr('rel') || '';
+     url = $obj.attr('href') || '';
      $obj.data('tooltip', tt);
      $obj.attr('title', ''); // clear title to stop default tooltip
 
      // build tooltip & styling from metadata
-     var tmp = '<div id="' + o.tooltipId + '" style="position:absolute;z-index:' + opt.zIndex + ';' + meta[1] + '"></div>';
+     tmp = '<div id="' + o.tooltipId + '" style="position:absolute;z-index:' + opt.zIndex + ';' + meta[1] + '"></div>';
      if (opt.local){
       $obj.before(tmp);
      } else {
@@ -48,13 +50,13 @@
       } else if (url !== '') {
        tt = o.loading;
        // Load tooltip from external page
-       var ttloader = $('<div />');
+       ttloader = $('<div />');
        ttloader.load(url, function(){
-        var tt = ttloader.html(),
-         cache = (o.cacheData) ? tt : '';
+        ttl = ttloader.html();
+        cache = (o.cacheData) ? ttl : '';
         $('#' + o.tooltipId)
          .hide() // hiding to prevent contents popping up under the mouse and triggering a close event, or it should o.O
-         .html( tt );
+         .html( ttl );
         $obj.data('tooltip', cache ); // save data for next load
         $.jatt.ttrelocate(e, o.tooltipId);
         $('#' + o.tooltipId).show();
@@ -74,25 +76,25 @@
     });
 
    // *** Process image & URL screenshot previews ***
-   var process = function(e, $obj, content){
-     var meta = (o.metadata.toString() == 'false') ? [o, ''] : $.jatt.getMeta($obj);
-     opt = meta[0];
-     var tt = ($obj.attr(opt.content) === '') ? $obj.data('tooltip') || '' : $obj.attr(opt.content) || '';
-     $obj.data('tooltip', tt);
-     if (opt.content == 'title') { $obj.attr(opt.content, ''); } // leave title attr empty
-     var tmp = '<div id="' + o.previewId + '" style="position:absolute;z-index:' + opt.zIndex + ';' + meta[1] + '"><img src="' + content;
-     tmp += (tt !== '') ? '<br/>' + tt + '</div>' : '</div>';
-     if (opt.local){
-      $obj.before(tmp);
-     } else {
-      pageBody.append(tmp);
-     }
-     $('#' + o.previewId)
-      .hide()
-      .data('options', opt)
-      .fadeIn(opt.speed);
-     $.jatt.ttrelocate(e, o.previewId);
-    };
+   process = function(e, $obj, content){
+    var tt, tmp, meta = (o.metadata.toString() == 'false') ? [o, ''] : $.jatt.getMeta($obj);
+    opt = meta[0];
+    tt = ($obj.attr(opt.content) === '') ? $obj.data('tooltip') || '' : $obj.attr(opt.content) || '';
+    $obj.data('tooltip', tt);
+    if (opt.content == 'title') { $obj.attr(opt.content, ''); } // leave title attr empty
+    tmp = '<div id="' + o.previewId + '" style="position:absolute;z-index:' + opt.zIndex + ';' + meta[1] + '"><img src="' + content;
+    tmp += (tt !== '') ? '<br/>' + tt + '</div>' : '</div>';
+    if (opt.local){
+     $obj.before(tmp);
+    } else {
+     pageBody.append(tmp);
+    }
+    $('#' + o.previewId)
+     .hide()
+     .data('options', opt)
+     .fadeIn(opt.speed);
+    $.jatt.ttrelocate(e, o.previewId);
+   };
 
    // *** Image preview ***
    $(o.preview)
@@ -240,29 +242,36 @@
   };
 
   // Preload Content
-  $.jatt.preloadContent = function() {
-    // preload images code from http://engineeredweb.com/blog/09/12/preloading-images-jquery-and-javascript
-    var args_len = arguments.length;
-    for (var i = args_len; i--;) {
-      var cacheImage = document.createElement('img');
-      cacheImage.src = arguments[i];
-      cache.push(cacheImage);
+  $.jatt.preloadContent = function(preloads) {
+    var cacheImage, $this, $div, url,
+     divs = [],
+     $tt = $(o.tooltip),
+     len = preloads.length;
+    // preload images code modified from http://engineeredweb.com/blog/09/12/preloading-images-jquery-and-javascript
+    for (var i = len; i--;) {
+//     console.debug('preloading image: ' + preloads[i]);
+     cacheImage = document.createElement('img');
+     cacheImage.src = preloads[i];
+     cache.push(cacheImage);
     }
-
     // preload external content
-    var $tt = $(o.tooltip), divs = [];
     $tt.each(function(i){
-     var url = (this.tagName == 'A') ? $(this).attr('href') : '';
-     if ( url !== '' && !url.match(/^#/) ) {
-      // Load tooltip from external page
-      var $div = $('<div rel="' + i + '" />');
-      divs.push($div);
-      $div.load(url, function(){
-       $tt.eq( $div.attr('rel') ).data('tooltip', $div.html() );
-      });
+     $this = $(this);
+     // look for preload content class
+     if ( this.tagName == 'A' && $this.is(o.preloadContent) ) {
+      url = $(this).attr('href') || '';
+      if ( url !== '' && !url.match(/^#/) ) {
+       // Load tooltip from external page
+//       console.debug('preloading content: ' + url);
+       $div = $('<div rel="' + i + '" />');
+       divs.push($div);
+       $div.load(url, function(){
+        $tt.eq( $div.attr('rel') ).data('tooltip', $div.html() );
+       });
+      }
      }
     });
-  }
+  };
 
   // Run initializer
   init();
@@ -293,10 +302,11 @@
   siteScreenshot : 'URL preview: ',       // image alt message for site screenshots, this message is followed by the URL
 
   // change tooltip, screenshot and preview class
-  tooltip        : '.tooltip',            // tooltip class 
+  tooltip        : '.tooltip',            // tooltip class
   screenshot     : 'a.screenshot',        // screenshot class
   preview        : 'a.preview',           // preview class
-  
+  preloadContent : '.preload',            // Add this class to preload tooltip content (not preview or screenshot).
+
   // tooltip & preview ID (div that contains the tooltip)
   tooltipId      : 'tooltip',             // ID of actual tooltip
   previewId      : 'preview'              // ID of screenshot/preview tooltip 

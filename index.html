@@ -72,7 +72,7 @@ $(document).ready(function(){
   <h3>Basic Tooltip</h3>
   <table class="keytable"><tbody>
    <tr><td align="center" width="130"><a class="tooltip {direction:n;width:100px;background:#222;color:#ddd;}" href="#" title="Tooltip (a) Content">basic tip (a)</a></td><td>&lt;a class="<span style="color: #0080ff;">tooltip</span> { direction: n; width: 100px; background: #222; color: #ddd; }" href="<span style="color: orange;">#</span>" title="<span style="color: teal;">Tooltip (a) Content</span>"&gt;basic tip (a))&lt;/a&gt;</td></tr>
-   <tr><td align="center"><a class="tooltip {direction:ne;width:200px;}" href="demo-external-content.htm #target span">External page (a)</a></td><td>&lt;a class="<span style="color: #0080ff;">tooltip</span> { direction: ne; width: 200px; }" href="<span style="color: orange;">demo-external-content.htm #target span</span>"&gt;External page (a)&lt;/span&gt;</td></tr>
+   <tr><td align="center"><a class="tooltip preload {direction:ne;width:200px;}" href="demo-external-content.htm #target span">External page (a)</a></td><td>&lt;a class="<span style="color: #0080ff;">tooltip</span> <span style="color:#d00000">preload</span> { direction: ne; width: 200px; }" href="<span style="color: orange;">demo-external-content.htm #target span</span>"&gt;External page (a)&lt;/span&gt;</td></tr>
    <tr><td align="center"><div class="tooltip {direction:e;width:150px;background:#9bff8f;color:#333;}" rel="#tip1">Object on page (div)</div><div id="tip1" style="display:none">Hi</div></td><td>&lt;div class="<span style="color: #0080ff;">tooltip</span> { direction: e; width: 150px; background: #9bff8f; color: #333; }" rel="<span style="color: orange;">#tip1</span>"&gt;Object on page (div)&lt;/div&gt;<br>&lt;div id="tip1" style="display:none"&gt;<span style="color: teal;">Hi</span>&lt;/div&gt;</td></tr>
    <tr><td align="center"><img class="tooltip {direction:se;width:200px;background:#808080;color:#000;opacity:1;}" src="images/popup.gif" title="Tooltip (img) Content" /></td><td>&lt;img class="<span style="color: #0080ff;">tooltip</span> { direction: se; width: 200px; background: #808080; color: #000; opacity: 1; }" src="images/popup.gif" title="<span style="color: teal;">Tooltip (img) Content</span>" &gt;</td></tr>
    <tr><td align="center"><span class="tooltip {followMouse:false;direction:s;width:300px;background:#008080;color:#ddd;}" title="Tooltip (span) Content">Link (span)</span></td><td>&lt;span class="<span style="color: #0080ff;">tooltip</span> { followMouse: false; direction: s; width: 300px; background: #008080; color: #ddd; }" title="<span style="color: teal;">Tooltip (span) Content</span>"&gt;Link (span)&lt;/span&gt;</td></tr>
@@ -80,6 +80,7 @@ $(document).ready(function(){
 
   <ul>
    <li>class="<span style="color: #0080ff;">tooltip</span>" (required) - This class activates the tooltip</li>
+   <li>class="tooltip <span style="color:#d00000">preload</span>" (optional) - Adding a preload class tells the script to preload external content for this tooltip.</li>
    <li>class="tooltip { metadata }" (optional) - Add any of the predefined options (listed below) or any css style to apply to the tooltip.</li>
    <li>title="<span style="color: teal;">Tooltip content</span>" (optional) - The title attribute should contain whatever you want to display inside the tooltip. This can include HTML but Do NOT use quotes in the content. If you are using HTML tags, replace the quotes with single quotes, e.g. &lt;img src='popup.gif'&gt;. If you must use quotes to surround some text, use the HTML escape code <span style="color: teal;">&amp;quot;</span> - this text has <span style="color: teal;">&amp;quot;</span>quotes<span style="color: teal;">&amp;quot;</span> around it.</li>
    <li>rel="<span style="color: orange;">selector</span>" (optional) - If the "title" attribute is empty, the script will look in the "rel" attribute for a selector that points to an object containing the tooltip content (see the "External object (div)" example above).</li>
@@ -127,35 +128,37 @@ $(document).ready(function(){
  <pre class="brush: css">$(document).ready(function(){
  $.jatt({
   // options that can be modified by metadata
-  direction   : 'n',     // direction of tooltip
-  followMouse : true,    // tooltip follows mouse movement
-  content     : 'title', // attribute containing tooltip text
-  speed       : 300,     // tooltip fadein speed
-  local       : false,   // if true, the script attachs the tooltip locally & to the body if false
-  xOffset     : 20,      // x distance from mouse (no negative values)
-  yOffset     : 20,      // y distance from mouse (no negative values)
-  zIndex      : 1000,    // z-index of tooltip
+  direction      : 'n',     // direction of tooltip
+  followMouse    : true,    // tooltip follows mouse movement
+  content        : 'title', // attribute containing tooltip text
+  speed          : 300,     // tooltip fadein speed
+  local          : false,   // if true, the script attachs the tooltip locally & to the body if false
+  xOffset        : 20,      // x distance from mouse (no negative values)
+  yOffset        : 20,      // y distance from mouse (no negative values)
+  zIndex         : 1000,    // z-index of tooltip
 
   // options not supported by metadata
-  live        : false,                 // use live event support?
-  metadata    : 'class',               // attribute containing the metadata, use "false" (no quotes) to disable.
-  activate    : 'mouseenter focusin',  // how tooltip is activated
-  deactivate  : 'mouseleave focusout', // how tooltip is deactivated
+  live           : false,                 // use live event support?
+  metadata       : 'class',               // attribute containing the metadata, use "false" (no quotes) to disable.
+  activate       : 'mouseenter focusin',  // how tooltip is activated
+  deactivate     : 'mouseleave focusout', // how tooltip is deactivated
+  cacheData      : true,                  // Cache data obtained from external pages, set to false if the data is dynamic.
 
   // Messages
-  loading        : 'Loading...',       // Message shown while content is loading
-  notFound       : 'No tooltip found', // Message shown when no tooltip content is found
-  imagePreview   : 'Image preview',    // image alt message for the image shown in the preview tooltip
-  siteScreenshot : 'URL preview: ',    // image alt message for site screenshots, this message is followed by the URL
+  loading        : 'Loading...',          // Message shown while content is loading
+  notFound       : 'No tooltip found',    // Message shown when no tooltip content is found
+  imagePreview   : 'Image preview',       // image alt message for the image shown in the preview tooltip
+  siteScreenshot : 'URL preview: ',       // image alt message for site screenshots, this message is followed by the URL
 
   // change tooltip, screenshot and preview class
-  tooltip     : '.tooltip',            // tooltip class 
-  screenshot  : 'a.screenshot',        // screenshot class
-  preview     : 'a.preview',           // preview class
-  
+  tooltip        : '.tooltip',            // tooltip class 
+  screenshot     : 'a.screenshot',        // screenshot class
+  preview        : 'a.preview',           // preview class
+  preloadContent : 'preload',             // Add this class to tooltips to have its external content preloaded.
+
   // tooltip & preview ID (div that contains the tooltip)
-  tooltipId   : 'tooltip',             // ID of actual tooltip
-  previewId   : 'preview'              // ID of screenshot/preview tooltip 
+  tooltipId      : 'tooltip',             // ID of actual tooltip
+  previewId      : 'preview'              // ID of screenshot/preview tooltip 
  });
 });</pre>
 </blockquote>
@@ -180,6 +183,7 @@ $(document).ready(function(){
     <tr><td>metadata</td><td>'class'</td><td>Location of the tooltip metadata. By default it will look in the class attribute. If set to "false" it will disable the metadata.</td></tr>
     <tr><td>activate</td><td>'mouseenter focusin'</td><td>The event that causes the tooltip to display information.</td></tr>
     <tr><td>deactivate</td><td>'mouseleave focusout'</td><td>The event that causes the tooltip to be removed.</td></tr>
+    <tr><td>cacheData</td><td>true</td><td>Cache data obtained from external pages, set to false if the data is dynamic.</td></tr>
     <tr><td>loading</td><td>'Loading...'</td><td>This message is shown while content is loading. You can also use a loading image (e.g. '<img src="loading.gif"/>'). It is replaced once the content has loaded.</td></tr>
     <tr><td>notFound</td><td>'No tooltip found'</td><td>This message is shown when no tooltip content is found.</td></tr>
     <tr><td>imagePreview</td><td>'Image preview'</td><td>This content will be added to the preview image alt attribute, so it is only seen while the image loads.</td></tr>
@@ -187,6 +191,7 @@ $(document).ready(function(){
     <tr><td>tooltip</td><td>'.tooltip'</td><td>The class used to activate the tooltip. And the ID of the actual tooltip.</td></tr>
     <tr><td>screenshot</td><td>'a.screenshot'</td><td>The class used to activate the screenshot script which shows an image associated with the URL. And this is the ID of both the screenshot & preview tooltips.</td></tr>
     <tr><td>preview</td><td>'a.preview'</td><td>The class used to activate the preview script which shows the an image in the tooltip from the href.</td></tr>
+    <tr><td>preloadContent</td><td>'preload'</td><td>Adding this class to the link (&lt;a&gt;) tells the script to preload the external content for this tooltip. This only works for regular tooltips and not preview or screenshot tooltips - they have their tooltip image automatically preloaded.</td></tr>
     <tr><td>tooltipId</td><td>'tooltip'</td><td>The ID of the actual tooltip.</td></tr>
     <tr><td>previewId</td><td>'preview'</td><td>The ID of the actual preview/screenshot tooltip (the share the same one).</td></tr>
    </tbody>
@@ -197,7 +202,6 @@ $(document).ready(function(){
 
 <h2>Known Issues</h2>
 <ul>
- <li>Fixed: <del>If the tooltip contents go out of the viewport, the script attempt to adjust the tooltip to make it visible. If it moves the tooltip under the mouse, the tooltip will flicker and become unreadable. This occurs when the east or west direction is used, so limit use of 'east' when the tooltip is near the right side and 'west' when it is near the left. I'll look into fixing this problem in future versions.</del></li>
  <li>The tooltip script won't obtain cross-domain ajax requests by default, but I have included James Padolsey's <a href="http://github.com/jamespadolsey/jQuery-Plugins/tree/master/cross-domain-ajax/">cross-domain ajax</a> script (jquery.xdomainajax.js) which should enable it. Just include the script in the head of your document.</li>
  <li>If you find any other issues, please submit an issue to <a href="http://github.com/Mottie/Jatt/issues">Jatt's github repository</a>.
 </ul>

@@ -29,6 +29,7 @@ Script:
      metadata    : 'class',               // attribute that contains the metadata, use "false" (no quotes) to disable the metadata.
      activate    : 'mouseenter focusin',  // how tooltip is activated
      deactivate  : 'mouseleave focusout', // how tooltip is deactivated
+     cacheData   : true,                  // Cache data obtained from external pages, set to false if the data is dynamic.
 
      // Messages
      loading        : 'Loading...',       // Message shown while content is loading
@@ -37,13 +38,14 @@ Script:
      siteScreenshot : 'URL preview: ',    // image alt message for site screenshots, this message is followed by the URL
 
      // change tooltip, screenshot and preview class
-     tooltip     : '.tooltip',            // tooltip class 
-     screenshot  : 'a.screenshot',        // screenshot class
-     preview     : 'a.preview',           // preview class
+     tooltip        : '.tooltip',         // tooltip class (include period ".")
+     screenshot     : 'a.screenshot',     // screenshot class (include period ".")
+     preview        : 'a.preview',        // preview class (include period ".")
+     preloadContent : '.preload',          // Add this class to preload tooltip content (not preview or screenshot; also include the "." in front).
 
      // tooltip & preview ID (div that contains the tooltip)
-     tooltipId   : 'tooltip',             // ID of actual tooltip
-     previewId   : 'preview'              // ID of screenshot/preview tooltip 
+     tooltipId   : 'tooltip',             // ID of actual tooltip (do not include the "#" in front)
+     previewId   : 'preview'              // ID of screenshot/preview tooltip (do not include the "#" in front)
     });
 
 HTML examples (see more in the provided [demo pages][3]):
@@ -53,6 +55,14 @@ HTML examples (see more in the provided [demo pages][3]):
     <a class="screenshot {direction:e;}" href="http://www.google.com/" rel="#" title="<center>Google</center>">Google</a>
 
 **Changelog**
+
+Version 2.7 (12/2/2010)
+
+* Added a `preloadContent` option which contains the class to trigger tooltip content to preload from an external page.
+    * This change was necessary for tooltips with direction set to 'n' (north) because when the content is added, it stretches the tooltip down and under the mouse causing the tooltip link to trigger a `mouseleave` event closing the tooltip. Then the user must move the mouse to trigger the `mouseover` event to open the tooltip again. And we all know how none of use like things that flicker. Whew.
+    * Also note that the tooltip element itself must have the preload class. So using '.tooltips a' would not trigger the preloads.
+    * If you want to preload all the tooltip content, then just set the `preloadContent` to the same class as `tooltip`.
+* Fixed preloading image script, so now the Websnapr image does preload.
 
 Version 2.6 (11/19/2010)
 

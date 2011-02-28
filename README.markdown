@@ -1,17 +1,17 @@
-**Features**
+#Features
 
-* Dynamic tooltip modifications can be done using metadata (see this [demo][1]).
+* Dynamic tooltip modifications can be done using metadata (see this [demo](http://mottie.github.com/Jatt/demo-metadata.htm)).
 * Choose the tooltip direction (8 directions: n, ne, e, se, s, sw, w & nw).
 * Tooltip content obtained from selected object attribute, a different object on the same page, or via ajax.
 * Ajax calls can include jQuery selectors to target specific page content.
 * Screenshots of webpages can be obtained through thumbalizr.com or from your own image.
 * Preview & Screenshot images are preloaded.
 
-**Usage & Options (defaults)**
+##Usage & Options (defaults)
 
-[See more detailed documentation][2].
+[See more detailed documentation](http://mottie.github.com/Jatt/index.html).
 
-Script:
+###Script:
 
 		$.jatt({
 		 // options that can be modified by metadata
@@ -55,15 +55,15 @@ Script:
 		 previewId      : 'preview'           // ID of screenshot/preview tooltip (do not include the "#" in front)
 		});
 
-HTML examples (see more in the provided [demo pages][3]):
+###HTML examples (see more in the provided [demo pages](http://mottie.github.com/Jatt/demo-more-examples.htm)):
 
 		<a class="tooltip {direction:n; width:100px;}" href="http://www.url.com" title="Tooltip Content">Displayed text</a>
 		<a class="preview {direction:e; text-align:center;}" href="google2.jpg" title="Google's Logo"><img src="google1.jpg" /></a>
 		<a class="screenshot {direction:e;}" href="http://www.google.com/" rel="#" title="<center>Google</center>">Google</a>
 
-**Change Log**
+##Change Log
 
-Version 2.8 (2/28/2011)
+###Version 2.8 (2/28/2011)
 
 * Modified the code to work better with HTML5 data-attributes.
 		* It will first look in the bracketed metadata stored in the attribute named in `metadata` option.
@@ -86,7 +86,7 @@ Version 2.8 (2/28/2011)
 			// do something after the tooltip has been revealed
 		});
 
-Version 2.7 (12/2/2010)
+###Version 2.7 (12/2/2010)
 
 * Added a `preloadContent` option which contains the class to trigger tooltip content to preload from an external page.
 		* This change was necessary for tooltips with direction set to 'n' (north) because when the content is added, it stretches the tooltip down and under the mouse causing the tooltip link to trigger a `mouseleave` event closing the tooltip. Then the user must move the mouse to trigger the `mouseover` event to open the tooltip again. And we all know how none of use like things that flicker. Whew.
@@ -95,31 +95,31 @@ Version 2.7 (12/2/2010)
 * Added `cacheData` option to save data obtained from external pages. Set it to false for dynamic tooltip data.
 * Fixed preloading image script, so now the Websnapr image does preload.
 
-Version 2.6 (11/19/2010)
+###Version 2.6 (11/19/2010)
 
 * Added content preload (for external pages) for tooltips.
 * Added more options to allow modification of messages - in case you want to use a different language ;)
 * Separated image preview and screenshot scripts to work properly if the `screenshot` or `preview` class is made to target tags without the class (e.g. '.previews a')
 
-Version 2.5 (11/19/2010)
+###Version 2.5 (11/19/2010)
 
 * Added image preload for preview and screenshot tooltips to fix tooltip positioning issues, but this doesn't seem to work for Websnapr images.
 
-Version 2.4 (11/7/2010)
+###Version 2.4 (11/7/2010)
 
 * Fixed a problem that was only occurring in IE - undefined variable error.
 * Cleaned up the code a bit and tried to fix other potential problems.
 
-Version 2.3 (10/12/2010)
+###Version 2.3 (10/12/2010)
 
 * Added github pages
 * Changed object cloning method - now using jQuery method
 
-Version 2.2 (10/3/2010)
+###Version 2.2 (10/3/2010)
 
 * Added support for old tooltip script (css contained in rel attribute)
 
-Version 2.1 (8/24/2010)
+###Version 2.1 (8/24/2010)
 
 * Convert script into a plugin.
 * Added Metadata - can modify tooltip css and script options.
@@ -127,19 +127,16 @@ Version 2.1 (8/24/2010)
 * Added additional contents sources - can be obtained from external pages (domains if you use James Padolsey's included script).
 * Removed dhtmltooltip support, but the commented code was left in, in case someone still needs it.
 
-Version 2.0.1 (8/29/2009)
+###Version 2.0.1 (8/29/2009)
 
 * Added Websnapr.com support to the screenshot script.
 
-Version 2.0 (6/10/2009)
+###Version 2.0 (6/10/2009)
 
 * Combined the three original scripts by Alen Grakalic.
 * Added support for dhtmltooltip.
 
-Version 1.0 (5/8/2008)
+###Version 1.0 (5/8/2008)
 
 * Original tooltip script by Alen Grakalic.
 
-	[1]: http://mottie.github.com/Jatt/demo-metadata.htm
-	[2]: http://mottie.github.com/Jatt/index.html
-	[3]: http://mottie.github.com/Jatt/demo-more-examples.htm

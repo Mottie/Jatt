@@ -66,10 +66,12 @@
 ###Version 2.8 (2/28/2011)
 
 * Modified the code to work better with HTML5 data-attributes.
-		* It will first look in the bracketed metadata stored in the attribute named in `metadata` option.
-		* Then it'll look for unbracketed metadata - you really only need to put brackets around the metadata when in the class attribute.
-		* If still nothing is found, it will fall back on any metadata stored in "data-jatt".
-		* Updated the demo page to demonstrate the differences - look for the "Meta in class" checkbox at the bottom.
+
+	* It will first look in the bracketed metadata stored in the attribute named in `metadata` option.
+	* Then it'll look for unbracketed metadata - you really only need to put brackets around the metadata when in the class attribute.
+	* If still nothing is found, it will fall back on any metadata stored in "data-jatt".
+	* Updated the demo page to demonstrate the differences - look for the "Meta in class" checkbox at the bottom.
+
 * Added `websitePreview` option which should contain the thumbnail provider api string (everything but the url). Also, the thumbnail provider is now "thumbalizr.com".
 * Added callbacks (initialization option) and events (bound to the document).
 

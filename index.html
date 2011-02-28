@@ -96,7 +96,7 @@ $(document).ready(function(){
    <li>class="<span style="color: #0080ff;">preview</span>" (required) - This class activates the tooltip which puts the linked image (from the href) into a tooltip. The tooltip size is adjusted automatically to fit the image.</li>
    <li>class="preview { metadata }" (optional) - Add any of the predefined options (listed below) or any css style to apply to the tooltip.
    <li>href="<span style="color: orange;">URL to full size image</span>" (required) - URL to the image, for previewing in the tooltip and the URL you go to when you click on the image.</li>
-   <li>title="<span style="color: teal;">TOOLTIP CONTENT</span>" (optional) - This content becomes the image caption located below the image inside the tooltip. Note: Do NOT use quotes in the content. If you are using HTML tags, replace the quotes with single quotes, e.g. &lt;img src='http://i201.photobucket.com/albums/aa236/Mottie1/testsite/icons/Nax2-10.gif'&gt;. If you must use quotes to surround some text, use the HTML escape code <span style="color: teal;">&amp;quot;</span> - this text has <span style="color: teal;">&amp;quot;</span>quotes<span style="color: teal;">&amp;quot;</span> around it.</li>
+   <li>title="<span style="color: teal;">TOOLTIP CONTENT</span>" (optional) - This content becomes the image caption located below the image inside the tooltip. Note: Do NOT use quotes in the content. If you are using HTML tags, replace the quotes with single quotes, e.g. &lt;img src='images/google1.png'&gt;. If you must use quotes to surround some text, use the HTML escape code <span style="color: teal;">&amp;quot;</span> - this text has <span style="color: teal;">&amp;quot;</span>quotes<span style="color: teal;">&amp;quot;</span> around it.</li>
    <li><span style="color: darkgrey;">&lt;img src="URL to image thumbnail"&gt;</span> (required) - This will be the thumbnail of the URL image (in orange), or you can pick any image as I did here. Or you can replace the &lt;img&gt; with text.</li>
   </ul>
   <br>
@@ -110,8 +110,8 @@ $(document).ready(function(){
   <ul>
    <li>class="<span style="color: #0080ff;">screenshot</span>" (required) - This class activates the tooltip that gets the site screenshot image from the rel attribute (in <span style="color: skyblue;">light blue</span>)</li>
    <li>href="<span style="color: orange;">URL</span>" (required) - URL of the target website</li>
-   <li>title="<span style="color: teal;">Tooltip content</span>" (optional) - This content becomes the screenshot (image) caption inside the tooltip. Note: Do NOT use quotes in the content. If you are using HTML tags, replace the quotes with single quotes, e.g. &lt;img src='http://i201.photobucket.com/albums/aa236/Mottie1/testsite/icons/Nax2-10.gif'&gt;. If you must use quotes to surround some text, use the HTML escape code <span style="color: teal;">&amp;quot;</span> - this text has <span style="color: teal;">&amp;quot;</span>quotes<span style="color: teal;">&amp;quot;</span> around it.</li>
-   <li>rel="<span style="color: skyblue;">Website_Screenshot.jpg</span>" or rel="<span style="color: skyblue;">#</span>" (required) <span style="color: red;"></span> This attribute can contain either the URL to the screenshot image of the site to which you have the link pointing. Yes, you will have to take, resize and upload the screenshot image yourself OR you can now use rel="<span style="color: skyblue;">#</span>" to have <a href="http://www.websnapr.com/">Websnapr.com</a> generate a thumbnail of the site for you.</li>
+   <li>title="<span style="color: teal;">Tooltip content</span>" (optional) - This content becomes the screenshot (image) caption inside the tooltip. Note: Do NOT use quotes in the content. If you are using HTML tags, replace the quotes with single quotes, e.g. &lt;img src='images/google1.png'&gt;. If you must use quotes to surround some text, use the HTML escape code <span style="color: teal;">&amp;quot;</span> - this text has <span style="color: teal;">&amp;quot;</span>quotes<span style="color: teal;">&amp;quot;</span> around it.</li>
+   <li>rel="<span style="color: skyblue;">Website_Screenshot.jpg</span>" or rel="<span style="color: skyblue;">#</span>" (required) <span style="color: red;"></span> This attribute can contain either the URL to the screenshot image of the site to which you have the link pointing. Yes, you will have to take, resize and upload the screenshot image yourself OR you can now use rel="<span style="color: skyblue;">#</span>" to have <a href="http://www.thumbalizr.com/">Thumbalizr.com</a> generate a thumbnail of the site for you.</li>
    <li><span style="color: darkgrey;">text or image</span> (required) - Text or image that becomes the clickable link to the site.
   </ul>
 </li><br>
@@ -143,6 +143,13 @@ $(document).ready(function(){
   activate       : 'mouseenter focusin',  // how tooltip is activated
   deactivate     : 'mouseleave focusout', // how tooltip is deactivated
   cacheData      : true,                  // Cache data obtained from external pages, set to false if the data is dynamic.
+  websitePreview : 'http://api1.thumbalizr.com/?width=250&url=', // use your own custom thumbnail service api string.
+
+  // Callbacks
+  jatt-initialized  : null,               // occurs when the tooltip is called - when hovering over an object
+  jatt-beforeReveal : null,               // occurs when the tooltip is fully formed, but still hidden
+  jatt-revealed     : null,               // occurs when the tooltip is revealed
+  jatt-hidden       : null,               // occurs when the tooltip is hidden (removed)
 
   // Messages
   loading        : 'Loading...',          // Message shown while content is loading
@@ -184,6 +191,11 @@ $(document).ready(function(){
     <tr><td>activate</td><td>'mouseenter focusin'</td><td>The event that causes the tooltip to display information.</td></tr>
     <tr><td>deactivate</td><td>'mouseleave focusout'</td><td>The event that causes the tooltip to be removed.</td></tr>
     <tr><td>cacheData</td><td>true</td><td>Cache data obtained from external pages, set to false if the data is dynamic.</td></tr>
+    <tr><td>websitePreview</td><td>'http://api1.thumbalizr.com/?width=250&url='</td><td>use your own custom thumbnail service (api string - http://www.thumbalizr.com/apitools.php)</td></tr>
+    <tr><td>jatt-initialized</td><td>null</td><td>This event/callback occurs when the tooltip is called - when hovering over an object</td></tr>
+    <tr><td>jatt-beforeReveal</td><td>null</td><td>This event/callback occurs when the tooltip is fully formed, but still hidden</td></tr>
+    <tr><td>jatt-revealed</td><td>null</td><td>This event/callback occurs when the tooltip is revealed</td></tr>
+    <tr><td>jatt-hidden</td><td>null</td><td>This event/callback occurs when the tooltip is hidden (removed)</td></tr>
     <tr><td>loading</td><td>'Loading...'</td><td>This message is shown while content is loading. You can also use a loading image (e.g. '<img src="loading.gif"/>'). It is replaced once the content has loaded.</td></tr>
     <tr><td>notFound</td><td>'No tooltip found'</td><td>This message is shown when no tooltip content is found.</td></tr>
     <tr><td>imagePreview</td><td>'Image preview'</td><td>This content will be added to the preview image alt attribute, so it is only seen while the image loads.</td></tr>

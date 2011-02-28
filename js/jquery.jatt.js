@@ -1,5 +1,5 @@
 /*
- * Jatt - just another tooltip v2.7
+ * Jatt - just another tooltip v2.8
  * http://github.com/Mottie/Jatt
  * by Rob Garrison (aka Mottie)
  *
@@ -14,12 +14,21 @@
   // options
   var opt, process, cache = [],
    pageBody = $('body'),
+   doc = $(document),
+   win = $(window),
    o = $.extend({},$.jatt.defaultOptions, options),
 
   init = function(){
    // event type
    var evt = (o.live) ? 'live' : 'bind',
     preloads = [];
+
+   // callbacks
+   $.each('jatt-initialized jatt-beforeReveal jatt-revealed jatt-hidden'.split(' '), function(i,e){
+    if ($.isFunction(o[e])){
+     doc.bind(e, o[e]);
+    }
+   });
 
    // *** Tooltips ***
    $(o.tooltip)
@@ -28,6 +37,9 @@
       url, ttloader, ttl,
       $obj = $(this),
       meta = (o.metadata.toString() == 'false') ? [o, ''] : $.jatt.getMeta($obj);
+
+     doc.trigger('jatt-initialized', $obj);
+
      opt = meta[0]; // meta options
      tt = ($obj.attr(opt.content) === '') ? $obj.data('tooltip') || '' : $obj.attr(opt.content) || '';
      rel = $obj.attr('rel') || '';
@@ -66,10 +78,13 @@
 
      $('#' + o.tooltipId).html(tt).data('options', opt);
      $.jatt.ttrelocate(e, o.tooltipId);
+     doc.trigger('jatt-beforeReveal', $obj);
      $('#' + o.tooltipId).fadeIn(opt.speed);
+     doc.trigger('jatt-revealed', $obj);
     })
     [evt](o.deactivate,function(e) {
      $.jatt.removeTooltips();
+     doc.trigger('jatt-hidden', this);
     })
     [evt]('mousemove',function(e) {
      if ($('#' + o.tooltipId).length && opt.followMouse) { $.jatt.ttrelocate(e, o.tooltipId); }
@@ -77,11 +92,13 @@
 
    // *** Process image & URL screenshot previews ***
    process = function(e, $obj, content){
+    doc.trigger('jatt-initialized', $obj);
     var tt, tmp, meta = (o.metadata.toString() == 'false') ? [o, ''] : $.jatt.getMeta($obj);
     opt = meta[0];
     tt = ($obj.attr(opt.content) === '') ? $obj.data('tooltip') || '' : $obj.attr(opt.content) || '';
     $obj.data('tooltip', tt);
-    if (opt.content == 'title') { $obj.attr(opt.content, ''); } // leave title attr empty
+    if (opt.content === 'title') { $obj.attr(opt.content, ''); } // leave title attr empty
+    // make sure position and zindex (in case it's not in the meta data) are always added
     tmp = '<div id="' + o.previewId + '" style="position:absolute;z-index:' + opt.zIndex + ';' + meta[1] + '"><img src="' + content;
     tmp += (tt !== '') ? '<br/>' + tt + '</div>' : '</div>';
     if (opt.local){
@@ -89,11 +106,13 @@
     } else {
      pageBody.append(tmp);
     }
+    doc.trigger('jatt-beforeReveal', $obj);
     $('#' + o.previewId)
      .hide()
      .data('options', opt)
      .fadeIn(opt.speed);
     $.jatt.ttrelocate(e, o.previewId);
+    doc.trigger('jatt-revealed', $obj);
    };
 
    // *** Image preview ***
@@ -110,21 +129,22 @@
    $(o.screenshot)
     [evt](o.activate,function(e){
      var $obj = $(this),
-      /* use websnapr.com to get website thumbnail preview if rel="#" */
-      ss = ($obj.attr('rel') == '#') ? 'http://images.websnapr.com/?url=' + $obj.attr('href') : $obj.attr('rel');
+      /* use external site to get website thumbnail preview if rel="#" */
+      ss = ($obj.attr('rel') === '#') ? o.websitePreview + $obj.attr('href') : $obj.attr('rel');
      ss += '" alt="' + o.siteScreenshot + $obj.attr('href') + '" />';
      process( e, $obj, ss );
     })
     // preload screenshots
     .each(function(){
      var $obj = $(this);
-     preloads.push( ($obj.attr('rel') == '#') ? 'http://images.websnapr.com/?url=' + $obj.attr('href') : $obj.attr('rel') );
+     preloads.push( ($obj.attr('rel') === '#') ? o.websitePreview + $obj.attr('href') : $obj.attr('rel') );
     });
 
     // *** combined preview & screenshot ***
     $(o.preview + ',' + o.screenshot)
     [evt](o.deactivate,function(e){
      $.jatt.removeTooltips();
+     doc.trigger('jatt-hidden', this);
     })
     [evt]('mousemove',function(e){
      if ($('#' + o.previewId).length && opt.followMouse) { $.jatt.ttrelocate(e, o.previewId); }
@@ -135,8 +155,7 @@
   }; // end init
 
   $.jatt.ttrelocate = function(e, ttid){
-   var win = $(window),
-    tt = $('#' + ttid),
+   var tt = $('#' + ttid),
     ttw = tt.outerWidth(),
     tth = tt.outerHeight(),
     opt = tt.data('options') || o,
@@ -195,10 +214,17 @@
 
   $.jatt.getMeta = function(el){
    opt = $.extend({}, o);
-   var t, m = [], meta = el.attr(o.metadata).match(/(\{.*\})/g) || '';
+   var t, m = [],
+    // options that aren't added to the tooltip style (except zIndex)
+    opts = 'direction|followMouse|content|speed|local|xOffset|yOffset|zIndex',
+    meta = el.attr(o.metadata) || '';
+   // if the metadata doesn't have curly brackets then look in the attrib
+   meta = (meta.match(/(\{.*\})/g)) ? meta.match(/(\{.*\})/g)[0] : el.attr(o.metadata) || '';
+   // if the current meta data doesn't have any of the metadata variables, look in data-jatt
+   // the data object (el.data('jatt')) could have been used, but then the code would be longer.
+   meta = (meta.match('width|background|color|border|' + opts)) ? meta : el.attr('data-jatt') || '';
    if (meta !== '') {
-    var opts = 'direction|followMouse|content|speed|local|xOffset|yOffset|zIndex';
-    meta = meta[0].replace(/(\{|\'|\"|\})/g,''); // remove curly brackets, spaces, apostrophes and quotes
+    meta = meta.replace(/(\{|\'|\"|\})/g,''); // remove curly brackets, spaces, apostrophes and quotes
     if (meta.match(opts)) {
      // split out tooltip options, assume everything else is css
      $.each( meta.split(';'), function(i,val){
@@ -226,7 +252,7 @@
    if (t !== '' && !/^[#|\.]|[\/]/.test(t)) {
     t = t.split(',');
     meta += ';width:' + t[0] + 'px;';
-    if (typeof(t[1]) != 'undefined') { meta += 'background:' + t[1]; }
+    if (typeof(t[1]) !== 'undefined') { meta += 'background:' + t[1]; }
     // ***** end retro tooltip code *****
    }
    return [opt, meta];
@@ -243,12 +269,12 @@
 
   // Preload Content
   $.jatt.preloadContent = function(preloads) {
-    var cacheImage, $this, $div, url,
+    var cacheImage, $this, $div, url, i,
      divs = [],
      $tt = $(o.tooltip),
      len = preloads.length;
     // preload images code modified from http://engineeredweb.com/blog/09/12/preloading-images-jquery-and-javascript
-    for (var i = len; i--;) {
+    for (i = len; i--;) {
 //     console.debug('preloading image: ' + preloads[i]);
      cacheImage = document.createElement('img');
      cacheImage.src = preloads[i];
@@ -258,7 +284,7 @@
     $tt.each(function(i){
      $this = $(this);
      // look for preload content class
-     if ( this.tagName == 'A' && $this.is(o.preloadContent) ) {
+     if ( this.tagName === 'A' && $this.is(o.preloadContent) ) {
       url = $(this).attr('href') || '';
       if ( url !== '' && !url.match(/^#/) ) {
        // Load tooltip from external page
@@ -294,6 +320,7 @@
   activate       : 'mouseenter focusin',  // how tooltip is activated
   deactivate     : 'mouseleave focusout', // how tooltip is deactivated
   cacheData      : true,                  // Cache data obtained from external pages, set to false if the data is dynamic.
+  websitePreview : 'http://api1.thumbalizr.com/?width=250&url=', // use your own custom thumbnail service (api string - http://www.thumbalizr.com/apitools.php)
 
   // Messages
   loading        : 'Loading...',          // Message shown while content is loading
@@ -305,7 +332,7 @@
   tooltip        : '.tooltip',            // tooltip class
   screenshot     : 'a.screenshot',        // screenshot class
   preview        : 'a.preview',           // preview class
-  preloadContent : '.preload',            // Add this class to preload tooltip content (not preview or screenshot).
+  preloadContent : '.preload',            // Add this class to preload tooltip content (not for preview or screenshot).
 
   // tooltip & preview ID (div that contains the tooltip)
   tooltipId      : 'tooltip',             // ID of actual tooltip

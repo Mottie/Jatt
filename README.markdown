@@ -91,9 +91,9 @@
 ###Version 2.7 (12/2/2010)
 
 * Added a `preloadContent` option which contains the class to trigger tooltip content to preload from an external page.
-		* This change was necessary for tooltips with direction set to 'n' (north) because when the content is added, it stretches the tooltip down and under the mouse causing the tooltip link to trigger a `mouseleave` event closing the tooltip. Then the user must move the mouse to trigger the `mouseover` event to open the tooltip again. And we all know how none of use like things that flicker. Whew.
-		* Also note that the tooltip element itself must have the preload class. So using '.tooltips a' would not trigger the preloads.
-		* If you want to preload all the tooltip content, then just set the `preloadContent` to the same class as `tooltip`.
+	* This change was necessary for tooltips with direction set to 'n' (north) because when the content is added, it stretches the tooltip down and under the mouse causing the tooltip link to trigger a `mouseleave` event closing the tooltip. Then the user must move the mouse to trigger the `mouseover` event to open the tooltip again. And we all know how none of use like things that flicker. Whew.
+	* Also note that the tooltip element itself must have the preload class. So using '.tooltips a' would not trigger the preloads.
+	* If you want to preload all the tooltip content, then just set the `preloadContent` to the same class as `tooltip`.
 * Added `cacheData` option to save data obtained from external pages. Set it to false for dynamic tooltip data.
 * Fixed preloading image script, so now the Websnapr image does preload.
 

@@ -1,5 +1,5 @@
 /*
- * Jatt - just another tooltip v2.8
+ * Jatt - just another tooltip v2.8.1
  * http://github.com/Mottie/Jatt
  * by Rob Garrison (aka Mottie)
  *
@@ -99,7 +99,7 @@
     $obj.data('tooltip', tt);
     if (opt.content === 'title') { $obj.attr(opt.content, ''); } // leave title attr empty
     // make sure position and zindex (in case it's not in the meta data) are always added
-    tmp = '<div id="' + o.previewId + '" style="position:absolute;z-index:' + opt.zIndex + ';' + meta[1] + '"><img src="' + content;
+    tmp = '<div id="' + o.previewId + '" style="position:absolute;z-index:' + opt.zIndex + ';' + meta[1] + '">' + content;
     tmp += (tt !== '') ? '<br/>' + tt + '</div>' : '</div>';
     if (opt.local){
      $obj.before(tmp);
@@ -118,9 +118,10 @@
    // *** Image preview ***
    $(o.preview)
     [evt](o.activate,function(e){
-     process( e, $(this), $(this).attr('href') + '" alt="' + o.imagePreview +'" />');
-    })
-    // preload images/screenshots
+     process( e, $(this), '<img src="' + $(this).attr('href') + '" alt="' + o.imagePreview +'" />');
+    });
+   // preload images/screenshots
+   $(o.preview + o.preloadContent)
     .each(function(){
      preloads.push( $(this).attr('href') );
     });
@@ -130,15 +131,16 @@
     [evt](o.activate,function(e){
      var $obj = $(this),
       /* use external site to get website thumbnail preview if rel="#" */
-      ss = ($obj.attr('rel') === '#') ? o.websitePreview + $obj.attr('href') : $obj.attr('rel');
+      ss = '<img src="' + (($obj.attr('rel') === '#') ? o.websitePreview + $obj.attr('href') : $obj.attr('rel'));
      ss += '" alt="' + o.siteScreenshot + $obj.attr('href') + '" />';
      process( e, $obj, ss );
-    })
-    // preload screenshots
-    .each(function(){
-     var $obj = $(this);
-     preloads.push( ($obj.attr('rel') === '#') ? o.websitePreview + $obj.attr('href') : $obj.attr('rel') );
     });
+    // preload screenshots
+    $(o.screenshot + o.preloadContent)
+     .each(function(){
+      var $obj = $(this);
+      preloads.push( ($obj.attr('rel') === '#') ? o.websitePreview + $obj.attr('href') : $obj.attr('rel') );
+     });
 
     // *** combined preview & screenshot ***
     $(o.preview + ',' + o.screenshot)
@@ -275,7 +277,7 @@
      len = preloads.length;
     // preload images code modified from http://engineeredweb.com/blog/09/12/preloading-images-jquery-and-javascript
     for (i = len; i--;) {
-//     console.debug('preloading image: ' + preloads[i]);
+     // console.debug('preloading image: ' + preloads[i]);
      cacheImage = document.createElement('img');
      cacheImage.src = preloads[i];
      cache.push(cacheImage);
@@ -288,7 +290,7 @@
       url = $(this).attr('href') || '';
       if ( url !== '' && !url.match(/^#/) ) {
        // Load tooltip from external page
-//       console.debug('preloading content: ' + url);
+       // console.debug('preloading content: ' + url);
        $div = $('<div rel="' + i + '" />');
        divs.push($div);
        $div.load(url, function(){

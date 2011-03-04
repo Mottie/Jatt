@@ -161,7 +161,7 @@ $(document).ready(function(){
   tooltip        : '.tooltip',            // tooltip class 
   screenshot     : 'a.screenshot',        // screenshot class
   preview        : 'a.preview',           // preview class
-  preloadContent : 'preload',             // Add this class to tooltips to have its external content preloaded.
+  preloadContent : '.preload',             // Add this class to tooltips to have its external content preloaded.
 
   // tooltip & preview ID (div that contains the tooltip)
   tooltipId      : 'tooltip',             // ID of actual tooltip
@@ -203,7 +203,7 @@ $(document).ready(function(){
     <tr><td>tooltip</td><td>'.tooltip'</td><td>The class used to activate the tooltip. And the ID of the actual tooltip.</td></tr>
     <tr><td>screenshot</td><td>'a.screenshot'</td><td>The class used to activate the screenshot script which shows an image associated with the URL. And this is the ID of both the screenshot & preview tooltips.</td></tr>
     <tr><td>preview</td><td>'a.preview'</td><td>The class used to activate the preview script which shows the an image in the tooltip from the href.</td></tr>
-    <tr><td>preloadContent</td><td>'preload'</td><td>Adding this class to the link (&lt;a&gt;) tells the script to preload the external content for this tooltip. This only works for regular tooltips and not preview or screenshot tooltips - they have their tooltip image automatically preloaded.</td></tr>
+    <tr><td>preloadContent</td><td>'preload'</td><td>Adding this class to the link (&lt;a&gt;) tells the script to preload the external content for this tooltip. This class is needed before tooltips will have their image automatically preloaded.</td></tr>
     <tr><td>tooltipId</td><td>'tooltip'</td><td>The ID of the actual tooltip.</td></tr>
     <tr><td>previewId</td><td>'preview'</td><td>The ID of the actual preview/screenshot tooltip (the share the same one).</td></tr>
    </tbody>

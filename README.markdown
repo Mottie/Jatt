@@ -64,7 +64,7 @@
 
 ##Change Log
 
-###Version 2.8.2 (3/xx/2011)
+###Version 2.8.2 (6/5/2011)
 
 * Changed events from "jatt-{event}" to "{event}.jatt" to better fit namespaced events. This makes Jatt events only work properly with jQuery 1.4.3+.
 * Changed callback named from "jatt-{event}" to just "{event}".

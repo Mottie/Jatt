@@ -1,0 +1,107 @@
+/* Metadata Demo CSS */
+body {
+ background: #333;
+ color: #ddd;
+}
+
+#wrap {
+ width: 1000px;
+ margin: 0 auto;
+}
+.center {
+ text-align: center;
+}
+
+a:link { color: #fc0; text-decoration: none; }
+a:hover { color: #fff; }
+a:visited,a:active { color: #f80; }
+img { border: 0; }
+.hidden { display: none; }
+
+#nav { display: block; width: auto; margin: 20px auto 0 auto; text-align: center; white-space: nowrap; }
+#nav a { text-align: center; background: black; color: white; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; padding: 10px; }
+#nav a.git { background: #006; }
+#nav a.issue { background: #600; }
+#nav a:hover, #nav a.current { background: #666; }
+
+#left, #right {
+ float: left;
+ width: 500px;
+}
+#right { width: 400px; }
+
+/* css for local tooltips - tooltip inserted before element */
+#star-image-wrapper #tooltip { background: #f00 !important; color: #fff !important; }
+
+#right #tooltip {
+ width: 20px;
+ text-align: center;
+ border-radius: 3px;
+ -moz-border-radius: 3px;
+ -webkit-border-radius: 3px;
+}
+
+h1, h2, h3 {
+ color: #fff;
+ font-variant: small-caps;
+ margin-top: 0;
+}
+
+.keytable, .keytable td {
+ border: #777 1px solid;
+ border-collapse: collapse;
+ padding: 1px 5px;
+}
+
+.spacer {
+ height: 120px;
+}
+.spacer2 {
+ height: 20px;
+}
+
+.examples div.tooltip {
+ border: #444 1px solid;
+}
+
+.meta {
+ width: 300px;
+ margin: 0 auto;
+ text-align: left;
+}
+
+.meta td {
+ min-width: 90px;
+}
+
+.meta td.label {
+ text-align: right;
+}
+
+input.val {
+ text-align: left;
+ width: 50px;
+}
+
+#ti, #re, val2 {
+ width: 150px;
+}
+
+#code {
+ width: 400px;
+ height: 120px;
+ margin-right: 20px;
+}
+
+#display {
+ padding: 0;
+ list-style: none;
+}
+
+.highlight-tooltip  { color: #0080ff; }
+.highlight-meta     { color: #b2a2c7; }
+.highlight-optional { color: #d00; }
+.highlight-url      { color: #f79646; }
+.highlight-title    { color: #92d050; }
+.highlight-rel      { color: skyblue; }
+.highlight-text     { color: darkgrey; }

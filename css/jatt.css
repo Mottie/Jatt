@@ -1,0 +1,34 @@
+/* Jatt (Just Another Tooltip) overall */
+.tooltip, .preview, .screenshot { cursor: pointer; }
+
+/* tooltip only, don't add a default width to
+ preview/screenshot tooltips or the image won't fit inside */
+#tooltip { width: 250px; }
+
+/* basic tooltip style */
+#tooltip, #preview {
+ color: #dddddd;
+ background: #444;
+ border: 1px solid #777;
+ padding: 8px;
+ display: none;
+ opacity: 0.9;
+ filter: alpha(opacity=90);
+ text-align: left;
+ border-radius: 1em;
+ -moz-border-radius: 1em;
+ -webkit-border-radius: 1em;
+}
+
+/* close button (span) */
+#tooltip .close, #preview .close {
+ position: absolute;
+ top: 3px;
+ right: 3px;
+ display: none;
+ cursor: pointer;
+ text-indent: -9999px;
+ background: url(../images/close.gif) center center no-repeat;
+ width: 16px;
+ height: 16px;
+}

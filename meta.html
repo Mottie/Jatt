@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Jatt Metadata Demo</title>
+
+<!-- jQuery (required), using version 1.4.3 here to show compatibility -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.js"></script>
+
+<!-- Demo only -->
+<link href="demo/demo.css" rel="stylesheet">
+<script src="demo/demo.js"></script>
+
+<!-- Jatt (required) -->
+<link href="css/jatt.css" rel="stylesheet">
+<script src="js/jquery.jatt.js"></script>
+
+<!-- Jatt initialization, see docs for options -->
+<script>
+$(function(){
+ $.jatt();
+});
+</script>
+
+</head>
+<body>
+
+<div id="wrap" class="meta">
+
+	<!-- Links to other demo pages & docs -->
+	<div id="nav">
+		<a href="examples.html">Examples</a>
+		<a class="current" href="meta.html">Meta-data Demo</a>
+		<a class="git" href="index.html">Documentation</a>
+		<a class="git" href="http://github.com/Mottie/Jatt/downloads">Download</a>
+		<a class="issue" href="https://github.com/Mottie/Jatt/issues">Issues</a><br><br>
+	</div>
+	<!-- End Links -->
+
+	<h1 class="center">Dynamic Metadata Demo</h1>
+
+	<div id="left" class="center">
+		(hover over the star)
+		<div class="spacer"></div>
+		<span id="star-image-wrapper"><img src="demo/star.png" id="test" class="tooltip { background: #444444; color: #dddddd; width: 150px; border: #777 1px solid; direction: n; followMouse: true; content: title; speed: 300; local: false; xOffset: 20; yOffset: 20; zIndex: 1000; }" title="Some message" alt="star"></span>
+		<div class="spacer"></div>
+		<h3>Jatt Demo HTML</h3>
+		<textarea id="code" rows="7" cols="50"></textarea>
+
+		<br><br>
+
+		<h3>Tooltip Events</h3>
+		<ul id="display">
+		</ul>
+
+	</div>
+
+	<div id="right">
+		<h3 class="center">Tooltip position</h3>
+		<div class="center">
+			<input name="dir" class="tooltip {direction:nw; local:true; xOffset:5; yOffset:5; followMouse:false}" title="NW" type="radio" id="dnw" value="nw" >
+			<input name="dir" class="tooltip {direction:n; local:true; xOffset:5; yOffset:5; followMouse:false}" title="N" type="radio" id="dn" value="n" checked >
+			<input name="dir" class="tooltip {direction:ne; local:true; xOffset:5; yOffset:5; followMouse:false}" title="NE" type="radio" id="dne" value="ne" ><br>
+
+			<input name="dir" class="tooltip {direction:w; local:true; xOffset:5; yOffset:5; followMouse:false}" title="W" type="radio" id="dw" value="w" >
+			Object
+			<input name="dir" class="tooltip {direction:e; local:true; xOffset:5; yOffset:5; followMouse:false}" title="E" type="radio" id="de" value="e" ><br>
+
+			<input name="dir" class="tooltip {direction:sw; local:true; xOffset:5; yOffset:5; followMouse:false}" title="SW" type="radio" id="dsw" value="sw" >
+			<input name="dir" class="tooltip {direction:s; local:true; xOffset:5; yOffset:10; followMouse:false}" title="S" type="radio" id="ds" value="s" >
+			<input name="dir" class="tooltip {direction:se; local:true; xOffset:5; yOffset:5; followMouse:false}" title="SE" type="radio" id="dse" value="se" >
+		</div>
+
+		<br><br>
+
+		<table class="meta">
+			<tr><td class="label"><label for="fm">Follow Mouse:</label></td><td><input class="tooltip {direction:e;followMouse:false}" title="Make the tooltip follow the mouse" name="follow" type="checkbox" id="fm" value="true" checked ></td></tr>
+			<tr><td class="label"><label for="ms">Make Sticky:</label></td><td><input class="tooltip {direction:e;followMouse:false}" title="Sticky tooltips stay open" name="sticky" type="checkbox" id="ms" value="false"></td></tr>
+			<tr><td class="label">Speed:</td><td><input class="val tooltip {direction:e;followMouse:false}" title="Speed of fadeIn animation; tooltip is instantly removed" type="text" id="sp" value="300"></td></tr>
+			<tr><td class="label"><label for="lo">Local:</label></td><td><input class="tooltip {direction:e;followMouse:false}" title="Attaches tooltip before element; so to get css styling to override inline tooltip styling, use the !important flag: <pre>#star-image-wrapper #tooltip {<br> background: #f00 !important;<br> color: #fff !important;<br>}</pre>" name="local" type="checkbox" id="lo" value="false"></td></tr>
+			<tr><td class="label">xOffset:</td><td><input class="val tooltip {direction:e;followMouse:false}" title="Horizontal distance from mouse/object in pixels" type="text" id="xo" value="20"></td></tr>
+			<tr><td class="label">yOffset:</td><td><input class="val tooltip {direction:e;followMouse:false}" title="Vertical distance from mouse/object in pixels" type="text" id="yo" value="20"></td></tr>
+			<tr><td class="label">zIndex:</td><td><input class="val tooltip {direction:e;followMouse:false}" title="Z-axis. Make this number big enough so the tooltip is above everything else" type="text" id="zi" value="1000"></td></tr>
+			<tr><td class="label"><br>Content:</td><td><br><select class="val tooltip {direction:e;followMouse:false}" title="Attribute that contains the tooltip content" id="co"><option value="title">title</option><option value="alt">alt</option></select></td></tr>
+			<tr><td class="label">Title:</td><td><input class="val tooltip {direction:e;followMouse:false}" title="Tooltip title (default content); Include any HTML" type="text" id="ti" value="Some message"></td></tr>
+			<tr><td class="label">Alt:</td><td><input class="val tooltip {direction:e;followMouse:false}" title="Any attribute can be used; For the demo the alt has content" type="text" id="al" value="star"></td></tr>
+			<tr><td class="label"><br>Width:</td><td><br><input class="val tooltip {direction:e;followMouse:false}" title="Tooltip width" type="text" id="wi" value="150"></td></tr>
+			<tr><td class="label">Background:</td><td><input class="val2 tooltip {direction:e;followMouse:false}" title='Tooltip background style; Try including a background image, e.g. "url(demo/wide.gif)"' type="text" id="bk" value="#444444"></td></tr>
+			<tr><td class="label">Text Color:</td><td><input class="val2 tooltip {direction:e;followMouse:false}" title="Tooltip text color" type="text" id="tc" value="#dddddd"></td></tr>
+			<tr><td class="label">Border:</td><td><input class="val2 tooltip {direction:e;followMouse:false}" title="Tooltip border style" type="text" id="bo" value="#777 1px solid"></td></tr>
+			<tr><td class="label tooltip" title="Add meta data into the class attribute">Meta in class:</td><td><input class="tooltip {direction:e;followMouse:false}" title="Meta data can be in any attribute; store it in the class by default" name="inClass" type="checkbox" id="ic" value="true" checked ></td></tr>
+		</table>
+
+	</div>
+
+</div>
+
+</body></html>

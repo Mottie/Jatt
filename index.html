@@ -1,221 +1,216 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html><head>
+<!DOCTYPE html>
+<html>
+<head>
+
 <title>Tooltips</title>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.js"></script>
-<script type="text/javascript" src="js/jquery.jatt.js"></script>
-<script type="text/javascript" src="js/jquery.xdomainajax.js"></script>
-<link type="text/css" href="css/jatt-demo.css" rel="stylesheet">
 
-<style type="text/css">
-.tooltip, .preview, .screenshot { cursor: pointer; }
-#tooltip { width: 250px; }
-#tooltip, #preview {
- color: #dddddd;
- background: #444;
- border: 1px solid #777;
- padding: 8px;
- display: none;
- opacity: 0.9;
- filter: alpha(opacity=90);
- text-align: left;
- border-radius: 1em;
- -moz-border-radius: 1em;
- -webkit-border-radius: 1em;
-}
-</style>
+<!-- Demo only -->
+<link href="demo/demo.css" rel="stylesheet">
 
-<script type="text/javascript">
-$(document).ready(function(){
+<!-- jQuery (required) -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.js"></script>
+
+<!-- Jatt (required) -->
+<link href="css/jatt.css" rel="stylesheet">
+<script src="js/jquery.jatt.js"></script>
+
+<!-- Jatt (optional) -->
+<script src="js/jquery.xdomainajax.js"></script>
+
+<!-- Jatt initialization, see docs for options -->
+<script>
+$(function(){
  $.jatt();
 });
 </script>
 
-</head><body>
-<div class="center">
-Demos: <a href="index.html">Documents</a> | <a href="demo-metadata.htm">Dynamic metadata</a> | <a href="demo-more-examples.htm">Examples</a><br>
-<h2>Documents</h2>
-</div>
+</head>
+<body>
 
-<h2>Adding the Tooltips</h2>
+<div id="wrap">
+	<!-- Links to other demo pages & docs -->
+	<div id="nav">
+		<a href="examples.html">Examples</a>
+		<a href="meta.html">Meta-data Demo</a>
+		<a class="current git" href="index.html">Documentation</a>
+		<a class="git" href="http://github.com/Mottie/Jatt/downloads">Download</a>
+		<a class="issue" href="https://github.com/Mottie/Jatt/issues">Issues</a><br><br>
+	</div>
+	<!-- End Links -->
 
-First make sure you have jQuery installed on your site, download the latest version from <a href="http://jquery.com/">jQuery</a>. Then add the following CSS and script to your site, or you can <a href="http://github.com/Mottie/Jatt">download the script here</a>.<br>
-<br>
-<h3>Basic setup</h3>
-<blockquote class="pre">
-<pre class="brush: js; html-script: true">&lt;style type="text/css"&gt;
-.tooltip, .preview, .screenshot { cursor:pointer; }
-#tooltip { width: 250px; }
-#tooltip, #preview {
- color:#dddddd;
- background:#222222;
- border: 1px solid #333333;
- padding:5px;
- opacity: 0.9;
- filter: alpha(opacity=90);
- text-align:left;
- border-radius: 1em;
- -moz-border-radius: 1em;
- -webkit-border-radius: 1em;
- display:none;
-}
-&lt;/style&gt;
-&lt;script src="jquery.jatt.js" type="text/javascript"&gt;&lt;/script&gt;
-&lt;script type="text/javascript"&gt;
-$(document).ready(function(){
- $.jatt();
-});
+	<h1 class="center">Documents</h1>
+
+	<h2>Adding the Tooltips</h2>
+
+	First make sure you have jQuery installed on your site, download the latest version from <a href="http://jquery.com/">jQuery</a>. Then add the following CSS and script to your site, or you can <a href="http://github.com/Mottie/Jatt">download the script here</a>.<br>
+	<br>
+	<h3>Basic setup (add to head of document)</h3>
+	<blockquote class="pre">
+		<pre class="brush: js; html-script: true">&lt;link href="css/jatt.css" rel="stylesheet"&gt;
+&lt;script src="jquery.jatt.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  $(function(){
+    $.jatt();
+  });
 &lt;/script&gt;</pre>
-</blockquote>
-<h2>Using the Tooltips</h2>
-<ul>
- <li>
-  <h3>Basic Tooltip</h3>
-  <table class="keytable"><tbody>
-   <tr><td align="center" width="130"><a class="tooltip {direction:n;width:100px;background:#222;color:#ddd;}" href="#" title="Tooltip (a) Content">basic tip (a)</a></td><td>&lt;a class="<span style="color: #0080ff;">tooltip</span> { direction: n; width: 100px; background: #222; color: #ddd; }" href="<span style="color: orange;">#</span>" title="<span style="color: teal;">Tooltip (a) Content</span>"&gt;basic tip (a))&lt;/a&gt;</td></tr>
-   <tr><td align="center"><a class="tooltip preload {direction:ne;width:200px;}" href="demo-external-content.htm #target span">External page (a)</a></td><td>&lt;a class="<span style="color: #0080ff;">tooltip</span> <span style="color:#d00000">preload</span> { direction: ne; width: 200px; }" href="<span style="color: orange;">demo-external-content.htm #target span</span>"&gt;External page (a)&lt;/span&gt;</td></tr>
-   <tr><td align="center"><div class="tooltip {direction:e;width:150px;background:#9bff8f;color:#333;}" rel="#tip1">Object on page (div)</div><div id="tip1" style="display:none">Hi</div></td><td>&lt;div class="<span style="color: #0080ff;">tooltip</span> { direction: e; width: 150px; background: #9bff8f; color: #333; }" rel="<span style="color: orange;">#tip1</span>"&gt;Object on page (div)&lt;/div&gt;<br>&lt;div id="tip1" style="display:none"&gt;<span style="color: teal;">Hi</span>&lt;/div&gt;</td></tr>
-   <tr><td align="center"><img class="tooltip {direction:se;width:200px;background:#808080;color:#000;opacity:1;}" src="images/popup.gif" title="Tooltip (img) Content" /></td><td>&lt;img class="<span style="color: #0080ff;">tooltip</span> { direction: se; width: 200px; background: #808080; color: #000; opacity: 1; }" src="images/popup.gif" title="<span style="color: teal;">Tooltip (img) Content</span>" &gt;</td></tr>
-   <tr><td align="center"><span class="tooltip {followMouse:false;direction:s;width:300px;background:#008080;color:#ddd;}" title="Tooltip (span) Content">Link (span)</span></td><td>&lt;span class="<span style="color: #0080ff;">tooltip</span> { followMouse: false; direction: s; width: 300px; background: #008080; color: #ddd; }" title="<span style="color: teal;">Tooltip (span) Content</span>"&gt;Link (span)&lt;/span&gt;</td></tr>
-  </tbody></table>
+	</blockquote>
+	<h2>Using the Tooltips</h2>
+	<ul>
+		<li>
+			<h3>Basic Tooltip</h3>
+			<table class="keytable"><tbody>
+				<tr><td align="center" width="130"><a class="tooltip {direction:n;width:100px;background:#222;color:#ddd;}" href="#" title="Tooltip (a) Content">basic tip (a)</a></td><td>&lt;a class="<span class="highlight-tooltip">tooltip</span> <span class="highlight-meta">{ direction: n; width: 100px; background: #222; color: #ddd; }</span>" href="<span class="highlight-url">#</span>" title="<span class="highlight-title">Tooltip (a) Content</span>"&gt;basic tip (a))&lt;/a&gt;</td></tr>
+				<tr><td align="center"><a class="tooltip preload {direction:ne;width:200px;}" href="demo/ajax-content.htm #target span">External page (a)</a></td><td>&lt;a class="<span class="highlight-tooltip">tooltip</span> <span class="highlight-optional">preload</span> <span class="highlight-meta">{ direction: ne; width: 200px; }</span>" href="<span class="highlight-url">demo/ajax-content.htm #target span</span>"&gt;External page (a)&lt;/span&gt;</td></tr>
+				<tr><td align="center"><div class="tooltip {direction:e;width:150px;background:#9bff8f;color:#333;}" rel="#tip1">Object on page (div)</div><div id="tip1" style="display:none">Hi</div></td><td>&lt;div class="<span class="highlight-tooltip">tooltip</span> <span class="highlight-meta">{ direction: e; width: 150px; background: #9bff8f; color: #333; }</span>" rel="<span class="highlight-url">#tip1</span>"&gt;Object on page (div)&lt;/div&gt;<br>&lt;div id="tip1" style="display:none"&gt;<span class="highlight-title">Hi</span>&lt;/div&gt;</td></tr>
+				<tr><td align="center"><p class="tooltip {direction:se;width:200px;background:#800;color:#ddd;}" title="Tooltip (p) Content">paragraph (p)</p></td><td>&lt;p class="<span class="highlight-tooltip">tooltip</span> <span class="highlight-meta">{ direction: se; width: 200px; background: #800; color: #ddd; }</span>" title="<span class="highlight-title">Tooltip (p) Content</span>"&gt;paragraph (p)&lt;/p&gt;</td></tr>
+				<tr><td align="center"><img class="tooltip {direction:s;width:200px;background:#808080;color:#000;opacity:1;}" src="demo/popup.gif" title="Tooltip (img) Content" /></td><td>&lt;img class="<span class="highlight-tooltip">tooltip</span> <span class="highlight-meta">{ direction: s; width: 200px; background: #808080; color: #000; opacity: 1; }</span>" src="demo/popup.gif" title="<span class="highlight-title">Tooltip (img) Content</span>" &gt;</td></tr>
+				<tr><td align="center"><span class="tooltip {direction:sw;width:300px;background:#008080;color:#ddd;}" title="Tooltip (span) Content">span (span)</span></td><td>&lt;span class="<span class="highlight-tooltip">tooltip</span> <span class="highlight-meta">{ direction: sw; width: 300px; background: #008080; color: #ddd; }</span>" title="<span class="highlight-title">Tooltip (span) Content</span>"&gt;span (span)&lt;/span&gt;</td></tr>
+				<tr><td align="center"><input class="tooltip sticky {followMouse:false;direction:w;width:200px;background:#008;color:#ddd;}" style="width:50px;" title="Tooltip (input) Content" ></td><td>&lt;input class="<span class="highlight-tooltip">tooltip</span> <span class="highlight-optional">sticky</span> <span class="highlight-meta">{ followMouse: false; direction: w; width: 200px; background: #008; color: #ddd; }</span>" style="width:50px;" title="<span class="highlight-title">Tooltip (input) Content</span>"&gt;</td></tr>
+			</tbody></table>
 
-  <ul>
-   <li>class="<span style="color: #0080ff;">tooltip</span>" (required) - This class activates the tooltip</li>
-   <li>class="tooltip <span style="color:#d00000">preload</span>" (optional) - Adding a preload class tells the script to preload external content for this tooltip.</li>
-   <li>class="tooltip { metadata }" (optional) - Add any of the predefined options (listed below) or any css style to apply to the tooltip.</li>
-   <li>title="<span style="color: teal;">Tooltip content</span>" (optional) - The title attribute should contain whatever you want to display inside the tooltip. This can include HTML but Do NOT use quotes in the content. If you are using HTML tags, replace the quotes with single quotes, e.g. &lt;img src='popup.gif'&gt;. If you must use quotes to surround some text, use the HTML escape code <span style="color: teal;">&amp;quot;</span> - this text has <span style="color: teal;">&amp;quot;</span>quotes<span style="color: teal;">&amp;quot;</span> around it.</li>
-   <li>rel="<span style="color: orange;">selector</span>" (optional) - If the "title" attribute is empty, the script will look in the "rel" attribute for a selector that points to an object containing the tooltip content (see the "External object (div)" example above).</li>
-   <li>href="<span style="color: orange;">page.htm #target span</span>" (optional) - If the "title" and "rel" attributes are both empty, the script will look in the "href" attribute for a URL to an external page. The URL can be followed by an id or class selectors pointing to the tooltip contents (see the "External page (a)" example above).</li>
-  </ul>
- </li><br>
- <li>
-  <h3>Preview Tooltips</h3>
-  <table class="keytable"><tbody>
-   <tr><td align="center"><a class="preview {direction:e;opacity:1;text-align:center;}" href="images/google2.png" title="Google's Logo"><img src="images/google1.png" /></a></td><td>&lt;a class="<span style="color: #0080ff;">preview</span> { direction: e; opacity: 1; text-align: center; }" href="<span style="color: orange;">URL to full size image</span>" title="<span style="color: teal;">Google's Logo</span>"&gt;<span style="color: darkgrey;">&lt;img src="</span><span style="color: darkgrey;">URL to image thumbnail"&gt;</span>&lt;/a&gt; </td></tr>
-  </tbody></table>
-  <ul>
-   <li>class="<span style="color: #0080ff;">preview</span>" (required) - This class activates the tooltip which puts the linked image (from the href) into a tooltip. The tooltip size is adjusted automatically to fit the image.</li>
-   <li>class="preview { metadata }" (optional) - Add any of the predefined options (listed below) or any css style to apply to the tooltip.
-   <li>href="<span style="color: orange;">URL to full size image</span>" (required) - URL to the image, for previewing in the tooltip and the URL you go to when you click on the image.</li>
-   <li>title="<span style="color: teal;">TOOLTIP CONTENT</span>" (optional) - This content becomes the image caption located below the image inside the tooltip. Note: Do NOT use quotes in the content. If you are using HTML tags, replace the quotes with single quotes, e.g. &lt;img src='images/google1.png'&gt;. If you must use quotes to surround some text, use the HTML escape code <span style="color: teal;">&amp;quot;</span> - this text has <span style="color: teal;">&amp;quot;</span>quotes<span style="color: teal;">&amp;quot;</span> around it.</li>
-   <li><span style="color: darkgrey;">&lt;img src="URL to image thumbnail"&gt;</span> (required) - This will be the thumbnail of the URL image (in orange), or you can pick any image as I did here. Or you can replace the &lt;img&gt; with text.</li>
-  </ul>
-  <br>
- </li>
+			<ul>
+				<li>class="<span class="highlight-tooltip">tooltip</span>" (required) - This class activates the tooltip</li>
+				<li>class="tooltip <span class="highlight-optional">preload</span>" (optional) - Adding a preload class tells the script to preload external content for this tooltip.</li>
+				<li>class="tooltip <span class="highlight-optional">sticky</span>" (optional) - Adding a sticky class tells the script to make the tooltip sticky. Additionally a close button is added.</li>
+				<li>class="tooltip <span class="highlight-meta">{ metadata }</span>" (optional) - Add any of the predefined options (listed below) or any css style to apply to the tooltip.</li>
+				<li>title="<span class="highlight-title">Tooltip content</span>" (optional) - The title attribute should contain whatever you want to display inside the tooltip. This can include HTML but Do NOT use quotes in the content. If you are using HTML tags, replace the quotes with single quotes, e.g. &lt;img src='popup.gif'&gt;. If you must use quotes to surround some text, use the HTML escape code <span class="highlight-title">&amp;quot;</span> - this text has <span class="highlight-title">&amp;quot;</span>quotes<span class="highlight-title">&amp;quot;</span> around it.</li>
+				<li>rel="<span class="highlight-url">selector</span>" (optional) - If the "title" attribute is empty, the script will look in the "rel" attribute for a selector that points to an object containing the tooltip content (see the "External object (div)" example above).</li>
+				<li>href="<span class="highlight-url">page.htm #target span</span>" (optional) - If the "title" and "rel" attributes are both empty, the script will look in the "href" attribute for a URL to an external page. The URL can be followed by an id or class selectors pointing to the tooltip contents (see the "External page (a)" example above).</li>
+			</ul>
+		</li><br>
+		<li>
+			<h3>Preview Tooltips</h3>
+			<table class="keytable"><tbody>
+				<tr><td align="center"><a class="preview {direction:e;opacity:1;text-align:center;}" href="demo/google2.png" title="Google's Logo"><img src="demo/google1.png" /></a></td><td>&lt;a class="<span class="highlight-tooltip">preview</span> <span class="highlight-meta">{ direction: e; opacity: 1; text-align: center; }</span>" href="<span class="highlight-url">URL to full size image</span>" title="<span class="highlight-title">Google's Logo</span>"&gt;<span class="highlight-text">&lt;img src="</span><span class="highlight-text">URL to image thumbnail"&gt;</span>&lt;/a&gt; </td></tr>
+			</tbody></table>
+			<ul>
+				<li>class="<span class="highlight-tooltip">preview</span>" (required) - This class activates the tooltip which puts the linked image (from the href) into a tooltip. The tooltip size is adjusted automatically to fit the image.</li>
+				<li>class="preview { metadata }" (optional) - Add any of the predefined options (listed below) or any css style to apply to the tooltip.
+					<li>href="<span class="highlight-url">URL to full size image</span>" (required) - URL to the image, for previewing in the tooltip and the URL you go to when you click on the image.</li>
+					<li>title="<span class="highlight-title">TOOLTIP CONTENT</span>" (optional) - This content becomes the image caption located below the image inside the tooltip. Note: Do NOT use quotes in the content. If you are using HTML tags, replace the quotes with single quotes, e.g. &lt;img src='demo/google1.png'&gt;. If you must use quotes to surround some text, use the HTML escape code <span class="highlight-title">&amp;quot;</span> - this text has <span class="highlight-title">&amp;quot;</span>quotes<span class="highlight-title">&amp;quot;</span> around it.</li>
+					<li><span class="highlight-text">&lt;img src="URL to image thumbnail"&gt;</span> (required) - This will be the thumbnail of the URL image (in orange), or you can pick any image as I did here. Or you can replace the &lt;img&gt; with text.</li>
+				</ul>
+				<br>
+			</li>
 
- <li><h3>Screenshot Tooltips</h3>
-  <table class="keytable"><tbody>
-   <tr><td align="center"><a class="screenshot {direction:e;opacity:1;text-align:center;}" href="http://www.guildportal.com/Guild.aspx?GuildID=194525&amp;TabID=1643295" rel="images/site.jpg" title="Loch Modan Yacht Club">LMYC</a></td><td>&lt;a class="<span style="color: #0080ff;">screenshot</span> { direction: e; opacity: 1; text-align: center; } " href="<span style="color: orange;">http://www.guildportal.com/Guild.aspx?GuildID=194525&amp;TabID=1643295</span>" title="<span style="color: teal;">&lt;center&gt;Loch Modan Yacht Club&lt;/center&gt;</span>" rel="<span style="color: skyblue;">Website_Screenshot.jpg</span>"&gt;<span style="color: darkgrey;">LMYC</span>&lt;/a&gt;</td></tr>
-   <tr><td><a class="screenshot {direction:e;}" href="http://www.google.com/" rel="#" title="<center>Google</center>">Google</a></td><td>&lt;a class="<span style="color: #0080ff;">screenshot</span> { direction: e; }" href="<span style="color: orange;">http://www.google.com</span>" title="<span style="color: teal;">&lt;center&gt;Google&lt;/center&gt;</span>" rel="<span style="color: skyblue;">#</span>"&gt;<span style="color: darkgrey;">Google</span>&lt;/a&gt;</td></tr>
-  </tbody></table>
-  <ul>
-   <li>class="<span style="color: #0080ff;">screenshot</span>" (required) - This class activates the tooltip that gets the site screenshot image from the rel attribute (in <span style="color: skyblue;">light blue</span>)</li>
-   <li>href="<span style="color: orange;">URL</span>" (required) - URL of the target website</li>
-   <li>title="<span style="color: teal;">Tooltip content</span>" (optional) - This content becomes the screenshot (image) caption inside the tooltip. Note: Do NOT use quotes in the content. If you are using HTML tags, replace the quotes with single quotes, e.g. &lt;img src='images/google1.png'&gt;. If you must use quotes to surround some text, use the HTML escape code <span style="color: teal;">&amp;quot;</span> - this text has <span style="color: teal;">&amp;quot;</span>quotes<span style="color: teal;">&amp;quot;</span> around it.</li>
-   <li>rel="<span style="color: skyblue;">Website_Screenshot.jpg</span>" or rel="<span style="color: skyblue;">#</span>" (required) <span style="color: red;"></span> This attribute can contain either the URL to the screenshot image of the site to which you have the link pointing. Yes, you will have to take, resize and upload the screenshot image yourself OR you can now use rel="<span style="color: skyblue;">#</span>" to have <a href="http://www.thumbalizr.com/">Thumbalizr.com</a> generate a thumbnail of the site for you.</li>
-   <li><span style="color: darkgrey;">text or image</span> (required) - Text or image that becomes the clickable link to the site.
-  </ul>
-</li><br>
-</ul>
+			<li><h3>Screenshot Tooltips</h3>
+				<table class="keytable"><tbody>
+					<tr><td align="center"><a class="screenshot {direction:e;opacity:1;text-align:center;}" href="http://www.guildportal.com/Guild.aspx?GuildID=194525&amp;TabID=1643295" rel="demo/site.jpg" title="Loch Modan Yacht Club">LMYC</a></td><td>&lt;a class="<span class="highlight-tooltip">screenshot</span> <span class="highlight-meta">{ direction: e; opacity: 1; text-align: center; }</span>" href="<span class="highlight-url">http://www.guildportal.com/Guild.aspx?GuildID=194525&amp;TabID=1643295</span>" title="<span class="highlight-title">&lt;center&gt;Loch Modan Yacht Club&lt;/center&gt;</span>" rel="<span class="highlight-rel">Website_Screenshot.jpg</span>"&gt;<span class="highlight-text">LMYC</span>&lt;/a&gt;</td></tr>
+					<tr><td><a class="screenshot {direction:e;}" href="http://www.google.com/" rel="#" title="<center>Google</center>">Google</a></td><td>&lt;a class="<span class="highlight-tooltip">screenshot</span> <span class="highlight-meta">{ direction: e; }</span>" href="<span class="highlight-url">http://www.google.com</span>" title="<span class="highlight-title">&lt;center&gt;Google&lt;/center&gt;</span>" rel="<span class="highlight-rel">#</span>"&gt;<span class="highlight-text">Google</span>&lt;/a&gt;</td></tr>
+				</tbody></table>
+				<ul>
+					<li>class="<span class="highlight-tooltip">screenshot</span>" (required) - This class activates the tooltip that gets the site screenshot image from the rel attribute (in <span class="highlight-rel">light blue</span>)</li>
+					<li>href="<span class="highlight-url">URL</span>" (required) - URL of the target website</li>
+					<li>title="<span class="highlight-title">Tooltip content</span>" (optional) - This content becomes the screenshot (image) caption inside the tooltip. Note: Do NOT use quotes in the content. If you are using HTML tags, replace the quotes with single quotes, e.g. &lt;img src='demo/google1.png'&gt;. If you must use quotes to surround some text, use the HTML escape code <span class="highlight-title">&amp;quot;</span> - this text has <span class="highlight-title">&amp;quot;</span>quotes<span class="highlight-title">&amp;quot;</span> around it.</li>
+					<li>rel="<span class="highlight-rel">Website_Screenshot.jpg</span>" or rel="<span class="highlight-rel">#</span>" (required) This attribute can contain either the URL to the screenshot image of the site to which you have the link pointing. Yes, you will have to take, resize and upload the screenshot image yourself OR you can now use rel="<span class="highlight-rel">#</span>" to have <a href="http://www.thumbalizr.com/">Thumbalizr.com</a> generate a thumbnail of the site for you.</li>
+					<li><span class="highlight-text">text or image</span> (required) - Text or image that becomes the clickable link to the site.
+					</ul>
+				</li><br>
+			</ul>
 
-</li>
-</ul>
+		</li>
+	</ul>
 
-<h2>Customizing</h2>
-<ul>
- <li><h3>Initializing the script (showing all default settings)</h3></li>
-</ul>
- <blockquote class="pre">
- <pre class="brush: css">$(document).ready(function(){
- $.jatt({
-  // options that can be modified by metadata
-  direction      : 'n',     // direction of tooltip
-  followMouse    : true,    // tooltip follows mouse movement
-  content        : 'title', // attribute containing tooltip text
-  speed          : 300,     // tooltip fadein speed
-  local          : false,   // if true, the script attachs the tooltip locally & to the body if false
-  xOffset        : 20,      // x distance from mouse (no negative values)
-  yOffset        : 20,      // y distance from mouse (no negative values)
-  zIndex         : 1000,    // z-index of tooltip
-
-  // options not supported by metadata
-  live           : false,                 // use live event support?
-  metadata       : 'class',               // attribute containing the metadata, use "false" (no quotes) to disable.
-  activate       : 'mouseenter focusin',  // how tooltip is activated
-  deactivate     : 'mouseleave focusout', // how tooltip is deactivated
-  cacheData      : true,                  // Cache data obtained from external pages, set to false if the data is dynamic.
-  websitePreview : 'http://api1.thumbalizr.com/?width=250&url=', // use your own custom thumbnail service api string.
-
-  // Callbacks
-  jatt-initialized  : null,               // occurs when the tooltip is called - when hovering over an object
-  jatt-beforeReveal : null,               // occurs when the tooltip is fully formed, but still hidden
-  jatt-revealed     : null,               // occurs when the tooltip is revealed
-  jatt-hidden       : null,               // occurs when the tooltip is hidden (removed)
-
-  // Messages
-  loading        : 'Loading...',          // Message shown while content is loading
-  notFound       : 'No tooltip found',    // Message shown when no tooltip content is found
-  imagePreview   : 'Image preview',       // image alt message for the image shown in the preview tooltip
-  siteScreenshot : 'URL preview: ',       // image alt message for site screenshots, this message is followed by the URL
-
-  // change tooltip, screenshot and preview class
-  tooltip        : '.tooltip',            // tooltip class 
-  screenshot     : 'a.screenshot',        // screenshot class
-  preview        : 'a.preview',           // preview class
-  preloadContent : '.preload',             // Add this class to tooltips to have its external content preloaded.
-
-  // tooltip & preview ID (div that contains the tooltip)
-  tooltipId      : 'tooltip',             // ID of actual tooltip
-  previewId      : 'preview'              // ID of screenshot/preview tooltip 
- });
+	<h2>Customizing</h2>
+	<ul>
+		<li><h3>Initializing the script (showing all default settings)</h3></li>
+	</ul>
+	<blockquote class="pre">
+		<pre class="brush: css">$(function(){
+  $.jatt({
+    // options that can be modified by metadata
+    direction      : 'n',     // direction of tooltip
+    followMouse    : true,    // tooltip follows mouse movement
+    content        : 'title', // attribute containing tooltip text
+    speed          : 300,     // tooltip fadein speed
+    local          : false,   // if true, the script attachs the tooltip locally & to the body if false
+    xOffset        : 20,      // x distance from mouse (no negative values)
+    yOffset        : 20,      // y distance from mouse (no negative values)
+    zIndex         : 1000,    // z-index of tooltip
+  
+    // options not supported by metadata
+    live           : false,                 // use live event support?
+    metadata       : 'class',               // attribute containing the metadata, use "false" (no quotes) to disable.
+    activate       : 'mouseenter focusin',  // how tooltip is activated
+    deactivate     : 'mouseleave focusout', // how tooltip is deactivated
+    cacheData      : true,                  // Cache data obtained from external pages, set to false if the data is dynamic.
+    websitePreview : 'http://api1.thumbalizr.com/?width=250&url=', // use your own custom thumbnail service api string.
+  
+    // Callbacks
+    initialized    : null,                  // occurs when the tooltip is called - when hovering over an object
+    beforeReveal   : null,                  // occurs when the tooltip is fully formed, but still hidden
+    revealed       : null,                  // occurs when the tooltip is revealed
+    hidden         : null,                  // occurs when the tooltip is hidden (removed)
+  
+    // Messages
+    loading        : 'Loading...',          // Message shown while content is loading
+    notFound       : 'No tooltip found',    // Message shown when no tooltip content is found
+    imagePreview   : 'Image preview',       // image alt message for the image shown in the preview tooltip
+    siteScreenshot : 'URL preview: ',       // image alt message for site screenshots, this message is followed by the URL
+  
+    // change tooltip, screenshot and preview class - note that all classes have a "." in front
+    tooltip        : '.tooltip',            // tooltip class
+    screenshot     : 'a.screenshot',        // screenshot class
+    preview        : 'a.preview',           // preview class
+    preloadContent : '.preload',            // Add this class to preload tooltip content (not preview or screenshot).
+    sticky         : '.sticky',             // Add this class to make a tooltip sticky. Only one tooltip on the screen at a time though.
+  
+    // tooltip & preview ID (div that contains the tooltip)
+    tooltipId      : 'tooltip',             // ID of actual tooltip
+    previewId      : 'preview'              // ID of screenshot/preview tooltip
+  });
 });</pre>
-</blockquote>
-<ul>
- <li><h3>List of Options</h3>
-  <table class="keytable">
-   <tbody>
-    <tr style="background-color: #555555; color: #dddddd;">
-     <th>Key</th>
-     <th>Value<br />(default  shown)</th>
-     <th>Description</th>
-    </tr>
-    <tr><td>direction</td><td>'n'</td><td>Choose the direction of the tooltip (in quotes; choose from n, ne, e, se, s, sw, w, nw).</td></tr>
-    <tr><td>followMouse</td><td>true</td><td>When hovering over the object with a tooltip, the tooltip will follow the mouse if true. If false, it will be positioned relative to the object.</td></tr>
-    <tr><td>content</td><td>'title'</td><td>Attribute containing the tooltip content. By default it is the "title" attribute.</td></tr>
-    <tr><td>speed</td><td>300</td><td>Time in milliseconds for the tooltip to fade in. By design the tooltip has no fade out because it is removed immediately.</td></tr>
-    <tr><td>local</td><td>false</td><td>Where the tooltip is attached. By default it is false and will attach to the document body; if true, it will be attached before the object.</td></tr>
-    <tr><td>xOffset</td><td>20</td><td>Number of pixels between the tooltip and the mouse (or object if followMouse = false) in the X direction.</td></tr>
-    <tr><td>yOffset</td><td>20</td><td>Number of pixels between the tooltip and the mouse (or object if followMouse = false) in the Y direction.</td></tr>
-    <tr><td>zIndex</td><td>1000</td><td>Adjust this if the tooltip is below another object.</td></tr>
-    <tr><td>live</td><td>false</td><td>Set to true if you add tooltip objects to your page dynamically (added after the page is loaded).</td></tr>
-    <tr><td>metadata</td><td>'class'</td><td>Location of the tooltip metadata. By default it will look in the class attribute. If set to "false" it will disable the metadata.</td></tr>
-    <tr><td>activate</td><td>'mouseenter focusin'</td><td>The event that causes the tooltip to display information.</td></tr>
-    <tr><td>deactivate</td><td>'mouseleave focusout'</td><td>The event that causes the tooltip to be removed.</td></tr>
-    <tr><td>cacheData</td><td>true</td><td>Cache data obtained from external pages, set to false if the data is dynamic.</td></tr>
-    <tr><td>websitePreview</td><td>'http://api1.thumbalizr.com/?width=250&url='</td><td>use your own custom thumbnail service (api string - http://www.thumbalizr.com/apitools.php)</td></tr>
-    <tr><td>jatt-initialized</td><td>null</td><td>This event/callback occurs when the tooltip is called - when hovering over an object</td></tr>
-    <tr><td>jatt-beforeReveal</td><td>null</td><td>This event/callback occurs when the tooltip is fully formed, but still hidden</td></tr>
-    <tr><td>jatt-revealed</td><td>null</td><td>This event/callback occurs when the tooltip is revealed</td></tr>
-    <tr><td>jatt-hidden</td><td>null</td><td>This event/callback occurs when the tooltip is hidden (removed)</td></tr>
-    <tr><td>loading</td><td>'Loading...'</td><td>This message is shown while content is loading. You can also use a loading image (e.g. '<img src="loading.gif"/>'). It is replaced once the content has loaded.</td></tr>
-    <tr><td>notFound</td><td>'No tooltip found'</td><td>This message is shown when no tooltip content is found.</td></tr>
-    <tr><td>imagePreview</td><td>'Image preview'</td><td>This content will be added to the preview image alt attribute, so it is only seen while the image loads.</td></tr>
-    <tr><td>siteScreenshot</td><td>'URL preview: '</td><td>This content and the site url is added to the screenshot image alt attribute, and only seen while the image loads.</td></tr>
-    <tr><td>tooltip</td><td>'.tooltip'</td><td>The class used to activate the tooltip. And the ID of the actual tooltip.</td></tr>
-    <tr><td>screenshot</td><td>'a.screenshot'</td><td>The class used to activate the screenshot script which shows an image associated with the URL. And this is the ID of both the screenshot & preview tooltips.</td></tr>
-    <tr><td>preview</td><td>'a.preview'</td><td>The class used to activate the preview script which shows the an image in the tooltip from the href.</td></tr>
-    <tr><td>preloadContent</td><td>'preload'</td><td>Adding this class to the link (&lt;a&gt;) tells the script to preload the external content for this tooltip. This class is needed before tooltips will have their image automatically preloaded.</td></tr>
-    <tr><td>tooltipId</td><td>'tooltip'</td><td>The ID of the actual tooltip.</td></tr>
-    <tr><td>previewId</td><td>'preview'</td><td>The ID of the actual preview/screenshot tooltip (the share the same one).</td></tr>
-   </tbody>
-  </table>
+	</blockquote>
+	<ul>
+		<li><h3>List of Options</h3>
+			<table class="keytable">
+				<tbody>
+					<tr style="background-color: #555555; color: #dddddd;">
+						<th>Key</th>
+						<th>Value<br />(default  shown)</th>
+						<th>Description</th>
+					</tr>
+					<tr><td>direction</td><td>'n'</td><td>Choose the direction of the tooltip (in quotes; choose from n, ne, e, se, s, sw, w, nw).</td></tr>
+					<tr><td>followMouse</td><td>true</td><td>When hovering over the object with a tooltip, the tooltip will follow the mouse if true. If false, it will be positioned relative to the object.</td></tr>
+					<tr><td>content</td><td>'title'</td><td>Attribute containing the tooltip content. By default it is the "title" attribute.</td></tr>
+					<tr><td>speed</td><td>300</td><td>Time in milliseconds for the tooltip to fade in. By design the tooltip has no fade out because it is removed immediately.</td></tr>
+					<tr><td>local</td><td>false</td><td>Where the tooltip is attached. By default it is false and will attach to the document body; if true, it will be attached before the object.</td></tr>
+					<tr><td>xOffset</td><td>20</td><td>Number of pixels between the tooltip and the mouse (or object if followMouse = false) in the X direction.</td></tr>
+					<tr><td>yOffset</td><td>20</td><td>Number of pixels between the tooltip and the mouse (or object if followMouse = false) in the Y direction.</td></tr>
+					<tr><td>zIndex</td><td>1000</td><td>Adjust this if the tooltip is below another object.</td></tr>
+					<tr><td>live</td><td>false</td><td>Set to true if you add tooltip objects to your page dynamically (added after the page is loaded).</td></tr>
+					<tr><td>metadata</td><td>'class'</td><td>Location of the tooltip metadata. By default it will look in the class attribute. If set to "false" it will disable the metadata.</td></tr>
+					<tr><td>activate</td><td>'mouseenter focusin'</td><td>The event that causes the tooltip to display information.</td></tr>
+					<tr><td>deactivate</td><td>'mouseleave focusout'</td><td>The event that causes the tooltip to be removed.</td></tr>
+					<tr><td>cacheData</td><td>true</td><td>Cache data obtained from external pages, set to false if the data is dynamic.</td></tr>
+					<tr><td>websitePreview</td><td>'http://api1.thumbalizr.com/?width=250&url='</td><td>use your own custom thumbnail service (api string - http://www.thumbalizr.com/apitools.php)</td></tr>
+					<tr><td>initialized</td><td>null</td><td>This event/callback occurs when the tooltip is called - when hovering over an object</td></tr>
+					<tr><td>beforeReveal</td><td>null</td><td>This event/callback occurs when the tooltip is fully formed, but still hidden</td></tr>
+					<tr><td>revealed</td><td>null</td><td>This event/callback occurs when the tooltip is revealed</td></tr>
+					<tr><td>hidden</td><td>null</td><td>This event/callback occurs when the tooltip is hidden (removed)</td></tr>
+					<tr><td>loading</td><td>'Loading...'</td><td>This message is shown while content is loading. You can also use a loading image (e.g. '<img src="loading.gif"/>'). It is replaced once the content has loaded.</td></tr>
+					<tr><td>notFound</td><td>'No tooltip found'</td><td>This message is shown when no tooltip content is found.</td></tr>
+					<tr><td>imagePreview</td><td>'Image preview'</td><td>This content will be added to the preview image alt attribute, so it is only seen while the image loads.</td></tr>
+					<tr><td>siteScreenshot</td><td>'URL preview: '</td><td>This content and the site url is added to the screenshot image alt attribute, and only seen while the image loads.</td></tr>
+					<tr><td>tooltip</td><td>'.tooltip'</td><td>The class used to activate the tooltip. And the ID of the actual tooltip.</td></tr>
+					<tr><td>screenshot</td><td>'a.screenshot'</td><td>The class used to activate the screenshot script which shows an image associated with the URL. And this is the ID of both the screenshot & preview tooltips.</td></tr>
+					<tr><td>preview</td><td>'a.preview'</td><td>The class used to activate the preview script which shows the an image in the tooltip from the href.</td></tr>
+					<tr><td>preloadContent</td><td>'preload'</td><td>Adding this class to the link (&lt;a&gt;) tells the script to preload the external content for this tooltip. This only works for regular tooltips and not preview or screenshot tooltips - they have their tooltip image automatically preloaded.</td></tr>
+					<tr><td>sticky</td><td>'.sticky'</td><td>Add this class to make a tooltip sticky. Only one tooltip on the screen at a time though.</td></tr>
+					<tr><td>tooltipId</td><td>'tooltip'</td><td>The ID of the actual tooltip.</td></tr>
+					<tr><td>previewId</td><td>'preview'</td><td>The ID of the actual preview/screenshot tooltip (the share the same one).</td></tr>
+				</tbody>
+			</table>
 
- </li>
-</ul>
+		</li>
+	</ul>
 
-<h2>Known Issues</h2>
-<ul>
- <li>The tooltip script won't obtain cross-domain ajax requests by default, but I have included James Padolsey's <a href="http://github.com/jamespadolsey/jQuery-Plugins/tree/master/cross-domain-ajax/">cross-domain ajax</a> script (jquery.xdomainajax.js) which should enable it. Just include the script in the head of your document.</li>
- <li>If you find any other issues, please submit an issue to <a href="http://github.com/Mottie/Jatt/issues">Jatt's github repository</a>.
-</ul>
+	<h2>Known Issues</h2>
+	<ul>
+		<li>The tooltip script won't obtain cross-domain ajax requests by default, but I have included James Padolsey's <a href="http://github.com/jamespadolsey/jQuery-Plugins/tree/master/cross-domain-ajax/">cross-domain ajax</a> script (jquery.xdomainajax.js) which should enable it. Just include the script in the head of your document.</li>
+		<li>If you find any other issues, please submit an issue to <a href="http://github.com/Mottie/Jatt/issues">Jatt's github repository</a>.</li>
+	</ul>
+
+</div>
 
 </body></html>

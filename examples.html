@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Jatt Examples</title>
+
+<!-- Demo only -->
+<link href="demo/demo.css" rel="stylesheet">
+
+<!-- jQuery (required) -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.js"></script>
+
+<!-- Jatt (required) -->
+<link href="css/jatt.css" rel="stylesheet">
+<script src="js/jquery.jatt.js"></script>
+
+<!-- Jatt initialization, see docs for options -->
+<script>
+$(function(){
+ $.jatt();
+});
+</script>
+
+</head>
+
+<body>
+
+<div id="wrap" class="center examples">
+
+	<!-- Links to other demo pages & docs -->
+	<div id="nav">
+		<a class="current" href="examples.html">Examples</a>
+		<a href="meta.html">Meta-data Demo</a>
+		<a class="git" href="index.html">Documentation</a>
+		<a class="git" href="http://github.com/Mottie/Jatt/downloads">Download</a>
+		<a class="issue" href="https://github.com/Mottie/Jatt/issues">Issues</a><br><br>
+	</div>
+	<!-- End Links -->
+
+	<h1 class="center">Examples</h1>
+
+	<div class="spacer2"></div>
+
+
+	<span class="tooltip" title="Tesing1">span {} - normal tooltip, no metadata</span>
+	<br><br>
+	<span class="tooltip {width:100px;background:#0080ff;color:#ddd;}" title="Tesing2">span {width:100px;background:#0080ff;color:#ddd;} - normal tooltip</span>
+	<br><br>
+	<div class="tooltip {width: 600px;}" title="1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 xx">div {width: 600px;} -  big tooltip</div>
+	<br>
+	<div class="tooltip {width: 250px;}" rel="#test" title=""><div id="test" class="hidden">1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890</div>div {width: 250px;} - tooltip from external div inside the div</div>
+	<br>
+	<a href="#" class="tooltip {width: 250px;}" rel="#test2">a {width: 250px;} - tooltip from external div outside link</a>
+	<div id="test2" class="hidden">1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890</div>
+	<br><br>
+	<a class="tooltip" href="demo/ajax-content.htm #target span">a {} - tooltip from ajax</a>
+	<br><br>
+	Image tooltip (img.tooltip, no metadata): <img class="tooltip" src="demo/star.png" title="cool icon!">
+	<br><br>
+	Image tooltip {width:300px;background:#008080;color:#dddddd;} <img class="tooltip {width:300px;background:#008080;color:#dddddd;}" title="This is a test of using &quot;quotes&quot; and apostrophe's in the text.<br>As well as images <img src='demo/popup.gif'>" src="demo/popup.gif">
+	<br><br>
+	Image in link (a.preview {color:#080;font-weight:bold;font-size:120%;}): <a class="preview {color:#080;font-weight:bold;font-size:120%;}" href="demo/google2.png" title="<center>Google logo</center>"><img src="demo/google1.png"></a>
+	<br><br>
+	Link w/ wide image (a.screenshot.preload {direction:e}): <br><a class="screenshot preload {direction: e}" href="#" title="<center>my background</center>" rel="demo/wide.gif">URL screenshot----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- xxx</a>
+	<br><br>
+	Screenshot with web generated preview (a.screenshot, no metadata): <a class="screenshot" href="http://www.google.com" title="<center>Google</center>" rel="#">URL screenshot 2</a>
+	<br><br>
+	Link around image {width:300px;background:#000080;color:orange;} <a class="tooltip {width:300px;background:#000080;color:orange;}" href="http://www.google.com" title="This is a test of using 'quotes' and apostrophe's in the text.<br>As well as images <img src='demo/popup.gif'>"><img src="demo/popup.gif"></a>
+	<br><br>
+	Link around image & sticky {direction:n;followMouse:false;width:400px;background:#777;color:#fff;} <a class="tooltip sticky {direction:n;followMouse:false;width:400px;background:#777;color:#fff;}" href="javascript:void(0);" title="<div><span>Sun, 24 May 2009 18:16:00 GMT</span> by Mottie<div>Lorem ipsum,<br><br>dolor sit amet, consectetur adipiscing elit. Proin rutrum varius felis sit amet ultricies. Pellentesque ut ligula mi. Suspendisse potenti. Mauris vitae velit odio (<img src='demo/popup.gif'>). Nulla vehicula sollicitudin feugiat. Aliquam erat volutpat. Nulla ut tortor turpis. Nullam pellentesque eros at justo ultricies lobortis.<br><br> Curabitur pulvinar mi vel leo fermentum porttitor. Duis eget dui non lacus egestas suscipit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras rhoncus nunc et sapien condimentum mattis. Cras malesuada, sapien eu venenatis consectetur, eros nunc imperdiet ipsum, eget congue lectus eros eu nibh. <a href='http://google.com'>Google</a> aliquam vulputate sagittis orci adipiscing viverra. Nullam turpis orci, viverra sed feugiat vel, fringilla id diam. Maecenas vel massa non magna luctus interdum. Donec et ante et nibh fringilla iaculis sed a nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae...<br><br><a href='examples.html' align=right>More Info</a></div></div>"><img src="demo/popup.gif"></a>
+	<br><br>
+	Link {direction:s;width:400px;background:#800;color:#fff;} <a class="tooltip {direction:s;width:400px;background:#800;color:#fff;}" href="javascript:void(0);" title="test">hover over me</a>
+	<br><br>
+	Link {direction:ne;width:200px;background:#9bff8f;color:#333333;} <a class="tooltip {direction:ne;width:200px;background:#9bff8f;color:#333333;}" href="javascript:void(0);" title="Tooltip testing">Test</a>
+
+	<div class="spacer2"></div>
+
+</div>
+
+</body></html>

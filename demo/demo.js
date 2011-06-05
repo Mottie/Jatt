@@ -1,19 +1,25 @@
-$(document).ready(function(){
+$(function(){
 
  // variables
  var t,
   // default data-attribute to look in for metadata. To change it, initialize the
   // tooltip with a metadata option - $.jatt({ metadata: 'data-someotherattribute' })
   dataAttr = 'data-jatt',
-  img = $('#test');
+  img = $('#test'),
+  dList = $('#display'),
+  display = function(txt){
+   dList.append('<li>' + txt + '</li>');
+   var li = dList.find('li');
+   if (li.length > 6) { li.filter(':first').remove(); }
+  };
 
- // initialize tooltip
- $.jatt();
+ // initialize tooltip (already done on each page)
+ // $.jatt();
  
  // example of adding a callback
  /*
  $.jatt({
-  'jatt-revealed' : function(){ alert('AHHHHHHHHHHHHHHHHH'); }
+  revealed : function(){ alert('AHHHHHHHHHHHHHHHHH'); }
  });
  */
 
@@ -29,7 +35,7 @@ $(document).ready(function(){
   $('#lo').is(':checked') + '; xOffset: ' + $('#xo').val() + '; yOffset: ' + $('#yo').val() + '; zIndex: ' +
   $('#zi').val();
 
-  // update metadata and other attributes
+  // in class - update metadata and other attributes
   if ($('#ic').is(':checked')) {
    // add metadata to class (you can change this by using the metadata option)
    img
@@ -51,14 +57,27 @@ $(document).ready(function(){
     .attr(dataAttr,t);
   }
 
+  // set sticky?
+  img[ ($('#ms').is(':checked')) ? 'addClass' : 'removeClass' ]('sticky');
+
   // update code box
-  $('#code').val( img.parent().html() );
+  $('#code').val( $('#star-image-wrapper').html() );
  });
 
- // show event triggers in console
- $(document).bind('jatt-initialized jatt-beforeReveal jatt-revealed jatt-hidden', function(e, obj){
+ // show event triggers in console & display
+ $(document).bind('initialized.jatt beforeReveal.jatt revealed.jatt hidden.jatt', function(e, obj){
+  if (obj.id !== 'test') { return; } // ignore all other tooltips
+  // make it purdy
+  var t = 'tooltip <span style="color:#';
+  switch(e.type){
+   case 'initialized' : t += '888'; break;
+   case 'beforeReveal': t += 'aaa'; break;
+   case 'revealed'    : t += 'fff'; break;
+   case 'hidden'      : t += 'c00'; break;
+  }
+  display(t + '">' + e.type + '</span>');
   // added window.console.firebug to make this work in Opera
-  if (window.console && window.console.firebug){ console.debug(e.type + ' event triggered! Object id #' + obj.id ); }
+  if (window.console && window.console.firebug){ console.debug('Jatt ' + e.type + ' event triggered!' ); }
  });
 
 });

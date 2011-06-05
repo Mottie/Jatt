@@ -33,10 +33,10 @@
 		 websitePreview : 'http://api1.thumbalizr.com/?width=250&url=', // use your own custom thumbnail service (api string - http://www.thumbalizr.com/apitools.php)
 
 		 // Callbacks
-		 jatt-initialized  : null,            // occurs when the tooltip is called - when hovering over an object
-		 jatt-beforeReveal : null,            // occurs when the tooltip is fully formed, but still hidden
-		 jatt-revealed     : null,            // occurs when the tooltip is revealed
-		 jatt-hidden       : null,            // occurs when the tooltip is hidden (removed)
+		 initialized    : null,               // occurs when the tooltip is called - when hovering over an object
+		 beforeReveal   : null,               // occurs when the tooltip is fully formed, but still hidden
+		 revealed       : null,               // occurs when the tooltip is revealed
+		 hidden         : null,               // occurs when the tooltip is hidden (removed)
 
 		 // Messages
 		 loading        : 'Loading...',       // Message shown while content is loading
@@ -44,11 +44,12 @@
 		 imagePreview   : 'Image preview',    // image alt message for the image shown in the preview tooltip
 		 siteScreenshot : 'URL preview: ',    // image alt message for site screenshots, this message is followed by the URL
 
-		 // change tooltip, screenshot and preview class
+		 // change tooltip, screenshot and preview class - note that all classes have a "." in front
 		 tooltip        : '.tooltip',         // tooltip class (include period ".")
 		 screenshot     : 'a.screenshot',     // screenshot class (include period ".")
 		 preview        : 'a.preview',        // preview class (include period ".")
-		 preloadContent : '.preload',         // Add this class to preload tooltip content (not preview or screenshot; also include the "." in front).
+		 preloadContent : '.preload',         // Add this class to preload tooltip content (not preview or screenshot).
+		 sticky         : '.sticky',          // Add this class to make a tooltip sticky. Only one tooltip on the screen at a time though.
 
 		 // tooltip & preview ID (div that contains the tooltip)
 		 tooltipId      : 'tooltip',          // ID of actual tooltip (do not include the "#" in front)
@@ -62,6 +63,15 @@
 		<a class="screenshot {direction:e;}" href="http://www.google.com/" rel="#" title="<center>Google</center>">Google</a>
 
 ##Change Log
+
+###Version 2.8.2 (3/xx/2011)
+
+* Changed events from "jatt-{event}" to "{event}.jatt" to better fit namespaced events. This makes Jatt events only work properly with jQuery 1.4.3+.
+* Changed callback named from "jatt-{event}" to just "{event}".
+* Added a sticky class, which when added to the tooltip, will make the tooltip sticky and included a close button.
+* Cleaned up and updated pages to be HTML5 compliant and added a new navigation menu.
+* Moved CSS from the file into an external file.
+* Moved all demo files into a separate directory.
 
 ###Version 2.8.1 (3/4/2011)
 

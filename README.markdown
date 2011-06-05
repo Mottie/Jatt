@@ -56,7 +56,7 @@
 		 previewId      : 'preview'           // ID of screenshot/preview tooltip (do not include the "#" in front)
 		});
 
-###HTML examples (see more in the provided [demo pages](http://mottie.github.com/Jatt/demo-more-examples.htm)):
+###HTML examples (see more in the provided [demo pages](http://mottie.github.com/Jatt/examples.html)):
 
 		<a class="tooltip {direction:n; width:100px;}" href="http://www.url.com" title="Tooltip Content">Displayed text</a>
 		<a class="preview {direction:e; text-align:center;}" href="google2.jpg" title="Google's Logo"><img src="google1.jpg" /></a>

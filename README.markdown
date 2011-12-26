@@ -1,11 +1,13 @@
 #Features
 
-* Dynamic tooltip modifications can be done using metadata (see this [demo](http://mottie.github.com/Jatt/demo-metadata.htm)).
+* Dynamic tooltip modifications can be done using metadata (see this [demo](http://mottie.github.com/Jatt/meta.html)).
 * Choose the tooltip direction (8 directions: n, ne, e, se, s, sw, w & nw).
 * Tooltip content obtained from selected object attribute, a different object on the same page, or via ajax.
 * Ajax calls can include jQuery selectors to target specific page content.
 * Screenshots of webpages can be obtained through thumbalizr.com or from your own image.
 * Preview & Screenshot images are preloaded.
+* Check out the various demos: [main](http://mottie.github.com/Jatt/index.html), [meta data](http://mottie.github.com/Jatt/meta.html)
+ and [more examples](http://mottie.github.com/Jatt/examples.html).
 
 ##Usage & Options (defaults)
 

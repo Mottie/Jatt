@@ -15,9 +15,10 @@
  opacity: 0.9;
  filter: alpha(opacity=90);
  text-align: left;
- border-radius: 1em;
- -moz-border-radius: 1em;
- -webkit-border-radius: 1em;
+ border-radius: .5em;
+ -moz-border-radius: .5em;
+ -webkit-border-radius: .5em;
+ z-index: 1000;
 }
 
 /* close button (span) */

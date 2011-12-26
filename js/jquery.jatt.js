@@ -1,5 +1,5 @@
 /*
- * Jatt - just another tooltip v2.8.2
+ * Jatt - just another tooltip v2.8.3
  * http://github.com/Mottie/Jatt
  * by Rob Garrison (aka Mottie)
  *
@@ -29,17 +29,21 @@
 				doc.bind(e, o[cb] );
 			}
 		});
-	
+		$.data(doc, 'jatt', '');
+
 		// *** Tooltips ***
 		$(o.tooltip)
 		[evt](o.activate,function(e){
-			$.jatt.removeTooltips();
 			var tmp, tt, $tt, rel,
 			url, ttloader, ttl,
 			$obj = $(this),
 			// metadata is usually a class name. It is set to false to disable it, so we need to see if we get false or "false"
 			meta = (o.metadata.toString() === 'false') ? [o, ''] : $.jatt.getMeta($obj);
-	
+
+			if (this !== $.data(doc, 'jatt')[0]) {
+				$.jatt.removeTooltips();
+			}
+
 			doc.trigger('initialized.jatt', $obj);
 			opt = meta[0]; // meta options
 			tt = ($obj.attr(opt.content) === '') ? $obj.data('tooltip') || '' : $obj.attr(opt.content) || '';
@@ -47,7 +51,7 @@
 			url = $obj.attr('href') || '';
 			$obj.data('tooltip', tt);
 			$obj.attr('title', ''); // clear title to stop default tooltip
-	
+
 			// build tooltip & styling from metadata - styling added here as a fallback, in case css isn't loaded
 			tmp = '<div id="' + o.tooltipId + '" style="position:absolute;z-index:' + opt.zIndex + ';' +
 			meta[1] + '"><span class="body"></span><span class="close">x</span></div>';
@@ -79,11 +83,11 @@
 			}
 			$tt.data('options', opt).find('.body').html(tt);
 			$.jatt.ttrelocate(e, o.tooltipId);
-			if ($obj.is(o.sticky)) {
-				$tt.find('.close').show().click(function(){
-					$.jatt.removeTooltips();
-				});
-			}
+			$tt.find('.close')[($obj.is(o.sticky)) ? 'show' : 'hide']().click(function(){
+				$.jatt.removeTooltips();
+			});
+
+			$.data(doc, 'jatt', $obj);
 			doc.trigger('beforeReveal.jatt', $obj);
 			$tt.fadeIn(opt.speed);
 			doc.trigger('revealed.jatt', $obj);
@@ -91,13 +95,12 @@
 		[evt](o.deactivate,function(e) {
 			if (!$(this).is(o.sticky)) {
 				$.jatt.removeTooltips();
-				doc.trigger('hidden.jatt', this);
 			}
 		})
 		[evt]('mousemove',function(e) {
 			if ($('#' + o.tooltipId).length && opt.followMouse) { $.jatt.ttrelocate(e, o.tooltipId); }
 		});
-	
+
 		// *** Process image & URL screenshot previews ***
 		process = function(e, $obj, content){
 			doc.trigger('initialized.jatt', $obj);
@@ -108,48 +111,47 @@
 			$obj.data('tooltip', tt);
 			if (opt.content === 'title') { $obj.attr(opt.content, ''); } // leave title attr empty
 			// make sure position and zindex (in case it's not in the meta data) are always added
-			tmp = '<div id="' + o.previewId + '" style="position:absolute;z-index:' + opt.zIndex + ';' + meta[1] + '"><span class="body"><img src="' + content;
-			tmp += (tt !== '') ? '<br/>' + tt : '';
-			tmp += '</span><span class="close">x</span></div>';
+			tmp = '<div id="' + o.previewId + '" style="position:absolute;z-index:' + opt.zIndex + ';' + meta[1] + '"><span class="body"><img src="' +
+				content + (tt !== '' ? '<br/>' + tt : '') + '</span><span class="close">x</span></div>';
 			if (opt.local){
 				$obj.before(tmp);
 			} else {
 				pageBody.append(tmp);
 			}
 			$tt = $('#' + o.previewId);
+			$.data(doc, 'jatt', $obj);
 			doc.trigger('beforeReveal.jatt', $obj);
 			$tt
 			.hide()
 			.data('options', opt)
 			.fadeIn(opt.speed);
-			if ($obj.is(o.sticky)) {
-				$tt.find('.close').show().click(function(){
-					$.jatt.removeTooltips();
-				});
-			}
+			$tt.find('.close')[($obj.is(o.sticky)) ? 'show' : 'hide']().click(function(){
+				$.jatt.removeTooltips();
+			});
 			$.jatt.ttrelocate(e, o.previewId);
 			doc.trigger('revealed.jatt', $obj);
 		};
-	
+
 		// *** Image preview ***
 		$(o.preview)
 		[evt](o.activate,function(e){
+			var t = $(this);
 			$.jatt.removeTooltips();
-			process( e, $(this), $(this).attr('href') + '" alt="' + o.imagePreview +'" />');
+			process( e, t, t.attr('href') + '" alt="' + o.imagePreview +'" />');
 		})
 		// preload images/screenshots
 		.each(function(){
 			preloads.push( $(this).attr('href') );
 		});
-	
+
 		// *** Screenshot preview ***
 		$(o.screenshot)
 		[evt](o.activate,function(e){
-			$.jatt.removeTooltips();
 			var $obj = $(this),
 			/* use external site to get website thumbnail preview if rel="#" */
-			ss = ($obj.attr('rel') === '#') ? o.websitePreview + $obj.attr('href') : $obj.attr('rel');
-			ss += '" alt="' + o.siteScreenshot + $obj.attr('href') + '" />';
+			ss = ($obj.attr('rel') === '#' ? o.websitePreview + $obj.attr('href') : $obj.attr('rel')) +
+				'" alt="' + o.siteScreenshot + $obj.attr('href') + '" />';
+			$.jatt.removeTooltips();
 			process( e, $obj, ss );
 		})
 		// preload screenshots
@@ -157,21 +159,20 @@
 			var $obj = $(this);
 			preloads.push( ($obj.attr('rel') === '#') ? o.websitePreview + $obj.attr('href') : $obj.attr('rel') );
 		});
-	
+
 		// *** combined preview & screenshot ***
 		$(o.preview + ',' + o.screenshot)
 		[evt](o.deactivate,function(e){
 			if (!$(this).is(o.sticky)) {
 				$.jatt.removeTooltips();
-				doc.trigger('hidden.jatt', this);
 			}
 		})
 		[evt]('mousemove',function(e){
 			if ($('#' + o.previewId).length && opt.followMouse) { $.jatt.ttrelocate(e, o.previewId); }
 		});
-	
+
 		$.jatt.preloadContent(preloads);
-	
+
 	}; // end init
 
 		$.jatt.ttrelocate = function(e, ttid){
@@ -269,7 +270,11 @@
 		// Remove all tooltips, and any extras that might appear
 		// (focusout doesn't seem to work)
 		$.jatt.removeTooltips = function(){
-			$('#' + o.previewId + ', #' + o.tooltipId).remove();
+			var t = $('#' + o.previewId + ', #' + o.tooltipId);
+			if (t.length) {
+				t.remove();
+				doc.trigger('hidden.jatt', $.data(doc, 'jatt') );
+			}
 			while ($('#' + o.previewId + ', #' + o.tooltipId).length > 0) {
 				$('#' + o.previewId + ', #' + o.tooltipId).remove();
 			}
@@ -282,8 +287,8 @@
 			$tt = $(o.tooltip),
 			len = preloads.length;
 			// preload images code modified from http://engineeredweb.com/blog/09/12/preloading-images-jquery-and-javascript
-			for (i = len; i--;) {
-				//     console.debug('preloading image: ' + preloads[i]);
+			for (i = len; i > -1; i--) {
+				// console.debug('preloading image: ' + preloads[i]);
 				cacheImage = document.createElement('img');
 				cacheImage.src = preloads[i];
 				cache.push(cacheImage);

@@ -13,56 +13,65 @@
 
 ###Script:
 
-		$.jatt({
-		 // options that can be modified by metadata
-		 direction   : 'n',     // direction of tooltip
-		 followMouse : true,    // tooltip follows mouse movement
-		 content     : 'title', // attribute containing tooltip text
-		 speed       : 300,     // tooltip fadein speed
-		 local       : false,   // if true, the script attaches the tooltip locally; if false, the tooltip is added to the body
-		 xOffset     : 20,      // x distance from mouse (no negative values)
-		 yOffset     : 20,      // y distance from mouse (no negative values)
-		 zIndex      : 1000,    // z-index of tooltip
+```javascript
+$.jatt({
+ // options that can be modified by metadata
+ direction   : 'n',     // direction of tooltip
+ followMouse : true,    // tooltip follows mouse movement
+ content     : 'title', // attribute containing tooltip text
+ speed       : 300,     // tooltip fadein speed
+ local       : false,   // if true, the script attaches the tooltip locally; if false, the tooltip is added to the body
+ xOffset     : 20,      // x distance from mouse (no negative values)
+ yOffset     : 20,      // y distance from mouse (no negative values)
+ zIndex      : 1000,    // z-index of tooltip
 
-		 // options not supported by metadata
-		 live           : false,                 // use live event support?
-		 metadata       : 'class',               // attribute that contains the metadata, use "false" (no quotes) to disable the metadata.
-		 activate       : 'mouseenter focusin',  // how tooltip is activated
-		 deactivate     : 'mouseleave focusout', // how tooltip is deactivated
-		 cacheData      : true,                  // Cache data obtained from external pages, set to false if the data is dynamic.
-		 websitePreview : 'http://api1.thumbalizr.com/?width=250&url=', // use your own custom thumbnail service (api string - http://www.thumbalizr.com/apitools.php)
+ // options not supported by metadata
+ live           : false,                 // use live event support?
+ metadata       : 'class',               // attribute that contains the metadata, use "false" (no quotes) to disable the metadata.
+ activate       : 'mouseenter focusin',  // how tooltip is activated
+ deactivate     : 'mouseleave focusout', // how tooltip is deactivated
+ cacheData      : true,                  // Cache data obtained from external pages, set to false if the data is dynamic.
+ websitePreview : 'http://api1.thumbalizr.com/?width=250&url=', // use your own custom thumbnail service (api string - http://www.thumbalizr.com/apitools.php)
 
-		 // Callbacks
-		 initialized    : null,               // occurs when the tooltip is called - when hovering over an object
-		 beforeReveal   : null,               // occurs when the tooltip is fully formed, but still hidden
-		 revealed       : null,               // occurs when the tooltip is revealed
-		 hidden         : null,               // occurs when the tooltip is hidden (removed)
+ // Callbacks
+ initialized    : null,               // occurs when the tooltip is called - when hovering over an object
+ beforeReveal   : null,               // occurs when the tooltip is fully formed, but still hidden
+ revealed       : null,               // occurs when the tooltip is revealed
+ hidden         : null,               // occurs when the tooltip is hidden (removed)
 
-		 // Messages
-		 loading        : 'Loading...',       // Message shown while content is loading
-		 notFound       : 'No tooltip found', // Message shown when no tooltip content is found
-		 imagePreview   : 'Image preview',    // image alt message for the image shown in the preview tooltip
-		 siteScreenshot : 'URL preview: ',    // image alt message for site screenshots, this message is followed by the URL
+ // Messages
+ loading        : 'Loading...',       // Message shown while content is loading
+ notFound       : 'No tooltip found', // Message shown when no tooltip content is found
+ imagePreview   : 'Image preview',    // image alt message for the image shown in the preview tooltip
+ siteScreenshot : 'URL preview: ',    // image alt message for site screenshots, this message is followed by the URL
 
-		 // change tooltip, screenshot and preview class - note that all classes have a "." in front
-		 tooltip        : '.tooltip',         // tooltip class (include period ".")
-		 screenshot     : 'a.screenshot',     // screenshot class (include period ".")
-		 preview        : 'a.preview',        // preview class (include period ".")
-		 preloadContent : '.preload',         // Add this class to preload tooltip content (not preview or screenshot).
-		 sticky         : '.sticky',          // Add this class to make a tooltip sticky. Only one tooltip on the screen at a time though.
+ // change tooltip, screenshot and preview class - note that all classes have a "." in front
+ tooltip        : '.tooltip',         // tooltip class (include period ".")
+ screenshot     : 'a.screenshot',     // screenshot class (include period ".")
+ preview        : 'a.preview',        // preview class (include period ".")
+ preloadContent : '.preload',         // Add this class to preload tooltip content (not preview or screenshot).
+ sticky         : '.sticky',          // Add this class to make a tooltip sticky. Only one tooltip on the screen at a time though.
 
-		 // tooltip & preview ID (div that contains the tooltip)
-		 tooltipId      : 'tooltip',          // ID of actual tooltip (do not include the "#" in front)
-		 previewId      : 'preview'           // ID of screenshot/preview tooltip (do not include the "#" in front)
-		});
+ // tooltip & preview ID (div that contains the tooltip)
+ tooltipId      : 'tooltip',          // ID of actual tooltip (do not include the "#" in front)
+ previewId      : 'preview'           // ID of screenshot/preview tooltip (do not include the "#" in front)
+});
+```
 
 ###HTML examples (see more in the provided [demo pages](http://mottie.github.com/Jatt/examples.html)):
 
-		<a class="tooltip {direction:n; width:100px;}" href="http://www.url.com" title="Tooltip Content">Displayed text</a>
-		<a class="preview {direction:e; text-align:center;}" href="google2.jpg" title="Google's Logo"><img src="google1.jpg" /></a>
-		<a class="screenshot {direction:e;}" href="http://www.google.com/" rel="#" title="<center>Google</center>">Google</a>
+```html
+<a class="tooltip {direction:n; width:100px;}" href="http://www.url.com" title="Tooltip Content">Displayed text</a>
+<a class="preview {direction:e; text-align:center;}" href="google2.jpg" title="Google's Logo"><img src="google1.jpg" /></a>
+<a class="screenshot {direction:e;}" href="http://www.google.com/" rel="#" title="<center>Google</center>">Google</a>
+```
 
 ##Change Log
+
+###Version 2.8.3 (12/26/2011)
+
+* Fixed an issue with the hidden event/callback not firing on sticky tooltips
+* Added package file to register this plugin with jQuery plugins.
 
 ###Version 2.8.2 (6/5/2011)
 
@@ -89,18 +98,20 @@
 * Added `websitePreview` option which should contain the thumbnail provider api string (everything but the url). Also, the thumbnail provider is now "thumbalizr.com".
 * Added callbacks (initialization option) and events (bound to the document).
 
-		// Callback example
-		$.jatt({
-			'jatt-revealed' : function(obj){
-				// obj = object hovered/focused
-				// do something
-			}
-		});
-		// Event example
-		$(document).bind('jatt-revealed', function(e, obj){
-			// e = event object, obj = object hovered/focused
-			// do something after the tooltip has been revealed
-		});
+    ```javascript
+// Callback example
+$.jatt({
+  'jatt-revealed' : function(obj){
+    // obj = object hovered/focused
+    // do something
+  }
+});
+// Event example
+$(document).bind('jatt-revealed', function(e, obj){
+  // e = event object, obj = object hovered/focused
+  // do something after the tooltip has been revealed
+});
+```
 
 ###Version 2.7 (12/2/2010)
 
@@ -155,4 +166,3 @@
 ###Version 1.0 (5/8/2008)
 
 * Original tooltip script by Alen Grakalic.
-

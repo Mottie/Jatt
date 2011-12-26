@@ -1,0 +1,34 @@
+﻿{
+    "name": "Jatt",
+    "version": "2.8.3",
+    "title": "Just Another Tooltip",
+    "author": {
+        "name": "Rob Garrison",
+        "url": "https://github.com/Mottie"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "http://www.opensource.org/licenses/mit-license.php"
+        }
+    ],
+    "dependencies": {
+        "jquery": ">=1.4"
+    },
+    "description": "A dynamic, directional, tooltip which can use metadata to alter its options.",
+    "keywords": [
+        "tooltip",
+        "screenshot",
+        "preview",
+        "sticky",
+        "ajax",
+        "preload",
+        "metadata"
+    ],
+    "homepage": "http://wowmotty.blogspot.com/2010/08/tooltips-jatt-just-another-tooltip.html",
+    "files": [
+        "css/jquery.jatt.css",
+        "js/jquery.jatt.js",
+        "js/jquery.jatt.min.js"
+    ]
+}

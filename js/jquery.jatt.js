@@ -1,5 +1,5 @@
 /*
- * Jatt - just another tooltip v2.8.3
+ * Jatt - just another tooltip v2.8.4
  * http://github.com/Mottie/Jatt
  * by Rob Garrison (aka Mottie)
  *
@@ -47,14 +47,14 @@
 			doc.trigger('initialized.jatt', $obj);
 			opt = meta[0]; // meta options
 			tt = ($obj.attr(opt.content) === '') ? $obj.data('tooltip') || '' : $obj.attr(opt.content) || '';
-			rel = $obj.attr('rel') || '';
+			rel = $obj.attr(o.extradata) || '';
 			url = $obj.attr('href') || '';
 			$obj.data('tooltip', tt);
 			$obj.attr('title', ''); // clear title to stop default tooltip
 
 			// build tooltip & styling from metadata - styling added here as a fallback, in case css isn't loaded
 			tmp = '<div id="' + o.tooltipId + '" style="position:absolute;z-index:' + opt.zIndex + ';' +
-			meta[1] + '"><span class="body"></span><span class="close">x</span></div>';
+			meta[1] + '"><span class="body"></span><span class="close" style="display:none;">x</span></div>';
 			if (opt.local){
 				$obj.before(tmp);
 			} else {
@@ -65,7 +65,7 @@
 			if (tt === ''){
 				if (rel !== '') {
 					tt = $(rel).html() || o.notFound;
-				} else if (url !== '') {
+				} else if (url !== '' && url !== '#') {
 					tt = o.loading;
 					// Load tooltip from external page
 					ttloader = $('<div />');
@@ -112,7 +112,7 @@
 			if (opt.content === 'title') { $obj.attr(opt.content, ''); } // leave title attr empty
 			// make sure position and zindex (in case it's not in the meta data) are always added
 			tmp = '<div id="' + o.previewId + '" style="position:absolute;z-index:' + opt.zIndex + ';' + meta[1] + '"><span class="body"><img src="' +
-				content + (tt !== '' ? '<br/>' + tt : '') + '</span><span class="close">x</span></div>';
+				content + (tt !== '' ? '<br/>' + tt : '') + '</span><span class="close" style="display:none;">x</span></div>';
 			if (opt.local){
 				$obj.before(tmp);
 			} else {
@@ -149,7 +149,7 @@
 		[evt](o.activate,function(e){
 			var $obj = $(this),
 			/* use external site to get website thumbnail preview if rel="#" */
-			ss = ($obj.attr('rel') === '#' ? o.websitePreview + $obj.attr('href') : $obj.attr('rel')) +
+			ss = ($obj.attr(o.extradata) === '#' ? o.websitePreview + $obj.attr('href') : $obj.attr(o.extradata)) +
 				'" alt="' + o.siteScreenshot + $obj.attr('href') + '" />';
 			$.jatt.removeTooltips();
 			process( e, $obj, ss );
@@ -157,7 +157,7 @@
 		// preload screenshots
 		.each(function(){
 			var $obj = $(this);
-			preloads.push( ($obj.attr('rel') === '#') ? o.websitePreview + $obj.attr('href') : $obj.attr('rel') );
+			preloads.push( ($obj.attr(o.extradata) === '#') ? o.websitePreview + $obj.attr('href') : $obj.attr(o.extradata) );
 		});
 
 		// *** combined preview & screenshot ***
@@ -304,7 +304,7 @@
 						$div = $('<div rel="' + i + '" />');
 						divs.push($div);
 						$div.load(url, function(){
-							$tt.eq( $div.attr('rel') ).data('tooltip', $div.html() );
+							$tt.eq( $div.attr(o.extradata) ).data('tooltip', $div.html() );
 						});
 					}
 				}
@@ -329,6 +329,7 @@
 		// options not supported by metadata
 		live           : false,                 // use live event support?
 		metadata       : 'class',               // attribute that contains the metadata, use "false" (no quotes) to disable the metadata.
+		extradata      : 'rel',                 // Change using the rel attribute; stores object id on the page (basic tooltip) or image URL (screenshot)
 		activate       : 'mouseenter focusin',  // how tooltip is activated, focusin for input areas.
 		deactivate     : 'mouseleave focusout', // how tooltip is deactivated
 		cacheData      : true,                  // Cache tooltip data, set to false if the data is dynamic.

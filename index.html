@@ -64,8 +64,8 @@ $(function(){
 				<tr><td align="center"><div class="tooltip {direction:e;width:150px;background:#9bff8f;color:#333;}" rel="#tip1">Object on page (div)</div><div id="tip1" style="display:none">Hi</div></td><td>&lt;div class="<span class="highlight-tooltip">tooltip</span> <span class="highlight-meta">{ direction: e; width: 150px; background: #9bff8f; color: #333; }</span>" rel="<span class="highlight-url">#tip1</span>"&gt;Object on page (div)&lt;/div&gt;<br>&lt;div id="tip1" style="display:none"&gt;<span class="highlight-title">Hi</span>&lt;/div&gt;</td></tr>
 				<tr><td align="center"><p class="tooltip {direction:se;width:200px;background:#800;color:#ddd;}" title="Tooltip (p) Content">paragraph (p)</p></td><td>&lt;p class="<span class="highlight-tooltip">tooltip</span> <span class="highlight-meta">{ direction: se; width: 200px; background: #800; color: #ddd; }</span>" title="<span class="highlight-title">Tooltip (p) Content</span>"&gt;paragraph (p)&lt;/p&gt;</td></tr>
 				<tr><td align="center"><img class="tooltip {direction:s;width:200px;background:#808080;color:#000;opacity:1;}" src="demo/popup.gif" title="Tooltip (img) Content" /></td><td>&lt;img class="<span class="highlight-tooltip">tooltip</span> <span class="highlight-meta">{ direction: s; width: 200px; background: #808080; color: #000; opacity: 1; }</span>" src="demo/popup.gif" title="<span class="highlight-title">Tooltip (img) Content</span>" &gt;</td></tr>
-				<tr><td align="center"><span class="tooltip {direction:sw;width:300px;background:#008080;color:#ddd;}" title="Tooltip (span) Content">span (span)</span></td><td>&lt;span class="<span class="highlight-tooltip">tooltip</span> <span class="highlight-meta">{ direction: sw; width: 300px; background: #008080; color: #ddd; }</span>" title="<span class="highlight-title">Tooltip (span) Content</span>"&gt;span (span)&lt;/span&gt;</td></tr>
-				<tr><td align="center"><input class="tooltip sticky {followMouse:false;direction:w;width:200px;background:#008;color:#ddd;}" style="width:50px;" title="Tooltip (input) Content" ></td><td>&lt;input class="<span class="highlight-tooltip">tooltip</span> <span class="highlight-optional">sticky</span> <span class="highlight-meta">{ followMouse: false; direction: w; width: 200px; background: #008; color: #ddd; }</span>" style="width:50px;" title="<span class="highlight-title">Tooltip (input) Content</span>"&gt;</td></tr>
+				<tr><td align="center"><span class="tooltip {direction:sw;width:150px;background:#008080;color:#ddd;}" title="Tooltip (span) Content">span (span)</span></td><td>&lt;span class="<span class="highlight-tooltip">tooltip</span> <span class="highlight-meta">{ direction: sw; width: 150px; background: #008080; color: #ddd; }</span>" title="<span class="highlight-title">Tooltip (span) Content</span>"&gt;span (span)&lt;/span&gt;</td></tr>
+				<tr><td align="center"><input class="tooltip sticky {followMouse:false;direction:w;width:100px;background:#008;color:#ddd;}" style="width:50px;" title="Tooltip (input)" ></td><td>&lt;input class="<span class="highlight-tooltip">tooltip</span> <span class="highlight-optional">sticky</span> <span class="highlight-meta">{ followMouse: false; direction: w; width: 100px; background: #008; color: #ddd; }</span>" style="width:50px;" title="<span class="highlight-title">Tooltip (input)</span>"&gt;</td></tr>
 			</tbody></table>
 
 			<ul>
@@ -131,6 +131,7 @@ $(function(){
     // options not supported by metadata
     live           : false,                 // use live event support?
     metadata       : 'class',               // attribute containing the metadata, use "false" (no quotes) to disable.
+    extradata      : 'rel',                 // Change using the rel attribute; stores object id on the page (basic tooltip) or image URL (screenshot)
     activate       : 'mouseenter focusin',  // how tooltip is activated
     deactivate     : 'mouseleave focusout', // how tooltip is deactivated
     cacheData      : true,                  // Cache data obtained from external pages, set to false if the data is dynamic.
@@ -180,6 +181,7 @@ $(function(){
 					<tr><td>zIndex</td><td>1000</td><td>Adjust this if the tooltip is below another object.</td></tr>
 					<tr><td>live</td><td>false</td><td>Set to true if you add tooltip objects to your page dynamically (added after the page is loaded).</td></tr>
 					<tr><td>metadata</td><td>'class'</td><td>Location of the tooltip metadata. By default it will look in the class attribute. If set to "false" it will disable the metadata.</td></tr>
+					<tr><td>extradata</td><td>'rel'</td><td>Change using the rel attribute; stores object id on the page (basic tooltip) or image URL (screenshot).</td></tr>
 					<tr><td>activate</td><td>'mouseenter focusin'</td><td>The event that causes the tooltip to display information.</td></tr>
 					<tr><td>deactivate</td><td>'mouseleave focusout'</td><td>The event that causes the tooltip to be removed.</td></tr>
 					<tr><td>cacheData</td><td>true</td><td>Cache data obtained from external pages, set to false if the data is dynamic.</td></tr>

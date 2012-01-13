@@ -47,6 +47,11 @@ h1, h2, h3 {
  margin-top: 0;
 }
 
+blockquote.pre {
+ max-width: 95%;
+ overflow-x: auto;
+}
+
 .keytable, .keytable td {
  border: #777 1px solid;
  border-collapse: collapse;

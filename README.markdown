@@ -70,6 +70,11 @@ $.jatt({
 
 ##Change Log
 
+###Version 2.8.4 (1/13/2012)
+
+* Fixed an issue where links to "#" without a title would cause an error
+* Added `extradata` option to point to the extra tooltip data; default is the "rel" attribute.
+
 ###Version 2.8.3 (12/26/2011)
 
 * Fixed an issue with the hidden event/callback not firing on sticky tooltips

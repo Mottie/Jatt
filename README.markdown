@@ -70,6 +70,10 @@ $.jatt({
 
 ##Change Log
 
+###Version 2.8.5 (4/18/2012)
+
+* Fixed an error that occurrs when no preload images are found. Fix for [issue #1](https://github.com/Mottie/Jatt/issues/1).
+
 ###Version 2.8.4 (1/13/2012)
 
 * Fixed an issue where links to "#" without a title would cause an error

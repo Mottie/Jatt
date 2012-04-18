@@ -1,5 +1,5 @@
-/*
- * Jatt - just another tooltip v2.8.4
+/*!
+ * Jatt - just another tooltip v2.8.5
  * http://github.com/Mottie/Jatt
  * by Rob Garrison (aka Mottie)
  *
@@ -7,7 +7,6 @@
  * tooltip modification by Rob G, aka Mottie (http://wowmotty.blogspot.com/)
  *
  */
-
 ;(function($, window, document){
 	$.jatt = function(options){
 
@@ -282,6 +281,7 @@
 
 		// Preload Content
 		$.jatt.preloadContent = function(preloads) {
+			if (preloads.length === 0) { return; }
 			var cacheImage, $this, $div, url, i,
 			divs = [],
 			$tt = $(o.tooltip),

@@ -1,5 +1,5 @@
 /*!
- * Jatt - just another tooltip v2.8.5
+ * Jatt - just another tooltip v2.8.6
  * http://github.com/Mottie/Jatt
  * by Rob Garrison (aka Mottie)
  *
@@ -91,7 +91,7 @@
 			$tt.fadeIn(opt.speed);
 			doc.trigger('revealed.jatt', $obj);
 		})
-		[evt](o.deactivate,function(e) {
+		[evt](o.deactivate,function() {
 			if (!$(this).is(o.sticky)) {
 				$.jatt.removeTooltips();
 			}
@@ -161,7 +161,7 @@
 
 		// *** combined preview & screenshot ***
 		$(o.preview + ',' + o.screenshot)
-		[evt](o.deactivate,function(e){
+		[evt](o.deactivate,function(){
 			if (!$(this).is(o.sticky)) {
 				$.jatt.removeTooltips();
 			}
@@ -287,7 +287,7 @@
 			$tt = $(o.tooltip),
 			len = preloads.length;
 			// preload images code modified from http://engineeredweb.com/blog/09/12/preloading-images-jquery-and-javascript
-			for (i = len; i > -1; i--) {
+			for (i = 0; i < len; i++) {
 				// console.debug('preloading image: ' + preloads[i]);
 				cacheImage = document.createElement('img');
 				cacheImage.src = preloads[i];

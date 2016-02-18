@@ -7,196 +7,230 @@
  * tooltip modification by Rob G, aka Mottie (http://wowmotty.blogspot.com/)
  *
  */
-;(function($, window, document){
-	$.jatt = function(options){
+/*jshint browser:true, jquery:true, unused:false */
+;(function($, window, document) {
+	'use strict';
+	$.jatt = function(options) {
 
 	// options & globals
-	var opt, process, cache = [],
-	pageBody = $('body'),
-	doc = $(document),
-	win = $(window),
-	o = $.extend({},$.jatt.defaultOptions, options),
+	var opt, process,
+		cache = [],
+		pageBody = $('body'),
+		$doc = $(document),
+		$win = $(window),
+		o = $.extend({}, $.jatt.defaultOptions, options),
 
-	init = function(){
+	init = function() {
 		// event type - considering switching 'live' to 'delegate'
-		var evt = (o.live) ? 'live' : 'bind',
-		preloads = [];
+		var binding = (o.live) ? 'live' : 'bind',
+			preloads = [],
+			events = 'initialized.jatt beforeReveal.jatt revealed.jatt hidden.jatt';
 		// callbacks
-		$.each('initialized.jatt beforeReveal.jatt revealed.jatt hidden.jatt'.split(' '), function(i,e){
-			var cb = e.split('.')[0];
-			if ($.isFunction(o[cb])){
-				doc.bind(e, o[cb] );
+		$.each(events.split(' '), function(i, event) {
+			var callback = event.split('.')[0];
+			if ($.isFunction(o[callback])) {
+				$doc.bind(event, o[callback] );
 			}
 		});
-		$.data(doc, 'jatt', '');
+		$.data($doc, 'jatt', '');
 
 		// *** Tooltips ***
 		$(o.tooltip)
-		[evt](o.activate,function(e){
-			var tmp, tt, $tt, rel,
-			url, ttloader, ttl,
-			$obj = $(this),
-			// metadata is usually a class name. It is set to false to disable it, so we need to see if we get false or "false"
-			meta = (o.metadata.toString() === 'false') ? [o, ''] : $.jatt.getMeta($obj);
+		[binding](o.activate, function(event) {
+			var tmp, tooltip, $tooltip, rel,
+				url, $tooltipLoader, tooltipContent,
+				$this = $(this),
+				// metadata is usually a class name. It is set to false to disable it,
+				// so we need to see if we get false or "false"
+				meta = (o.metadata.toString() === 'false') ?
+					[o, ''] : $.jatt.getMeta($this);
 
-			if (this !== $.data(doc, 'jatt')[0]) {
+			if (this !== $.data($doc, 'jatt')[0]) {
 				$.jatt.removeTooltips();
 			}
 
-			doc.trigger('initialized.jatt', $obj);
+			$doc.trigger('initialized.jatt', $this);
 			opt = meta[0]; // meta options
-			tt = ($obj.attr(opt.content) === '') ? $obj.data('tooltip') || '' : $obj.attr(opt.content) || '';
-			rel = $obj.attr(o.extradata) || '';
-			url = $obj.attr('href') || '';
-			$obj.data('tooltip', tt);
-			$obj.attr('title', ''); // clear title to stop default tooltip
+			tooltip = ($this.attr(opt.content) === '') ?
+				$this.data('tooltip') || '' : $this.attr(opt.content) || '';
+			rel = $this.attr(o.extradata) || '';
+			url = $this.attr('href') || '';
+			$this.data('tooltip', tooltip);
+			$this.attr('title', ''); // clear title to stop default tooltip
 
-			// build tooltip & styling from metadata - styling added here as a fallback, in case css isn't loaded
-			tmp = '<div id="' + o.tooltipId + '" style="position:absolute;z-index:' + opt.zIndex + ';' +
-			meta[1] + '"><span class="body"></span><span class="close" style="display:none;">x</span></div>';
-			if (opt.local){
-				$obj.before(tmp);
+			// build tooltip & styling from metadata - styling added here as a
+			// fallback, in case css isn't loaded
+			tmp = '<div id="' + o.tooltipId + '" style="position:absolute;z-index:' +
+				opt.zIndex + ';' + meta[1] + '"><span class="body"></span>' +
+				'<span class="close" style="display:none;">x</span></div>';
+			if (opt.local) {
+				$this.before(tmp);
 			} else {
 				pageBody.append(tmp);
 			}
-			$tt = $('#' + o.tooltipId);
+			$tooltip = $('#' + o.tooltipId);
 			// Load tooltip content from an object on the page
-			if (tt === ''){
+			if (tooltip === '') {
 				if (rel !== '') {
-					tt = $(rel).html() || o.notFound;
+					tooltip = $(rel).html() || o.notFound;
 				} else if (url !== '' && url !== '#') {
-					tt = o.loading;
+					tooltip = o.loading;
 					// Load tooltip from external page
-					ttloader = $('<div />');
-					ttloader.load(url, function(){
-						ttl = ttloader.html();
-						cache = (o.cacheData) ? ttl : '';
-						$tt
-						.hide() // hiding to prevent contents popping up under the mouse and triggering a close event, or it should o.O
-						.find('.body').html(ttl);
-						$obj.data('tooltip', cache); // save data for next load
-						$.jatt.ttrelocate(e, o.tooltipId);
-						$tt.fadeIn(opt.speed);
+					$tooltipLoader = $('<div />');
+					$tooltipLoader.load(url, function() {
+						tooltipContent = $tooltipLoader.html();
+						cache = (o.cacheData) ? tooltipContent : '';
+						$tooltip
+							// hiding to prevent contents popping up under the mouse and
+							// triggering a close event, or it should o.O
+							.hide()
+							.find('.body')
+							.html(tooltipContent);
+						$this.data('tooltip', cache); // save data for next load
+						$.jatt.ttrelocate(event, o.tooltipId);
+						$tooltip.fadeIn(opt.speed);
 					});
 				}
 			}
-			$tt.data('options', opt).find('.body').html(tt);
-			$.jatt.ttrelocate(e, o.tooltipId);
-			$tt.find('.close')[($obj.is(o.sticky)) ? 'show' : 'hide']().click(function(){
-				$.jatt.removeTooltips();
-			});
+			$tooltip
+				.data('options', opt)
+				.find('.body')
+				.html(tooltip);
+			$.jatt.ttrelocate(event, o.tooltipId);
+			$tooltip
+				.find('.close')
+				[($this.is(o.sticky)) ? 'show' : 'hide']()
+				.click(function() {
+					$.jatt.removeTooltips();
+				});
 
-			$.data(doc, 'jatt', $obj);
-			doc.trigger('beforeReveal.jatt', $obj);
-			$tt.fadeIn(opt.speed);
-			doc.trigger('revealed.jatt', $obj);
+			$.data($doc, 'jatt', $this);
+			$doc.trigger('beforeReveal.jatt', $this);
+			$tooltip.fadeIn(opt.speed);
+			$doc.trigger('revealed.jatt', $this);
 		})
-		[evt](o.deactivate,function() {
+		[binding](o.deactivate, function() {
 			if (!$(this).is(o.sticky)) {
 				$.jatt.removeTooltips();
 			}
 		})
-		[evt]('mousemove',function(e) {
-			if ($('#' + o.tooltipId).length && opt.followMouse) { $.jatt.ttrelocate(e, o.tooltipId); }
+		[binding]('mousemove', function(event) {
+			if ($('#' + o.tooltipId).length && opt.followMouse) {
+				$.jatt.ttrelocate(event, o.tooltipId);
+			}
 		});
 
 		// *** Process image & URL screenshot previews ***
-		process = function(e, $obj, content){
-			doc.trigger('initialized.jatt', $obj);
-			var $tt, tt, tmp,
-			meta = (o.metadata.toString() == 'false') ? [o, ''] : $.jatt.getMeta($obj);
-			opt = meta[0];
-			tt = ($obj.attr(opt.content) === '') ? $obj.data('tooltip') || '' : $obj.attr(opt.content) || '';
-			$obj.data('tooltip', tt);
-			if (opt.content === 'title') { $obj.attr(opt.content, ''); } // leave title attr empty
+		process = function(event, $obj, content) {
+			$doc.trigger('initialized.jatt', $obj);
+			var $tooltip, tooltip, tmp,
+				meta = (o.metadata.toString() == 'false') ?
+					[o, ''] : $.jatt.getMeta($obj);
+				opt = meta[0];
+			tooltip = ($obj.attr(opt.content) === '') ?
+				$obj.data('tooltip') || '' : $obj.attr(opt.content) || '';
+			$obj.data('tooltip', tooltip);
+			if (opt.content === 'title') {
+				// leave title attr empty
+				$obj.attr(opt.content, '');
+			}
 			// make sure position and zindex (in case it's not in the meta data) are always added
-			tmp = '<div id="' + o.previewId + '" style="position:absolute;z-index:' + opt.zIndex + ';' + meta[1] + '"><span class="body"><img src="' +
-				content + (tt !== '' ? '<br/>' + tt : '') + '</span><span class="close" style="display:none;">x</span></div>';
-			if (opt.local){
+			tmp = '<div id="' + o.previewId + '" style="position:absolute;z-index:' +
+				opt.zIndex + ';' + meta[1] + '"><span class="body"><img src="' +
+				content + (tooltip !== '' ? '<br/>' + tooltip : '') + '</span>' +
+				'<span class="close" style="display:none;">x</span></div>';
+			if (opt.local) {
 				$obj.before(tmp);
 			} else {
 				pageBody.append(tmp);
 			}
-			$tt = $('#' + o.previewId);
-			$.data(doc, 'jatt', $obj);
-			doc.trigger('beforeReveal.jatt', $obj);
-			$tt
-			.hide()
-			.data('options', opt)
-			.fadeIn(opt.speed);
-			$tt.find('.close')[($obj.is(o.sticky)) ? 'show' : 'hide']().click(function(){
-				$.jatt.removeTooltips();
-			});
-			$.jatt.ttrelocate(e, o.previewId);
-			doc.trigger('revealed.jatt', $obj);
+			$tooltip = $('#' + o.previewId);
+			$.data($doc, 'jatt', $obj);
+			$doc.trigger('beforeReveal.jatt', $obj);
+			$tooltip
+				.hide()
+				.data('options', opt)
+				.fadeIn(opt.speed);
+			$.jatt.ttrelocate(event, o.previewId);
+			$tooltip
+				.find('.close')
+				[($obj.is(o.sticky)) ? 'show' : 'hide']()
+				.click(function() {
+					$.jatt.removeTooltips();
+				});
+			$doc.trigger('revealed.jatt', $obj);
 		};
 
 		// *** Image preview ***
 		$(o.preview)
-		[evt](o.activate,function(e){
-			var t = $(this);
+		[binding](o.activate, function(event) {
+			var $this = $(this);
 			$.jatt.removeTooltips();
-			process( e, t, t.attr('href') + '" alt="' + o.imagePreview +'" />');
+			process( event, $this, $this.attr('href') + '" alt="' + o.imagePreview +'" />');
 		})
 		// preload images/screenshots
-		.each(function(){
+		.each(function() {
 			preloads.push( $(this).attr('href') );
 		});
 
 		// *** Screenshot preview ***
 		$(o.screenshot)
-		[evt](o.activate,function(e){
-			var $obj = $(this),
+		[binding](o.activate, function(event) {
+			var $this = $(this),
 			/* use external site to get website thumbnail preview if rel="#" */
-			ss = ($obj.attr(o.extradata) === '#' ? o.websitePreview + $obj.attr('href') : $obj.attr(o.extradata)) +
-				'" alt="' + o.siteScreenshot + $obj.attr('href') + '" />';
+			ss = ($this.attr(o.extradata) === '#' ?
+				o.websitePreview + $this.attr('href') : $this.attr(o.extradata)) +
+				'" alt="' + o.siteScreenshot + $this.attr('href') + '" />';
 			$.jatt.removeTooltips();
-			process( e, $obj, ss );
+			process( event, $this, ss );
 		})
 		// preload screenshots
-		.each(function(){
-			var $obj = $(this);
-			preloads.push( ($obj.attr(o.extradata) === '#') ? o.websitePreview + $obj.attr('href') : $obj.attr(o.extradata) );
+		.each(function() {
+			var $this = $(this);
+			preloads.push( ($this.attr(o.extradata) === '#') ?
+				o.websitePreview + $this.attr('href') : $this.attr(o.extradata) );
 		});
 
 		// *** combined preview & screenshot ***
 		$(o.preview + ',' + o.screenshot)
-		[evt](o.deactivate,function(){
+		[binding](o.deactivate, function() {
 			if (!$(this).is(o.sticky)) {
 				$.jatt.removeTooltips();
 			}
 		})
-		[evt]('mousemove',function(e){
-			if ($('#' + o.previewId).length && opt.followMouse) { $.jatt.ttrelocate(e, o.previewId); }
+		[binding]('mousemove',function(event) {
+			if ($('#' + o.previewId).length && opt.followMouse) {
+				$.jatt.ttrelocate(event, o.previewId);
+			}
 		});
 
 		$.jatt.preloadContent(preloads);
 
 	}; // end init
 
-		$.jatt.ttrelocate = function(e, ttid){
-			var tt = $('#' + ttid),
-			ttw = tt.outerWidth(),
-			tth = tt.outerHeight(),
-			opt = tt.data('options') || o,
-			// [ top left x, top left y, bottom right x, bottom right y ]
-			tip = {
-				e  : [ opt.xOffset, -tth/2, ttw+opt.xOffset, tth/2 ],
-				se : [ opt.xOffset, opt.yOffset, ttw+opt.xOffset, tth+opt.yOffset ],
-				s  : [ -ttw/2, opt.yOffset, ttw/2, tth+opt.yOffset ],
-				sw : [ -ttw-opt.xOffset, opt.yOffset, -opt.xOffset, tth+opt.yOffset ],
-				w  : [ -ttw-opt.xOffset, -tth/2, -opt.xOffset, tth/2 ],
-				nw : [ -ttw-opt.xOffset, -tth-opt.yOffset, -opt.xOffset, -opt.yOffset ],
-				n  : [ -ttw/2, -tth-opt.yOffset, ttw/2, -opt.yOffset ],
-				ne : [ opt.xOffset, -tth-opt.yOffset, ttw+opt.xOffset, -opt.yOffset ]
-			},
-			dir = tip[opt.direction],
-			wscrY = win.scrollTop(),
-			wscrX = win.scrollLeft(),
-			// use $(e.target).position() if the link gets focus.
-			tar = $(e.target),
-			curX = e.pageX || tar.position().left + tar.width()/2,
-			curY = e.pageY || tar.position().top + tar.height()/2;
+		$.jatt.ttrelocate = function(event, tooltipId) {
+			var $tooltip = $('#' + tooltipId),
+				ttw = $tooltip.outerWidth(),
+				tth = $tooltip.outerHeight(),
+				opt = $tooltip.data('options') || o,
+				// [ top left x, top left y, bottom right x, bottom right y ]
+				tip = {
+					e  : [ opt.xOffset, -tth/2, ttw+opt.xOffset, tth/2 ],
+					se : [ opt.xOffset, opt.yOffset, ttw+opt.xOffset, tth+opt.yOffset ],
+					s  : [ -ttw/2, opt.yOffset, ttw/2, tth+opt.yOffset ],
+					sw : [ -ttw-opt.xOffset, opt.yOffset, -opt.xOffset, tth+opt.yOffset ],
+					w  : [ -ttw-opt.xOffset, -tth/2, -opt.xOffset, tth/2 ],
+					nw : [ -ttw-opt.xOffset, -tth-opt.yOffset, -opt.xOffset, -opt.yOffset ],
+					n  : [ -ttw/2, -tth-opt.yOffset, ttw/2, -opt.yOffset ],
+					ne : [ opt.xOffset, -tth-opt.yOffset, ttw+opt.xOffset, -opt.yOffset ]
+				},
+				dir = tip[opt.direction],
+				wscrY = $win.scrollTop(),
+				wscrX = $win.scrollLeft(),
+				// use $(event.target).position() if the link gets focus.
+				tar = $(event.target),
+				curX = event.pageX || tar.position().left + tar.width()/2,
+				curY = event.pageY || tar.position().top + tar.height()/2;
 
 			// if not following mouse, then find sides of the object
 			if (!opt.followMouse) {
@@ -219,38 +253,52 @@
 			tttop = curY + dir[1];
 
 			// some basic repositioning if the tooltip is out of the viewport
-			if ( curX + dir[2] > wscrX + win.width() - opt.xOffset ) { ttleft = win.width() - ttw - opt.xOffset; }
-			if ( curY + dir[3] > wscrY + win.height() - opt.yOffset ) { tttop = curY - tth - opt.yOffset; }
-			if ( ttleft < wscrX + opt.xOffset ) { ttleft = wscrX + opt.xOffset; }
-			if ( tttop < wscrY + opt.yOffset ) {  tttop = curY + opt.yOffset; }
+			if ( curX + dir[2] > wscrX + $win.width() - opt.xOffset ) {
+				ttleft = $win.width() - ttw - opt.xOffset;
+			}
+			if ( curY + dir[3] > wscrY + $win.height() - opt.yOffset ) {
+				tttop = curY - tth - opt.yOffset;
+			}
+			if ( ttleft < wscrX + opt.xOffset ) {
+				ttleft = wscrX + opt.xOffset;
+			}
+			if ( tttop < wscrY + opt.yOffset ) {
+				tttop = curY + opt.yOffset;
+			}
 
 			// prevent mouse from being inside tooltip & cause a flicker on mouse move
 			if ( curX > ttleft && curX < ttleft + ttw && curY > tttop && curY < tttop + tth ) {
-				tttop += ( (tttop - tth/2 - opt.yOffset) < wscrY + opt.yOffset ) ? tth/2 + opt.yOffset : -tth/2 - opt.yOffset;
+				tttop += ( (tttop - tth/2 - opt.yOffset) < wscrY + opt.yOffset ) ?
+					tth/2 + opt.yOffset : -tth/2 - opt.yOffset;
 			}
 
-			tt.css({ left : ttleft + 'px', top : tttop + 'px' });
+			$tooltip.css({ left : ttleft + 'px', top : tttop + 'px' });
 		};
 
-		$.jatt.getMeta = function(el){
+		$.jatt.getMeta = function(el) {
 			opt = $.extend({}, o);
-			var t, m = [],
-			// options that aren't added to the tooltip style (except zIndex)
-			opts = 'direction|followMouse|content|speed|local|xOffset|yOffset|zIndex',
-			meta = el.attr(o.metadata) || '';
+			var t,
+				m = [],
+				// options that aren't added to the tooltip style (except zIndex)
+				opts = 'direction|followMouse|content|speed|local|xOffset|yOffset|zIndex',
+				meta = el.attr(o.metadata) || '';
 			// if the metadata doesn't have curly brackets then look in the attrib
-			meta = (meta.match(/(\{.*\})/g)) ? meta.match(/(\{.*\})/g)[0] : el.attr(o.metadata) || '';
+			meta = (meta.match(/(\{.*\})/g)) ?
+				meta.match(/(\{.*\})/g)[0] : el.attr(o.metadata) || '';
 			// if the current meta data doesn't have any of the metadata variables, look in data-jatt
 			// the data object (el.data('jatt')) could have been used, but then the code would be longer.
-			meta = (meta.match('width|background|color|border|' + opts)) ? meta : el.attr('data-jatt') || '';
+			meta = (meta.match('width|background|color|border|' + opts)) ?
+				meta : el.attr('data-jatt') || '';
 			if (meta !== '') {
-				meta = meta.replace(/(\{|\'|\"|\})/g,''); // remove curly brackets, spaces, apostrophes and quotes
+				// remove curly brackets, spaces, apostrophes and quotes
+				meta = meta.replace(/(\{|\'|\"|\})/g, '');
 				if (meta.match(opts)) {
 					// split out tooltip options, assume everything else is css
-					$.each( meta.split(';'), function(i,val){
+					$.each(meta.split(';'), function(i, val) {
 						t = val.split(':');
 						if (t[0].match(opts)) {
-							var k = $.trim(t[0]), v = $.trim(t[1]);
+							var k = $.trim(t[0]),
+								v = $.trim(t[1]);
 							if (v == 'true' || v == 'false') {
 								opt[k] = (v == 'true') ? true : false;
 							} else {
@@ -268,11 +316,11 @@
 
 		// Remove all tooltips, and any extras that might appear
 		// (focusout doesn't seem to work)
-		$.jatt.removeTooltips = function(){
-			var t = $('#' + o.previewId + ', #' + o.tooltipId);
-			if (t.length) {
-				t.remove();
-				doc.trigger('hidden.jatt', $.data(doc, 'jatt') );
+		$.jatt.removeTooltips = function() {
+			var $tooltip = $('#' + o.previewId + ', #' + o.tooltipId);
+			if ($tooltip.length) {
+				$tooltip.remove();
+				$doc.trigger('hidden.jatt', $.data($doc, 'jatt') );
 			}
 			while ($('#' + o.previewId + ', #' + o.tooltipId).length > 0) {
 				$('#' + o.previewId + ', #' + o.tooltipId).remove();
@@ -283,9 +331,9 @@
 		$.jatt.preloadContent = function(preloads) {
 			if (preloads.length === 0) { return; }
 			var cacheImage, $this, $div, url, i,
-			divs = [],
-			$tt = $(o.tooltip),
-			len = preloads.length;
+				divs = [],
+				$tooltip = $(o.tooltip),
+				len = preloads.length;
 			// preload images code modified from http://engineeredweb.com/blog/09/12/preloading-images-jquery-and-javascript
 			for (i = 0; i < len; i++) {
 				// console.debug('preloading image: ' + preloads[i]);
@@ -294,7 +342,7 @@
 				cache.push(cacheImage);
 			}
 			// preload external content
-			$tt.each(function(i){
+			$tooltip.each(function(i) {
 				$this = $(this);
 				// look for preload content class
 				if ( this.tagName === 'A' && $this.is(o.preloadContent) ) {
@@ -303,8 +351,8 @@
 						// Load tooltip from external page - console.debug('preloading content: ' + url);
 						$div = $('<div rel="' + i + '" />');
 						divs.push($div);
-						$div.load(url, function(){
-							$tt.eq( $div.attr(o.extradata) ).data('tooltip', $div.html() );
+						$div.load(url, function() {
+							$tooltip.eq( $div.attr(o.extradata) ).data('tooltip', $div.html() );
 						});
 					}
 				}

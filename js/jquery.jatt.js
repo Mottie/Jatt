@@ -171,8 +171,9 @@
 			$.jatt.removeTooltips();
 			process( event, $this, $this.attr('href') + '" alt="' + o.imagePreview +'" />');
 		});
+
 		// preload images/screenshots
-		.each(function() {
+		$(o.tooltip).filter(o.preloadContent).each(function() {
 			preloads.push( $(this).attr('href') );
 		});
 
@@ -186,13 +187,6 @@
 			$.jatt.removeTooltips();
 			process( event, $this, ss );
 		})
-		// preload screenshots
-		.each(function() {
-			var $this = $(this);
-			preloads.push( ($this.attr(o.extradata) === '#') ?
-				o.websitePreview + $this.attr('href') : $this.attr(o.extradata) );
-		});
-
 		// *** combined preview & screenshot ***
 		.on((o.deactivate + ' ').split(' ').join(namespace + ' '), o.preview + ',' + o.screenshot, function() {
 			if (!$(this).is(o.sticky)) {
@@ -203,6 +197,13 @@
 			if ($('#' + o.previewId).length && opt.followMouse) {
 				$.jatt.ttrelocate(event, o.previewId);
 			}
+		});
+
+		// preload screenshots
+		$(o.screenshot + ',' + o.preview).filter(o.preloadContent).each(function() {
+			var $this = $(this);
+			preloads.push( ($this.attr(o.extradata) === '#') ?
+				o.websitePreview + $this.attr('href') : $this.attr(o.extradata) );
 		});
 
 		$.jatt.preloadContent(preloads);
@@ -331,31 +332,30 @@
 		// Preload Content
 		$.jatt.preloadContent = function(preloads) {
 			if (preloads.length === 0) { return; }
-			var cacheImage, $this, $div, url, i,
+			var cacheImage, $div, url, indx,
 				divs = [],
-				$tooltip = $(o.tooltip),
+				$tooltip = $(o.tooltip + o.preloadContent),
 				len = preloads.length;
 			// preload images code modified from http://engineeredweb.com/blog/09/12/preloading-images-jquery-and-javascript
-			for (i = 0; i < len; i++) {
+			for (indx = 0; indx < len; indx++) {
 				// console.debug('preloading image: ' + preloads[i]);
 				cacheImage = document.createElement('img');
-				cacheImage.src = preloads[i];
+				cacheImage.src = preloads[indx];
 				cache.push(cacheImage);
 			}
 			// preload external content
-			$tooltip.each(function(i) {
-				$this = $(this);
+			$tooltip.each(function(indx) {
+				url = $(this).attr('href') || '';
 				// look for preload content class
-				if ( this.tagName === 'A' && $this.is(o.preloadContent) ) {
-					url = $(this).attr('href') || '';
-					if ( url !== '' && !url.match(/^#/) ) {
-						// Load tooltip from external page - console.debug('preloading content: ' + url);
-						$div = $('<div rel="' + i + '" />');
-						divs.push($div);
-						$div.load(url, function() {
-							$tooltip.eq( $div.attr(o.extradata) ).data('tooltip', $div.html() );
-						});
-					}
+				if ( this.tagName === 'A' && url !== '' && !url.match(/^#/) ) {
+					// Load tooltip from external page - console.debug('preloading content: ' + url);
+					$div = $('<div ' + o.extradata + '="' + indx + '" />');
+					divs.push($div);
+					$div.load(url, function() {
+						$tooltip
+							.eq( $div.attr(o.extradata) )
+							.data('tooltip', $div.html() );
+					});
 				}
 			});
 		};

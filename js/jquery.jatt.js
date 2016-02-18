@@ -1,5 +1,5 @@
 /*!
- * Jatt - just another tooltip v2.8.6
+ * Jatt - just another tooltip v2.9.0
  * http://github.com/Mottie/Jatt
  * by Rob Garrison (aka Mottie)
  *
@@ -11,6 +11,8 @@
 ;(function($, window, document) {
 	'use strict';
 	$.jatt = function(options) {
+
+	$.jatt.version = '2.9.0';
 
 	// options & globals
 	var opt, process,

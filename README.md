@@ -75,6 +75,23 @@ $.jatt({
 
 Only the latest changes will be shown below, see the [full change log](https://github.com/Mottie/Jatt/wiki) to view older versions.
 
+### Version 2.9.0 (2/17/2016)
+
+* Core:
+ * Code cleanup & use readable variable names.
+ * Removed `live` option and replaced it with jQuery delegated event binding. So this plugin now requires jQuery 1.7+.
+ * Prefix triggered Jatt events with "jatt-".
+ * Fix image preload code.
+ * Add triggered events as options.
+ * Fix thumbnail service url.
+* Docs:
+ * General cleanup.
+ * Added new options.
+* Readme:
+ * Renamed with ".md" extension.
+ * Moved [change log to wiki](https://github.com/Mottie/Jatt/wiki).
+* Add gitignore & gitattributes.
+
 ### Version 2.8.6 (9/16/2012)
 
 * Fixed an issue with preloading a non-existent image. Also from [issue #1](https://github.com/Mottie/Jatt/issues/1).

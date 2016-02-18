@@ -18,23 +18,28 @@
 		pageBody = $('body'),
 		$doc = $(document),
 		$win = $(window),
+		namespace = '.jatt',
+		events = {
+			init     : 'jatt-init',
+			b4Reveal : 'jatt-beforeReveal',
+			reveal   : 'jatt-reveal',
+			hidden   : 'jatt-hidden'
+		},
 		o = $.extend({}, $.jatt.defaultOptions, options),
 
 	init = function() {
-		// event type - considering switching 'live' to 'delegate'
-		var preloads = [],
-			events = 'initialized.jatt beforeReveal.jatt revealed.jatt hidden.jatt';
+		var preloads = [];
 		// callbacks
-		$.each(events.split(' '), function(i, event) {
-			var callback = event.split('.')[0];
+		$.each(events, function(i, event) {
+			var callback = event.replace('jatt-', '');
 			if ($.isFunction(o[callback])) {
-				$doc.bind(event, o[callback] );
+				$doc.on(event, o[callback] );
 			}
 		});
 		$.data($doc, 'jatt', '');
 
 		// *** Tooltips ***
-		$doc.on((o.activate + ' ').split(' ').join('.jatt '), o.tooltip, function(e) {
+		$doc.on((o.activate + ' ').split(' ').join(namespace + ' '), o.tooltip, function(event) {
 			var tmp, tooltip, $tooltip, rel,
 				url, $tooltipLoader, tooltipContent,
 				$this = $(this),
@@ -47,7 +52,7 @@
 				$.jatt.removeTooltips();
 			}
 
-			$doc.trigger('initialized.jatt', $this);
+			$doc.trigger(events.init, $this);
 			opt = meta[0]; // meta options
 			tooltip = ($this.attr(opt.content) === '') ?
 				$this.data('tooltip') || '' : $this.attr(opt.content) || '';
@@ -103,16 +108,16 @@
 				});
 
 			$.data($doc, 'jatt', $this);
-			$doc.trigger('beforeReveal.jatt', $this);
+			$doc.trigger(events.b4Reveal, $this);
 			$tooltip.fadeIn(opt.speed);
-			$doc.trigger('revealed.jatt', $this);
+			$doc.trigger(events.reveal, $this);
 		})
-		.on((o.deactivate + ' ').split(' ').join('.jatt '), o.tooltip, function() {
+		.on((o.deactivate + ' ').split(' ').join(namespace + ' '), o.tooltip, function() {
 			if (!$(this).is(o.sticky)) {
 				$.jatt.removeTooltips();
 			}
 		})
-		.on('mousemove.jatt', o.tooltip, function(event) {
+		.on('mousemove' + namespace, o.tooltip, function(event) {
 			if ($('#' + o.tooltipId).length && opt.followMouse) {
 				$.jatt.ttrelocate(event, o.tooltipId);
 			}
@@ -120,7 +125,7 @@
 
 		// *** Process image & URL screenshot previews ***
 		process = function(event, $obj, content) {
-			$doc.trigger('initialized.jatt', $obj);
+			$doc.trigger(events.init, $obj);
 			var $tooltip, tooltip, tmp,
 				meta = (o.metadata.toString() == 'false') ?
 					[o, ''] : $.jatt.getMeta($obj);
@@ -145,7 +150,7 @@
 			}
 			$tooltip = $('#' + o.previewId);
 			$.data($doc, 'jatt', $obj);
-			$doc.trigger('beforeReveal.jatt', $obj);
+			$doc.trigger(events.b4Reveal, $obj);
 			$tooltip
 				.hide()
 				.data('options', opt)
@@ -157,22 +162,22 @@
 				.click(function() {
 					$.jatt.removeTooltips();
 				});
-			$doc.trigger('revealed.jatt', $obj);
+			$doc.trigger(events.reveal, $obj);
 		};
 
 		// *** Image preview ***
-		$doc.on((o.activate + ' ').split(' ').join('.jatt '), o.preview, function(event) {
+		$doc.on((o.activate + ' ').split(' ').join(namespace + ' '), o.preview, function(event) {
 			var $this = $(this);
 			$.jatt.removeTooltips();
 			process( event, $this, $this.attr('href') + '" alt="' + o.imagePreview +'" />');
-		})
+		});
 		// preload images/screenshots
 		.each(function() {
 			preloads.push( $(this).attr('href') );
 		});
 
 		// *** Screenshot preview ***
-		$doc.on((o.activate + ' ').split(' ').join('.jatt '), o.screenshot, function(event) {
+		$doc.on((o.activate + ' ').split(' ').join(namespace + ' '), o.screenshot, function(event) {
 			var $this = $(this),
 			/* use external site to get website thumbnail preview if rel="#" */
 			ss = ($this.attr(o.extradata) === '#' ?
@@ -189,12 +194,12 @@
 		});
 
 		// *** combined preview & screenshot ***
-		$doc.on((o.deactivate + ' ').split(' ').join('.jatt '), o.preview + ',' + o.screenshot, function() {
+		.on((o.deactivate + ' ').split(' ').join(namespace + ' '), o.preview + ',' + o.screenshot, function() {
 			if (!$(this).is(o.sticky)) {
 				$.jatt.removeTooltips();
 			}
 		})
-		.on('mousemove.jatt', o.preview + ',' + o.screenshot, function(e) {
+		.on('mousemove' + namespace, o.preview + ',' + o.screenshot, function(event) {
 			if ($('#' + o.previewId).length && opt.followMouse) {
 				$.jatt.ttrelocate(event, o.previewId);
 			}
@@ -316,7 +321,7 @@
 			var $tooltip = $('#' + o.previewId + ', #' + o.tooltipId);
 			if ($tooltip.length) {
 				$tooltip.remove();
-				$doc.trigger('hidden.jatt', $.data($doc, 'jatt') );
+				$doc.trigger(events.hidden, $.data($doc, 'jatt') );
 			}
 			while ($('#' + o.previewId + ', #' + o.tooltipId).length > 0) {
 				$('#' + o.previewId + ', #' + o.tooltipId).remove();

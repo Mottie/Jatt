@@ -22,8 +22,7 @@
 
 	init = function() {
 		// event type - considering switching 'live' to 'delegate'
-		var binding = (o.live) ? 'live' : 'bind',
-			preloads = [],
+		var preloads = [],
 			events = 'initialized.jatt beforeReveal.jatt revealed.jatt hidden.jatt';
 		// callbacks
 		$.each(events.split(' '), function(i, event) {
@@ -35,8 +34,7 @@
 		$.data($doc, 'jatt', '');
 
 		// *** Tooltips ***
-		$(o.tooltip)
-		[binding](o.activate, function(event) {
+		$doc.on((o.activate + ' ').split(' ').join('.jatt '), o.tooltip, function(e) {
 			var tmp, tooltip, $tooltip, rel,
 				url, $tooltipLoader, tooltipContent,
 				$this = $(this),
@@ -99,7 +97,7 @@
 			$.jatt.ttrelocate(event, o.tooltipId);
 			$tooltip
 				.find('.close')
-				[($this.is(o.sticky)) ? 'show' : 'hide']()
+				.toggle($this.is(o.sticky))
 				.click(function() {
 					$.jatt.removeTooltips();
 				});
@@ -109,12 +107,12 @@
 			$tooltip.fadeIn(opt.speed);
 			$doc.trigger('revealed.jatt', $this);
 		})
-		[binding](o.deactivate, function() {
+		.on((o.deactivate + ' ').split(' ').join('.jatt '), o.tooltip, function() {
 			if (!$(this).is(o.sticky)) {
 				$.jatt.removeTooltips();
 			}
 		})
-		[binding]('mousemove', function(event) {
+		.on('mousemove.jatt', o.tooltip, function(event) {
 			if ($('#' + o.tooltipId).length && opt.followMouse) {
 				$.jatt.ttrelocate(event, o.tooltipId);
 			}
@@ -134,7 +132,8 @@
 				// leave title attr empty
 				$obj.attr(opt.content, '');
 			}
-			// make sure position and zindex (in case it's not in the meta data) are always added
+			// make sure position and zindex (in case it's not in the meta data)
+			// are always added
 			tmp = '<div id="' + o.previewId + '" style="position:absolute;z-index:' +
 				opt.zIndex + ';' + meta[1] + '"><span class="body"><img src="' +
 				content + (tooltip !== '' ? '<br/>' + tooltip : '') + '</span>' +
@@ -154,7 +153,7 @@
 			$.jatt.ttrelocate(event, o.previewId);
 			$tooltip
 				.find('.close')
-				[($obj.is(o.sticky)) ? 'show' : 'hide']()
+				.toggle($obj.is(o.sticky))
 				.click(function() {
 					$.jatt.removeTooltips();
 				});
@@ -162,8 +161,7 @@
 		};
 
 		// *** Image preview ***
-		$(o.preview)
-		[binding](o.activate, function(event) {
+		$doc.on((o.activate + ' ').split(' ').join('.jatt '), o.preview, function(event) {
 			var $this = $(this);
 			$.jatt.removeTooltips();
 			process( event, $this, $this.attr('href') + '" alt="' + o.imagePreview +'" />');
@@ -174,8 +172,7 @@
 		});
 
 		// *** Screenshot preview ***
-		$(o.screenshot)
-		[binding](o.activate, function(event) {
+		$doc.on((o.activate + ' ').split(' ').join('.jatt '), o.screenshot, function(event) {
 			var $this = $(this),
 			/* use external site to get website thumbnail preview if rel="#" */
 			ss = ($this.attr(o.extradata) === '#' ?
@@ -192,13 +189,12 @@
 		});
 
 		// *** combined preview & screenshot ***
-		$(o.preview + ',' + o.screenshot)
-		[binding](o.deactivate, function() {
+		$doc.on((o.deactivate + ' ').split(' ').join('.jatt '), o.preview + ',' + o.screenshot, function() {
 			if (!$(this).is(o.sticky)) {
 				$.jatt.removeTooltips();
 			}
 		})
-		[binding]('mousemove',function(event) {
+		.on('mousemove.jatt', o.preview + ',' + o.screenshot, function(e) {
 			if ($('#' + o.previewId).length && opt.followMouse) {
 				$.jatt.ttrelocate(event, o.previewId);
 			}

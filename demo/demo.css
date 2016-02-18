@@ -1,15 +1,15 @@
 /* Metadata Demo CSS */
 body {
- background: #333;
- color: #ddd;
+	background: #181818;
+	color: #ddd;
 }
 
 #wrap {
- width: 1000px;
- margin: 0 auto;
+	width: 1000px;
+	margin: 0 auto;
 }
 .center {
- text-align: center;
+	text-align: center;
 }
 
 a:link { color: #fc0; text-decoration: none; }
@@ -25,8 +25,8 @@ img { border: 0; }
 #nav a:hover, #nav a.current { background: #666; }
 
 #left, #right {
- float: left;
- width: 500px;
+	float: left;
+	width: 500px;
 }
 #right { width: 400px; }
 
@@ -34,73 +34,88 @@ img { border: 0; }
 #star-image-wrapper #tooltip { background: #f00 !important; color: #fff !important; }
 
 #right #tooltip {
- width: 20px;
- text-align: center;
- border-radius: 3px;
- -moz-border-radius: 3px;
- -webkit-border-radius: 3px;
+	width: 20px;
+	text-align: center;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
 }
 
 h1, h2, h3 {
- color: #fff;
- font-variant: small-caps;
- margin-top: 0;
+	color: #fff;
+	font-variant: small-caps;
+	margin-top: 0;
+}
+
+h3 small {
+	font-variant: normal;
+	font-size: .8em;
 }
 
 blockquote.pre {
- max-width: 95%;
- overflow-x: auto;
+	max-width: 95%;
+	overflow-x: auto;
+	background: #222;
+	padding: 0 10px;
+}
+th {
+	padding: 5px;
+	background-color: #555;
+	color: #ddd;
+}
+td {
+	background: #222;
 }
 
 .keytable, .keytable td {
- border: #777 1px solid;
- border-collapse: collapse;
- padding: 1px 5px;
+	border: #777 1px solid;
+	border-collapse: collapse;
+	padding: 1px 5px;
 }
 
 .spacer {
- height: 120px;
+	height: 80px;
 }
 .spacer2 {
- height: 20px;
+	height: 20px;
 }
 
 .examples div.tooltip {
- border: #444 1px solid;
+	border: #444 1px solid;
 }
 
 .meta {
- width: 300px;
- margin: 0 auto;
- text-align: left;
+	width: 300px;
+	margin: 0 auto;
+	text-align: left;
 }
 
 .meta td {
- min-width: 90px;
+	min-width: 90px;
 }
 
 .meta td.label {
- text-align: right;
+	text-align: right;
 }
 
 input.val {
- text-align: left;
- width: 50px;
+	text-align: left;
+	width: 50px;
 }
 
 #ti, #re, val2 {
- width: 150px;
+	width: 150px;
 }
 
 #code {
- width: 400px;
- height: 120px;
- margin-right: 20px;
+	width: 400px;
+	height: 120px;
+	margin-right: 20px;
 }
 
 #display {
- padding: 0;
- list-style: none;
+	padding: 0;
+	list-style: none;
 }
 
 .highlight-tooltip  { color: #0080ff; }
@@ -110,3 +125,4 @@ input.val {
 .highlight-title    { color: #92d050; }
 .highlight-rel      { color: skyblue; }
 .highlight-text     { color: darkgrey; }
+.highlight-alert    { color: red; }

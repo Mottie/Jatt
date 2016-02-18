@@ -2,13 +2,15 @@
 <html>
 <head>
 
-<title>Tooltips</title>
+<title>Jatt - Just Another ToolTip</title>
 
 <!-- Demo only -->
 <link href="demo/demo.css" rel="stylesheet">
+<link href="demo/prettify.css" rel="stylesheet">
+<script src="demo/prettify.js"></script>
 
 <!-- jQuery (required) -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 
 <!-- Jatt (required) -->
 <link href="css/jatt.css" rel="stylesheet">
@@ -20,7 +22,8 @@
 <!-- Jatt initialization, see docs for options -->
 <script>
 $(function(){
- $.jatt();
+	prettyPrint();
+	$.jatt();
 });
 </script>
 
@@ -33,7 +36,7 @@ $(function(){
 		<a href="examples.html">Examples</a>
 		<a href="meta.html">Meta-data Demo</a>
 		<a class="current git" href="index.html">Documentation</a>
-		<a class="git" href="http://github.com/Mottie/Jatt/downloads">Download</a>
+		<a class="git" href="https://github.com/Mottie/Jatt/releases">Download</a>
 		<a class="issue" href="https://github.com/Mottie/Jatt/issues">Issues</a><br><br>
 	</div>
 	<!-- End Links -->
@@ -46,8 +49,9 @@ $(function(){
 	<br>
 	<h3>Basic setup (add to head of document)</h3>
 	<blockquote class="pre">
-		<pre class="brush: js; html-script: true">&lt;link href="css/jatt.css" rel="stylesheet"&gt;
-&lt;script src="jquery.jatt.js"&gt;&lt;/script&gt;
+		<pre class="prettyprint lang-html">&lt;link href="css/jatt.css" rel="stylesheet"&gt;
+&lt;script src="js/jquery.min.js"&gt;&lt;/script&gt; &lt;!-- minimum jQuery v1.7+ --&gt;
+&lt;script src="js/jquery.jatt.js"&gt;&lt;/script&gt;
 &lt;script&gt;
   $(function(){
     $.jatt();
@@ -116,7 +120,7 @@ $(function(){
 		<li><h3>Initializing the script (showing all default settings)</h3></li>
 	</ul>
 	<blockquote class="pre">
-		<pre class="brush: css">$(function(){
+		<pre class="prettyprint lang-js">$(function(){
   $.jatt({
     // options that can be modified by metadata
     direction      : 'n',     // direction of tooltip
@@ -127,38 +131,49 @@ $(function(){
     xOffset        : 20,      // x distance from mouse (no negative values)
     yOffset        : 20,      // y distance from mouse (no negative values)
     zIndex         : 1000,    // z-index of tooltip
-  
+
     // options not supported by metadata
-    live           : false,                 // use live event support?
     metadata       : 'class',               // attribute containing the metadata, use "false" (no quotes) to disable.
     extradata      : 'rel',                 // Change using the rel attribute; stores object id on the page (basic tooltip) or image URL (screenshot)
     activate       : 'mouseenter focusin',  // how tooltip is activated
     deactivate     : 'mouseleave focusout', // how tooltip is deactivated
     cacheData      : true,                  // Cache data obtained from external pages, set to false if the data is dynamic.
-    websitePreview : 'http://api1.thumbalizr.com/?width=250&url=', // use your own custom thumbnail service api string.
-  
+    websitePreview : 'https://api.thumbalizr.com/?width=250&url=', // use your own custom thumbnail service api string.
+
     // Callbacks
     initialized    : null,                  // occurs when the tooltip is called - when hovering over an object
     beforeReveal   : null,                  // occurs when the tooltip is fully formed, but still hidden
     revealed       : null,                  // occurs when the tooltip is revealed
     hidden         : null,                  // occurs when the tooltip is hidden (removed)
-  
+
     // Messages
     loading        : 'Loading...',          // Message shown while content is loading
     notFound       : 'No tooltip found',    // Message shown when no tooltip content is found
     imagePreview   : 'Image preview',       // image alt message for the image shown in the preview tooltip
     siteScreenshot : 'URL preview: ',       // image alt message for site screenshots, this message is followed by the URL
-  
+
     // change tooltip, screenshot and preview class - note that all classes have a "." in front
     tooltip        : '.tooltip',            // tooltip class
     screenshot     : 'a.screenshot',        // screenshot class
     preview        : 'a.preview',           // preview class
     preloadContent : '.preload',            // Add this class to preload tooltip content (not preview or screenshot).
     sticky         : '.sticky',             // Add this class to make a tooltip sticky. Only one tooltip on the screen at a time though.
-  
+
+    // events triggered on the document (NEW in v2.9)
+    events         : {
+      init     : 'jatt-initialized',
+      b4Reveal : 'jatt-beforeReveal',
+      reveal   : 'jatt-reveal',
+      hidden   : 'jatt-hidden'
+    },
+
     // tooltip & preview ID (div that contains the tooltip)
-    tooltipId      : 'tooltip',             // ID of actual tooltip
-    previewId      : 'preview'              // ID of screenshot/preview tooltip
+    tooltipId      : 'jatt-tooltip',        // ID of actual tooltip
+    previewId      : 'jatt-preview'         // ID of screenshot/preview tooltip
+
+    // REMOVED
+    // live        : false                  // use live event support? REMOVED v2.9!
+
   });
 });</pre>
 	</blockquote>
@@ -166,46 +181,80 @@ $(function(){
 		<li><h3>List of Options</h3>
 			<table class="keytable">
 				<tbody>
-					<tr style="background-color: #555555; color: #dddddd;">
+					<tr>
 						<th>Key</th>
 						<th>Value<br />(default  shown)</th>
 						<th>Description</th>
 					</tr>
-					<tr><td>direction</td><td>'n'</td><td>Choose the direction of the tooltip (in quotes; choose from n, ne, e, se, s, sw, w, nw).</td></tr>
-					<tr><td>followMouse</td><td>true</td><td>When hovering over the object with a tooltip, the tooltip will follow the mouse if true. If false, it will be positioned relative to the object.</td></tr>
-					<tr><td>content</td><td>'title'</td><td>Attribute containing the tooltip content. By default it is the "title" attribute.</td></tr>
-					<tr><td>speed</td><td>300</td><td>Time in milliseconds for the tooltip to fade in. By design the tooltip has no fade out because it is removed immediately.</td></tr>
-					<tr><td>local</td><td>false</td><td>Where the tooltip is attached. By default it is false and will attach to the document body; if true, it will be attached before the object.</td></tr>
-					<tr><td>xOffset</td><td>20</td><td>Number of pixels between the tooltip and the mouse (or object if followMouse = false) in the X direction.</td></tr>
-					<tr><td>yOffset</td><td>20</td><td>Number of pixels between the tooltip and the mouse (or object if followMouse = false) in the Y direction.</td></tr>
-					<tr><td>zIndex</td><td>1000</td><td>Adjust this if the tooltip is below another object.</td></tr>
-					<tr><td>live</td><td>false</td><td>Set to true if you add tooltip objects to your page dynamically (added after the page is loaded).</td></tr>
-					<tr><td>metadata</td><td>'class'</td><td>Location of the tooltip metadata. By default it will look in the class attribute. If set to "false" it will disable the metadata.</td></tr>
-					<tr><td>extradata</td><td>'rel'</td><td>Change using the rel attribute; stores object id on the page (basic tooltip) or image URL (screenshot).</td></tr>
-					<tr><td>activate</td><td>'mouseenter focusin'</td><td>The event that causes the tooltip to display information.</td></tr>
-					<tr><td>deactivate</td><td>'mouseleave focusout'</td><td>The event that causes the tooltip to be removed.</td></tr>
-					<tr><td>cacheData</td><td>true</td><td>Cache data obtained from external pages, set to false if the data is dynamic.</td></tr>
-					<tr><td>websitePreview</td><td>'http://api1.thumbalizr.com/?width=250&url='</td><td>use your own custom thumbnail service (api string - http://www.thumbalizr.com/apitools.php)</td></tr>
-					<tr><td>initialized</td><td>null</td><td>This event/callback occurs when the tooltip is called - when hovering over an object</td></tr>
-					<tr><td>beforeReveal</td><td>null</td><td>This event/callback occurs when the tooltip is fully formed, but still hidden</td></tr>
-					<tr><td>revealed</td><td>null</td><td>This event/callback occurs when the tooltip is revealed</td></tr>
-					<tr><td>hidden</td><td>null</td><td>This event/callback occurs when the tooltip is hidden (removed)</td></tr>
-					<tr><td>loading</td><td>'Loading...'</td><td>This message is shown while content is loading. You can also use a loading image (e.g. '<img src="loading.gif"/>'). It is replaced once the content has loaded.</td></tr>
-					<tr><td>notFound</td><td>'No tooltip found'</td><td>This message is shown when no tooltip content is found.</td></tr>
-					<tr><td>imagePreview</td><td>'Image preview'</td><td>This content will be added to the preview image alt attribute, so it is only seen while the image loads.</td></tr>
-					<tr><td>siteScreenshot</td><td>'URL preview: '</td><td>This content and the site url is added to the screenshot image alt attribute, and only seen while the image loads.</td></tr>
-					<tr><td>tooltip</td><td>'.tooltip'</td><td>The class used to activate the tooltip. And the ID of the actual tooltip.</td></tr>
-					<tr><td>screenshot</td><td>'a.screenshot'</td><td>The class used to activate the screenshot script which shows an image associated with the URL. And this is the ID of both the screenshot & preview tooltips.</td></tr>
-					<tr><td>preview</td><td>'a.preview'</td><td>The class used to activate the preview script which shows the an image in the tooltip from the href.</td></tr>
-					<tr><td>preloadContent</td><td>'preload'</td><td>Adding this class to the link (&lt;a&gt;) tells the script to preload the external content for this tooltip. This only works for regular tooltips and not preview or screenshot tooltips - they have their tooltip image automatically preloaded.</td></tr>
-					<tr><td>sticky</td><td>'.sticky'</td><td>Add this class to make a tooltip sticky. Only one tooltip on the screen at a time though.</td></tr>
-					<tr><td>tooltipId</td><td>'tooltip'</td><td>The ID of the actual tooltip.</td></tr>
-					<tr><td>previewId</td><td>'preview'</td><td>The ID of the actual preview/screenshot tooltip (the share the same one).</td></tr>
+					<tr><td>direction</td><td class="str">'n'</td><td>Choose the direction of the tooltip (in quotes; choose from n, ne, e, se, s, sw, w, nw).</td></tr>
+					<tr><td>followMouse</td><td class="kwd">true</td><td>When hovering over the object with a tooltip, the tooltip will follow the mouse if true. If false, it will be positioned relative to the object.</td></tr>
+					<tr><td>content</td><td class="str">'title'</td><td>Attribute containing the tooltip content. By default it is the "title" attribute.</td></tr>
+					<tr><td>speed</td><td class="lit">300</td><td>Time in milliseconds for the tooltip to fade in. By design the tooltip has no fade out because it is removed immediately.</td></tr>
+					<tr><td>local</td><td class="kwd">false</td><td>Where the tooltip is attached. By default it is false and will attach to the document body; if true, it will be attached before the object.</td></tr>
+					<tr><td>xOffset</td><td class="lit">20</td><td>Number of pixels between the tooltip and the mouse (or object if followMouse = false) in the X direction.</td></tr>
+					<tr><td>yOffset</td><td class="lit">20</td><td>Number of pixels between the tooltip and the mouse (or object if followMouse = false) in the Y direction.</td></tr>
+					<tr><td>zIndex</td><td class="lit">1000</td><td>Adjust this if the tooltip is below another object.</td></tr>
+					<tr><td>metadata</td><td class="str">'class'</td><td>Location of the tooltip metadata. By default it will look in the class attribute. If set to "false" it will disable the metadata.</td></tr>
+					<tr><td>extradata</td><td class="str">'rel'</td><td>Change using the rel attribute; stores object id on the page (basic tooltip) or image URL (screenshot).</td></tr>
+					<tr><td>activate</td><td class="str">'mouseenter focusin'</td><td>The event that causes the tooltip to display information.</td></tr>
+					<tr><td>deactivate</td><td class="str">'mouseleave focusout'</td><td>The event that causes the tooltip to be removed.</td></tr>
+					<tr><td>cacheData</td><td class="kwd">true</td><td>Cache data obtained from external pages, set to false if the data is dynamic.</td></tr>
+					<tr><td>websitePreview</td><td class="str">'https://api.thumbalizr.com/?width=250&url='</td><td>use your own custom thumbnail service (api string - http://thumbalizr.com/apitools)</td></tr>
+					<tr><td>initialized</td><td class="kwd">null</td><td>This event/callback occurs when the tooltip is called - when hovering over an object</td></tr>
+					<tr><td>beforeReveal</td><td class="kwd">null</td><td>This event/callback occurs when the tooltip is fully formed, but still hidden</td></tr>
+					<tr><td>revealed</td><td class="kwd">null</td><td>This event/callback occurs when the tooltip is revealed</td></tr>
+					<tr><td>hidden</td><td class="kwd">null</td><td>This event/callback occurs when the tooltip is hidden (removed)</td></tr>
+					<tr><td>loading</td><td class="str">'Loading...'</td><td>This message is shown while content is loading. You can also use a loading image (e.g. '<code>&lt;img src="images/loading.gif"/&gt;</code>'). It is replaced once the content has loaded.</td></tr>
+					<tr><td>notFound</td><td class="str">'No tooltip found'</td><td>This message is shown when no tooltip content is found.</td></tr>
+					<tr><td>imagePreview</td><td class="str">'Image preview'</td><td>This content will be added to the preview image alt attribute, so it is only seen while the image loads.</td></tr>
+					<tr><td>siteScreenshot</td><td class="str">'URL preview: '</td><td>This content and the site url is added to the screenshot image alt attribute, and only seen while the image loads.</td></tr>
+					<tr><td>tooltip</td><td class="str">'.tooltip'</td><td>The class used to activate the tooltip. And the ID of the actual tooltip.</td></tr>
+					<tr><td>screenshot</td><td class="str">'a.screenshot'</td><td>The class used to activate the screenshot script which shows an image associated with the URL. And this is the ID of both the screenshot & preview tooltips.</td></tr>
+					<tr><td>preview</td><td class="str">'a.preview'</td><td>The class used to activate the preview script which shows the an image in the tooltip from the href.</td></tr>
+					<tr><td>preloadContent</td><td class="str">'preload'</td><td>Adding this class to the link (&lt;a&gt;) tells the script to preload the external content for this tooltip. This only works for regular tooltips and not preview or screenshot tooltips - they have their tooltip image automatically preloaded.</td></tr>
+					<tr><td>sticky</td><td class="str">'.sticky'</td><td>Add this class to make a tooltip sticky. Only one tooltip on the screen at a time though.</td></tr>
+					<tr><td>events</td><td>See Events section below</td><td>Events that are triggered on the document when Jatt has initialized, the tooltip is about to be revealed, the tooltip has been revealed and when the tooltip is hidden.</td></tr>
+					<tr><td>tooltipId</td><td class="str">'tooltip'</td><td>The ID of the actual tooltip.</td></tr>
+					<tr><td>previewId</td><td class="str">'preview'</td><td>The ID of the actual preview/screenshot tooltip (the share the same one).</td></tr>
+
+					<tr>
+						<th colspan="3">Deprecated/Removed Options</th>
+					</tr>
+					<tr><td>live</td><td>false</td><td>Removed in v2.9; Jatt now uses jQuery v1.7+ delegated binding; so it will behave as if this "live" option were always true. <del>Set to true if you add tooltip objects to your page dynamically (added after the page is loaded)</del>.</td></tr>
 				</tbody>
 			</table>
 
 		</li>
 	</ul>
+
+	<h2>Events</h2>
+	<ul>
+		<li><span class="highlight-alert">*NOTE*</span> In version 2.9, the events triggered on the document were renamed!</li>
+		<li>Previous events were named "initialized", "beforeReveal", "revealed" and "hidden", with a ".jatt" namespace.</li>
+		<li>The "initialized", "beforeReveal", "revealed" and "hidden" callback function names <em>will also change</em> if you modify the named <code>events</code> settings; except, <em>the "jatt-" prefix will automatically be removed</em>!</li>
+		<li>Bind to individual events or all events as follows:</li>
+	</ul>
+	<blockquote class="pre">
+		<pre class="prettyprint lang-js">$(function(){
+  $(document).on('jatt-initialized jatt-beforeReveal jatt-reveal jatt-hidden', function(event, tooltip) {
+    var $tooltip = $(tooltip);
+    // ignore preview & screenshot tooltips
+    if ($tooltip.hasClass('tooltip')) {
+      // show HTML of tooltip
+      console.log($tooltip.html());
+    }
+  });
+  $.jatt({
+    events         : {
+      init     : 'jatt-initialized',
+      b4Reveal : 'jatt-beforeReveal',
+      reveal   : 'jatt-reveal',
+      hidden   : 'jatt-hidden'
+    },
+
+  });
+});</pre>
+	</blockquote>
 
 	<h2>Known Issues</h2>
 	<ul>

@@ -2,10 +2,10 @@
 <html>
 <head>
 
-<title>Jatt Metadata Demo</title>
+<title>Jatt - Metadata Demo</title>
 
 <!-- jQuery (required), using version 1.4.3 here to show compatibility -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 
 <!-- Demo only -->
 <link href="demo/demo.css" rel="stylesheet">
@@ -32,7 +32,7 @@ $(function(){
 		<a href="examples.html">Examples</a>
 		<a class="current" href="meta.html">Meta-data Demo</a>
 		<a class="git" href="index.html">Documentation</a>
-		<a class="git" href="http://github.com/Mottie/Jatt/downloads">Download</a>
+		<a class="git" href="https://github.com/Mottie/Jatt/releases">Download</a>
 		<a class="issue" href="https://github.com/Mottie/Jatt/issues">Issues</a><br><br>
 	</div>
 	<!-- End Links -->
@@ -41,15 +41,22 @@ $(function(){
 
 	<div id="left" class="center">
 		(hover over the star)
+
 		<div class="spacer"></div>
-		<span id="star-image-wrapper"><img src="demo/star.png" id="test" class="tooltip { background: #444444; color: #dddddd; width: 150px; border: #777 1px solid; direction: n; followMouse: true; content: title; speed: 300; local: false; xOffset: 20; yOffset: 20; zIndex: 1000; }" title="Some message" alt="star"></span>
+		<span id="star-image-wrapper">
+			<img src="demo/star.png" id="test" class="tooltip { background: #444444; color: #dddddd; width: 150px; border: #777 1px solid; direction: n; followMouse: true; content: title; speed: 300; local: false; xOffset: 20; yOffset: 20; zIndex: 1000; }" title="Some message" alt="star">
+		</span>
 		<div class="spacer"></div>
+
 		<h3>Jatt Demo HTML</h3>
 		<textarea id="code" rows="7" cols="50"></textarea>
 
 		<br><br>
 
-		<h3>Tooltip Events</h3>
+		<h3>
+			Tooltip Events<br>
+			<small>(Triggered on document)</small>
+		</h3>
 		<ul id="display">
 		</ul>
 

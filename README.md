@@ -57,6 +57,14 @@ $.jatt({
   preloadContent : '.preload',         // Add this class to preload tooltip content (not preview or screenshot).
   sticky         : '.sticky',          // Add this class to make a tooltip sticky. Only one tooltip on the screen at a time though.
 
+  // events triggered on the document (NEW in v2.9)
+  events         : {
+    init     : 'jatt-initialized',
+    b4Reveal : 'jatt-beforeReveal',
+    reveal   : 'jatt-reveal',
+    hidden   : 'jatt-hidden'
+  },
+
   // tooltip & preview ID (div that contains the tooltip)
   tooltipId      : 'tooltip',          // ID of actual tooltip (do not include the "#" in front)
   previewId      : 'preview'           // ID of screenshot/preview tooltip (do not include the "#" in front)

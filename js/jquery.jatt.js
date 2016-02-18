@@ -376,7 +376,7 @@
 		activate       : 'mouseenter focusin',  // how tooltip is activated, focusin for input areas.
 		deactivate     : 'mouseleave focusout', // how tooltip is deactivated
 		cacheData      : true,                  // Cache tooltip data, set to false if the data is dynamic.
-		websitePreview : 'http://api1.thumbalizr.com/?width=250&url=', // use your own custom thumbnail service (api string - http://www.thumbalizr.com/apitools.php)
+		websitePreview : 'https://api.thumbalizr.com/?width=250&url=', // use your own custom thumbnail service (api string - http://thumbalizr.com/apitools)
 
 		// Messages
 		loading        : 'Loading...',          // Message shown while content is loading. Replace with loading <img> if desired.

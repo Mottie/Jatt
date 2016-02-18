@@ -19,18 +19,12 @@
 		$doc = $(document),
 		$win = $(window),
 		namespace = '.jatt',
-		events = {
-			init     : 'jatt-init',
-			b4Reveal : 'jatt-beforeReveal',
-			reveal   : 'jatt-reveal',
-			hidden   : 'jatt-hidden'
-		},
 		o = $.extend({}, $.jatt.defaultOptions, options),
 
 	init = function() {
 		var preloads = [];
 		// callbacks
-		$.each(events, function(i, event) {
+		$.each(o.events, function(i, event) {
 			var callback = event.replace('jatt-', '');
 			if ($.isFunction(o[callback])) {
 				$doc.on(event, o[callback] );
@@ -52,7 +46,7 @@
 				$.jatt.removeTooltips();
 			}
 
-			$doc.trigger(events.init, $this);
+			$doc.trigger(o.events.init, $this);
 			opt = meta[0]; // meta options
 			tooltip = ($this.attr(opt.content) === '') ?
 				$this.data('tooltip') || '' : $this.attr(opt.content) || '';
@@ -108,9 +102,9 @@
 				});
 
 			$.data($doc, 'jatt', $this);
-			$doc.trigger(events.b4Reveal, $this);
+			$doc.trigger(o.events.b4Reveal, $this);
 			$tooltip.fadeIn(opt.speed);
-			$doc.trigger(events.reveal, $this);
+			$doc.trigger(o.events.reveal, $this);
 		})
 		.on((o.deactivate + ' ').split(' ').join(namespace + ' '), o.tooltip, function() {
 			if (!$(this).is(o.sticky)) {
@@ -125,7 +119,7 @@
 
 		// *** Process image & URL screenshot previews ***
 		process = function(event, $obj, content) {
-			$doc.trigger(events.init, $obj);
+			$doc.trigger(o.events.init, $obj);
 			var $tooltip, tooltip, tmp,
 				meta = (o.metadata.toString() == 'false') ?
 					[o, ''] : $.jatt.getMeta($obj);
@@ -150,7 +144,7 @@
 			}
 			$tooltip = $('#' + o.previewId);
 			$.data($doc, 'jatt', $obj);
-			$doc.trigger(events.b4Reveal, $obj);
+			$doc.trigger(o.events.b4Reveal, $obj);
 			$tooltip
 				.hide()
 				.data('options', opt)
@@ -162,7 +156,7 @@
 				.click(function() {
 					$.jatt.removeTooltips();
 				});
-			$doc.trigger(events.reveal, $obj);
+			$doc.trigger(o.events.reveal, $obj);
 		};
 
 		// *** Image preview ***
@@ -322,7 +316,7 @@
 			var $tooltip = $('#' + o.previewId + ', #' + o.tooltipId);
 			if ($tooltip.length) {
 				$tooltip.remove();
-				$doc.trigger(events.hidden, $.data($doc, 'jatt') );
+				$doc.trigger(o.events.hidden, $.data($doc, 'jatt') );
 			}
 			while ($('#' + o.previewId + ', #' + o.tooltipId).length > 0) {
 				$('#' + o.previewId + ', #' + o.tooltipId).remove();
@@ -396,6 +390,14 @@
 		preview        : 'a.preview',           // preview class
 		preloadContent : '.preload',            // Add this class to preload tooltip content (not preview or screenshot).
 		sticky         : '.sticky',             // Add this class to make a tooltip sticky. Only one tooltip on the screen at a time though.
+
+		// events triggered on the document
+		events         : {
+			init     : 'jatt-initialized',
+			b4Reveal : 'jatt-beforeReveal',
+			reveal   : 'jatt-reveal',
+			hidden   : 'jatt-hidden'
+		},
 
 		// tooltip & preview ID (div that contains the tooltip)
 		tooltipId      : 'tooltip',             // ID of actual tooltip
